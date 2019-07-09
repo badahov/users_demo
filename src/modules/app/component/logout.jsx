@@ -10,8 +10,7 @@ const api = process.env['API_AUTH'];
 
 export default class Logout extends Component
 {
-    loginPage = () =>
-    {
+    loginPage = () => {
         hashHistory.push('/login');
     };
 
@@ -19,7 +18,6 @@ export default class Logout extends Component
         const self = this;
         confirm({
             title: 'Вы хотите выйти?',
-            //content: 'Some descriptions',
             okText: 'Да',
             okType: 'danger',
             cancelText: 'Нет',
@@ -46,7 +44,7 @@ export default class Logout extends Component
                 };
             },
             onCancel() {
-                console.log('Cancel');
+                console.log('Cancel handle logout');
             },
         });
     };

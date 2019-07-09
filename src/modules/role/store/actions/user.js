@@ -1,14 +1,6 @@
 'use strict';
 
-import {modelUser, modelEdit, modelCurrentUser} from '../api/user';
-
-export function userItem(query) {
-    return {
-        type: 'USER_ITEM',
-        actions: ['USER_ITEM_LOADING', 'USER_ITEM_LOADED', 'USER_ITEM_LOAD_FAILURE'],
-        promise: modelUser(query),
-    };
-}
+import {modelEdit, modelCurrentUser} from '../api/user';
 
 export function userCurrent() {
     return {

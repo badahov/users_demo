@@ -110,7 +110,7 @@ class Roles extends React.Component
                 <Layout>
                     <Sider width={300} trigger={null} collapsible collapsed={this.state.collapsed}>
                         <div className="logo">
-                            SUP
+                            USER
                         </div>
                         <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
                             <Menu.Item key="1">

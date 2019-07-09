@@ -1,6 +1,8 @@
-import React, {Component} from "react";
+'use strict';
 
-import {Form, Button, Row, Select, Col} from 'antd';
+import React, { Component } from "react";
+
+import { Form, Button, Row, Select, Col } from 'antd';
 const { Option } = Select;
 
 import ReactQuery from 'modules/app/component/core/query';

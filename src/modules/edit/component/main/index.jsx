@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Helmet from "react-helmet";
-import {Link} from "react-router";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -12,8 +11,8 @@ import {
     userItem as actionUser
 } from '../../store/actions/user';
 
-import { Menu, PageHeader, Layout, Spin, Icon } from 'antd';
-const { Header, Content, Sider } = Layout;
+import { Layout, Spin } from 'antd';
+const { Content } = Layout;
 
 import Logout from 'modules/app/component/logout';
 
@@ -21,91 +20,10 @@ import UserDataForm     from "../page/data/main";
 import UserPasswordForm from "../page/password/main";
 import UserRolesForm    from "../page/roles/main";
 
+import HeaderPage from "./header_page";
+import MenuLeft from "./menu_left";
 
-class MenuLeft extends React.Component {
-    render() {
-
-        let selectedKey = '1';
-        switch (this.props.page) {
-            case 'data':
-                selectedKey = '1';
-                break;
-            case 'password':
-                selectedKey = '3';
-                break;
-            case 'roles':
-                selectedKey = '4';
-                break;
-        }
-
-        return (
-            <Sider width={250} trigger={null} collapsible collapsed={this.props.collapsed}>
-                <div className="logo">
-                    SUP
-                </div>
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={[selectedKey]}>
-                    <Menu.Item key="1">
-                        <Link  to={`/user/edit/${this.props.user_id}/data`}><Icon type="idcard" /><span>Данные пользователя</span></Link>
-                    </Menu.Item>
-                    {
-                        (false)
-                        ?
-                            <Menu.Item key="2">
-                                <Link  to={`/user/edit/${this.props.user_id}/token`}><Icon type="idcard" /><span>Токены</span></Link>
-                            </Menu.Item>
-                        : null
-                    }
-                    <Menu.Item key="3">
-                        <Link  to={`/user/edit/${this.props.user_id}/password`}><Icon type="safety" /><span>Изменение пароля</span></Link>
-                    </Menu.Item>
-                    <Menu.Item key="4">
-                        <Link  to={`/user/edit/${this.props.user_id}/roles`}><Icon type="control" /><span>Управление ролями</span></Link>
-                    </Menu.Item>
-                </Menu>
-            </Sider>
-        )
-    }
-}
-
-class HeaderPage extends React.Component {
-    state = {
-        current: 'mail',
-    };
-
-    handleClick = e => {
-        console.log('click ', e);
-        this.setState({
-            current: e.key,
-        });
-    };
-
-    render() {
-        return (
-            <Header>
-                <PageHeader
-                    title={<span><Icon
-                        className="trigger"
-                        type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
-                        onClick={this.props.toggle}
-                    />{this.props.title}</span>}
-                    subTitle={this.props.subTitle}
-                    extra={this.props.extra}
-                />
-
-                <Menu onClick={this.handleClick} mode="horizontal">
-                    <Menu.Item key="team">
-                        <Link  to={`/`}><Icon type="team" />Пользователи</Link>
-                    </Menu.Item>
-                    <Menu.Item key="role">
-                        <Link  to={`/role`}><Icon type="cluster" />Роли</Link>
-                    </Menu.Item>
-                </Menu>
-            </Header>
-        )
-    }
-}
-
-class Users extends React.Component
+class Edit extends React.Component
 {
     constructor(props)
     {
@@ -216,4 +134,4 @@ export default connect(
         };
     },
     (dispatch) => bindActionCreators({actionCurrent, actionUser, actionEdit, dispatch}, dispatch)
-)(Users);
+)(Edit);

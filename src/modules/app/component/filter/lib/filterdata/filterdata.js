@@ -1,5 +1,4 @@
-
-
+'use strict';
 
 (function($) {
     const FilterData = function(element, options)
@@ -7,8 +6,6 @@
         const settings = $.extend({}, $.fn.filter_data.defaults, options);
 
         const input = $(element).parent().find('input');
-
-        //console.log('input', input);
 
         let val = input.val();
 

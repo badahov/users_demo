@@ -1,6 +1,8 @@
-import React, {Component} from "react";
+'use strict';
 
-import {Form, Button, Row, Input, InputNumber, Switch, Col, Spin} from 'antd';
+import React, { Component } from "react";
+
+import { Form, Button, Row, Input, InputNumber, Switch, Col, Spin } from 'antd';
 
 const formItemLayout = {
     labelCol: {

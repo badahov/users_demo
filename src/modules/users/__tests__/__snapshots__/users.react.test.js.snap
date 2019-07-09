@@ -21,7 +21,7 @@ exports[`Users Layout Index correctly 1`] = `
       <div
         className="logo"
       >
-        SUP
+        USER
       </div>
       <ul
         className="ant-menu ant-menu-dark ant-menu-inline-collapsed ant-menu-root ant-menu-vertical"
@@ -181,7 +181,7 @@ exports[`Users Layout Index correctly 1`] = `
               <span
                 className="ant-page-header-title-view-sub-title"
               >
-                Пользователи SUP
+                Пользователи
               </span>
               <span
                 className="ant-page-header-title-view-extra"

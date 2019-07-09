@@ -1,27 +1,8 @@
 'use strict';
 
-import Cookies from 'js-cookie';
 import {hashHistory} from 'react-router';
-import toastr from "toastr";
 
 const api = process.env['API_AUTH'];
-
-toastr.options = {
-    closeButton: true,
-    progressBar: true,
-    showMethod: 'slideDown',
-    timeOut: 4000
-};
-
-export function addToken( token )
-{
-    Cookies.set('token', token );
-}
-
-export function getToken()
-{
-    return Cookies.get('token');
-}
 
 export function requestXdomainToken(setUrl)
 {
@@ -36,15 +17,10 @@ export function requestXdomainToken(setUrl)
     xhr.onload = function()
     {
         switch (this.status) {
-            case 401:
-                //toastr.error("Требуется авторизация");
-
-                //Пользователь не авторизован на сервере авторизации
-
+            case 401:// User is not authorized on the authorization server
                 loginPage();
                 break;
             case 200:
-                //Получаем токен с сервера авторизации
                 let result = JSON.parse(this.responseText);
 
                 let arr = setUrl.split("/");
@@ -64,10 +40,7 @@ export function requestXdomainToken(setUrl)
                     let result = JSON.parse(this.responseText);
 
                     switch (this.status) {
-                        case 401:
-                            //toastr.error("Требуется авторизация");
-
-                            //Пользователь не авторизован
+                        case 401:// User is not authorized
                             loginPage();
                             break;
                         case 200:
@@ -85,34 +58,7 @@ function loginPage()
     hashHistory.push('/login');
 }
 
-export function removeToken()
-{
-    Cookies.remove('token');
-    loginPage();
-}
-
 export function getHomePage()
 {
     hashHistory.push('/');
-}
-
-export function requireAuth(nextState, replaceState)
-{
-    const token = Cookies.get('token');
-
-    if (typeof token === 'undefined') {
-        replaceState({nextPathname: nextState.location.pathname}, '/login');
-    } else {
-        //console.log( 'token', token );
-    }
-}
-
-export function responseAuth(result)
-{
-    if (result.error === "TOKEN_FAIL") {
-        Cookies.remove('token');
-        loginPage();
-    } else {
-        return true;
-    }
 }

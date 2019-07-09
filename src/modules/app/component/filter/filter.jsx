@@ -5,10 +5,9 @@ import React, { Component } from 'react';
 import "./lib/filterdata/filterdata";
 import "./lib/filterdata/table.filter.css";
 
-class Filter extends Component {
+export default class Filter extends Component {
 
-    componentDidMount = () =>
-    {
+    componentDidMount = () => {
         $('.sorting').filter_data({
             fsort: this.props.fsort
         });
@@ -22,5 +21,3 @@ class Filter extends Component {
         )
     }
 }
-
-export default Filter;

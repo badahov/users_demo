@@ -13,7 +13,7 @@ const optimize     = require('./webpack/optimize');
 const optimization = require('./webpack/optimization');
 
 module.exports = (env) => {
-    const projectName    = 'users';
+    const projectName    = 'operators';
 
     let publicRoot = path.join(__dirname, "public");
     let outputPath = path.join(__dirname, "public/build");
@@ -36,6 +36,7 @@ module.exports = (env) => {
                 path: outputPath,
                 publicPath: outputPublicPath,
                 filename: addHash('[name].js', 'chunkhash'),
+                //chunkFilename: addHash('[id].js', 'chunkhash'),
                 library: "[name]"
             },
             devtool: env === 'development' ? "inline-source-map" : false, //'source-map',

@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 
-import {Icon} from 'react-fa';
 import Pace from './js/plugins/pace/pace.min';
 import "modules/app/css/pace.css";
 import "modules/app/css/toastr.min.css";
@@ -30,7 +29,7 @@ export default class Inbox extends Component
 
     render() {
         return (
-            <div className='theme-sup'>
+            <div className='theme-user'>
                 {this.props.children}
             </div>
         );

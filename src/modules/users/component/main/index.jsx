@@ -47,13 +47,12 @@ class Users extends React.Component
             visibleUserAddForm: props.visibleUserAddForm,
         };
 
-        //Загрузить данные авторизованного пользователя
         props.actionUser('current');
         this._loadingDataServer();
     }
 
     /**
-     * Удалить пользователя
+     * Delete user
      * @param userId
      */
     onDeleteUser = userId => {
@@ -75,7 +74,7 @@ class Users extends React.Component
     };
 
     /**
-     * Открыть форму добавления пользователя
+     * Open the add user form
      */
     onCloseUserAddForm = () => {
         this.setState({
@@ -84,7 +83,7 @@ class Users extends React.Component
     };
 
     /**
-     * Закрыть форму добавления пользователя
+     * Close the add user form
      */
     onOpenUserAddForm = () => {
         this.setState({
@@ -93,7 +92,7 @@ class Users extends React.Component
     };
 
     /**
-     * Раскрывает или закрывает меню
+     * Open or close the menu
      * @private
      */
     _switchSiderMenu = () => {
@@ -108,7 +107,7 @@ class Users extends React.Component
     };
 
     /**
-     * Загрузка данных с удаленного сервера
+     * Downloading data from a remote server
      * @private
      */
     _loadingDataServer = () => {
@@ -175,7 +174,7 @@ class Users extends React.Component
         return (
             <Layout>
                 <Sider width={this.state.siderWidth} trigger={null} collapsible collapsed={this.state.collapsedSiderMenu}>
-                    <div className="logo">SUP</div>
+                    <div className="logo">USER</div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={this.state.menuSelectedKeys}>
                         <Menu.Item key="left-menu-1">
                             <Link to="/"><Icon type="team" /><span>Пользователи</span></Link>
@@ -195,7 +194,7 @@ class Users extends React.Component
                                     type={this.state.collapsedSiderMenu ? 'menu-unfold' : 'menu-fold'}
                                     onClick={this._switchSiderMenu}
                                 />Users</span>}
-                                subTitle="Пользователи SUP"
+                                subTitle="Пользователи"
                                 extra={[
                                     <Button key="add-user" className="btn-user-add" onClick={() => this.onOpenUserAddForm()} type="primary" icon="user-add" size="small">
                                         Добавить пользователя

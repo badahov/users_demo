@@ -2,7 +2,7 @@
 
 import toastr from 'toastr';
 
-import {getHomePage, addToken, responseAuth} from 'modules/app/component/core/auth';
+import {getHomePage} from 'modules/app/component/core/auth';
 
 const middleware = store => next => action => {
     switch( action.type )
@@ -33,9 +33,7 @@ const middleware = store => next => action => {
                         toastr.error('Ошибка логина или пароля.');
                         break;
                     case 200:
-                        //addToken(result.token);
                         if (result.status !== 'error') {
-                            //addToken(result.token);
                             getHomePage();
                         }
                         break;
@@ -92,7 +90,6 @@ const middleware = store => next => action => {
                     {
                         toastr.error( 'Ошибка LOGIN.' );
                     } else {
-                        //addToken(result.token);
                         getHomePage();
                     }
                 };

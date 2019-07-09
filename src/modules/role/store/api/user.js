@@ -2,17 +2,6 @@
 
 import ReactQuery from 'modules/app/component/core/query';
 
-export function modelUser(data)
-{
-    let ReactQueryObject = new ReactQuery({
-        pointApi: 'interface-users/user',
-        type: ReactQuery.get,
-        data: data
-    });
-
-    return ReactQueryObject.result();
-}
-
 export function modelCurrentUser()
 {
     let ReactQueryObject = new ReactQuery({

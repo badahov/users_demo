@@ -75,7 +75,7 @@ class Login extends React.Component
                 <Content>
                     <Row className="form-box animated fadeInDown">
                         <Col span={10} offset={7}>
-                            <h1 className="logo-name">VO</h1>
+                            <h1 className="logo-name">USER</h1>
                             <h3>Добро пожаловать</h3>
                         </Col>
                         <Col span={10} offset={7} >
