@@ -1,0 +1,423 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Users Layout Index correctly 1`] = `
+<section
+  className="ant-layout ant-layout-has-sider"
+>
+  <aside
+    className="ant-layout-sider ant-layout-sider-dark ant-layout-sider-collapsed"
+    style={
+      Object {
+        "flex": "0 0 80px",
+        "maxWidth": "80px",
+        "minWidth": "80px",
+        "width": "80px",
+      }
+    }
+  >
+    <div
+      className="ant-layout-sider-children"
+    >
+      <div
+        className="logo"
+      >
+        SUP
+      </div>
+      <ul
+        className="ant-menu ant-menu-dark ant-menu-inline-collapsed ant-menu-root ant-menu-vertical"
+        onMouseEnter={[Function]}
+        onTransitionEnd={[Function]}
+        role="menu"
+        style={Object {}}
+      >
+        <li
+          className="ant-menu-item ant-menu-item-selected"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          role="menuitem"
+          style={Object {}}
+        >
+          <a
+            onClick={[Function]}
+            style={Object {}}
+          >
+            <i
+              aria-label="icon: team"
+              className="anticon anticon-team"
+            >
+              <svg
+                aria-hidden="true"
+                className=""
+                data-icon="team"
+                fill="currentColor"
+                focusable="false"
+                height="1em"
+                viewBox="64 64 896 896"
+                width="1em"
+              >
+                <path
+                  d="M824.2 699.9a301.55 301.55 0 0 0-86.4-60.4C783.1 602.8 812 546.8 812 484c0-110.8-92.4-201.7-203.2-200-109.1 1.7-197 90.6-197 200 0 62.8 29 118.8 74.2 155.5a300.95 300.95 0 0 0-86.4 60.4C345 754.6 314 826.8 312 903.8a8 8 0 0 0 8 8.2h56c4.3 0 7.9-3.4 8-7.7 1.9-58 25.4-112.3 66.7-153.5A226.62 226.62 0 0 1 612 684c60.9 0 118.2 23.7 161.3 66.8C814.5 792 838 846.3 840 904.3c.1 4.3 3.7 7.7 8 7.7h56a8 8 0 0 0 8-8.2c-2-77-33-149.2-87.8-203.9zM612 612c-34.2 0-66.4-13.3-90.5-37.5a126.86 126.86 0 0 1-37.5-91.8c.3-32.8 13.4-64.5 36.3-88 24-24.6 56.1-38.3 90.4-38.7 33.9-.3 66.8 12.9 91 36.6 24.8 24.3 38.4 56.8 38.4 91.4 0 34.2-13.3 66.3-37.5 90.5A127.3 127.3 0 0 1 612 612zM361.5 510.4c-.9-8.7-1.4-17.5-1.4-26.4 0-15.9 1.5-31.4 4.3-46.5.7-3.6-1.2-7.3-4.5-8.8-13.6-6.1-26.1-14.5-36.9-25.1a127.54 127.54 0 0 1-38.7-95.4c.9-32.1 13.8-62.6 36.3-85.6 24.7-25.3 57.9-39.1 93.2-38.7 31.9.3 62.7 12.6 86 34.4 7.9 7.4 14.7 15.6 20.4 24.4 2 3.1 5.9 4.4 9.3 3.2 17.6-6.1 36.2-10.4 55.3-12.4 5.6-.6 8.8-6.6 6.3-11.6-32.5-64.3-98.9-108.7-175.7-109.9-110.9-1.7-203.3 89.2-203.3 199.9 0 62.8 28.9 118.8 74.2 155.5-31.8 14.7-61.1 35-86.5 60.4-54.8 54.7-85.8 126.9-87.8 204a8 8 0 0 0 8 8.2h56.1c4.3 0 7.9-3.4 8-7.7 1.9-58 25.4-112.3 66.7-153.5 29.4-29.4 65.4-49.8 104.7-59.7 3.9-1 6.5-4.7 6-8.7z"
+                />
+              </svg>
+            </i>
+            <span>
+              Пользователи
+            </span>
+          </a>
+        </li>
+        <li
+          className="ant-menu-item"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          role="menuitem"
+          style={Object {}}
+        >
+          <a
+            onClick={[Function]}
+            style={Object {}}
+          >
+            <i
+              aria-label="icon: cluster"
+              className="anticon anticon-cluster"
+            >
+              <svg
+                aria-hidden="true"
+                className=""
+                data-icon="cluster"
+                fill="currentColor"
+                focusable="false"
+                height="1em"
+                viewBox="64 64 896 896"
+                width="1em"
+              >
+                <path
+                  d="M888 680h-54V540H546v-92h238c8.8 0 16-7.2 16-16V168c0-8.8-7.2-16-16-16H240c-8.8 0-16 7.2-16 16v264c0 8.8 7.2 16 16 16h238v92H190v140h-54c-4.4 0-8 3.6-8 8v176c0 4.4 3.6 8 8 8h176c4.4 0 8-3.6 8-8V688c0-4.4-3.6-8-8-8h-54v-72h220v72h-54c-4.4 0-8 3.6-8 8v176c0 4.4 3.6 8 8 8h176c4.4 0 8-3.6 8-8V688c0-4.4-3.6-8-8-8h-54v-72h220v72h-54c-4.4 0-8 3.6-8 8v176c0 4.4 3.6 8 8 8h176c4.4 0 8-3.6 8-8V688c0-4.4-3.6-8-8-8zM256 805.3c0 1.5-1.2 2.7-2.7 2.7h-58.7c-1.5 0-2.7-1.2-2.7-2.7v-58.7c0-1.5 1.2-2.7 2.7-2.7h58.7c1.5 0 2.7 1.2 2.7 2.7v58.7zm288 0c0 1.5-1.2 2.7-2.7 2.7h-58.7c-1.5 0-2.7-1.2-2.7-2.7v-58.7c0-1.5 1.2-2.7 2.7-2.7h58.7c1.5 0 2.7 1.2 2.7 2.7v58.7zM288 384V216h448v168H288zm544 421.3c0 1.5-1.2 2.7-2.7 2.7h-58.7c-1.5 0-2.7-1.2-2.7-2.7v-58.7c0-1.5 1.2-2.7 2.7-2.7h58.7c1.5 0 2.7 1.2 2.7 2.7v58.7zM360 300a40 40 0 1 0 80 0 40 40 0 1 0-80 0z"
+                />
+              </svg>
+            </i>
+            <span>
+              Роли
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+  <section
+    className="ant-layout"
+  >
+    <div
+      className="ant-spin-nested-loading"
+    >
+      <div>
+        <div
+          className="ant-spin ant-spin-lg ant-spin-spinning ant-spin-show-text"
+        >
+          <span
+            className="ant-spin-dot ant-spin-dot-spin"
+          >
+            <i
+              className="ant-spin-dot-item"
+            />
+            <i
+              className="ant-spin-dot-item"
+            />
+            <i
+              className="ant-spin-dot-item"
+            />
+            <i
+              className="ant-spin-dot-item"
+            />
+          </span>
+          <div
+            className="ant-spin-text"
+          >
+            Загрузка...
+          </div>
+        </div>
+      </div>
+      <div
+        className="ant-spin-container ant-spin-blur"
+      >
+        <header
+          className="ant-layout-header"
+        >
+          <div
+            className="ant-page-header"
+          >
+            <div
+              className="ant-page-header-title-view"
+            >
+              <span
+                className="ant-page-header-title-view-title"
+              >
+                <span>
+                  <i
+                    aria-label="icon: menu-unfold"
+                    className="anticon anticon-menu-unfold trigger"
+                    onClick={[Function]}
+                    tabIndex={-1}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className=""
+                      data-icon="menu-unfold"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      viewBox="64 64 896 896"
+                      width="1em"
+                    >
+                      <path
+                        d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 0 0 0-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0 0 14.4 7z"
+                      />
+                    </svg>
+                  </i>
+                  Users
+                </span>
+              </span>
+              <span
+                className="ant-page-header-title-view-sub-title"
+              >
+                Пользователи SUP
+              </span>
+              <span
+                className="ant-page-header-title-view-extra"
+              >
+                <button
+                  className="ant-btn btn-user-add ant-btn-primary ant-btn-sm"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <i
+                    aria-label="icon: user-add"
+                    className="anticon anticon-user-add"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className=""
+                      data-icon="user-add"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      viewBox="64 64 896 896"
+                      width="1em"
+                    >
+                      <path
+                        d="M678.3 642.4c24.2-13 51.9-20.4 81.4-20.4h.1c3 0 4.4-3.6 2.2-5.6a371.67 371.67 0 0 0-103.7-65.8c-.4-.2-.8-.3-1.2-.5C719.2 505 759.6 431.7 759.6 349c0-137-110.8-248-247.5-248S264.7 212 264.7 349c0 82.7 40.4 156 102.6 201.1-.4.2-.8.3-1.2.5-44.7 18.9-84.8 46-119.3 80.6a373.42 373.42 0 0 0-80.4 119.5A373.6 373.6 0 0 0 137 888.8a8 8 0 0 0 8 8.2h59.9c4.3 0 7.9-3.5 8-7.8 2-77.2 32.9-149.5 87.6-204.3C357 628.2 432.2 597 512.2 597c56.7 0 111.1 15.7 158 45.1a8.1 8.1 0 0 0 8.1.3zM512.2 521c-45.8 0-88.9-17.9-121.4-50.4A171.2 171.2 0 0 1 340.5 349c0-45.9 17.9-89.1 50.3-121.6S466.3 177 512.2 177s88.9 17.9 121.4 50.4A171.2 171.2 0 0 1 683.9 349c0 45.9-17.9 89.1-50.3 121.6C601.1 503.1 558 521 512.2 521zM880 759h-84v-84c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v84h-84c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h84v84c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-84h84c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8z"
+                      />
+                    </svg>
+                  </i>
+                  <span>
+                    Добавить пользователя
+                  </span>
+                </button>
+                <button
+                  className="ant-btn ant-btn-danger ant-btn-sm"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <i
+                    aria-label="icon: logout"
+                    className="anticon anticon-logout"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className=""
+                      data-icon="logout"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      viewBox="64 64 896 896"
+                      width="1em"
+                    >
+                      <path
+                        d="M868 732h-70.3c-4.8 0-9.3 2.1-12.3 5.8-7 8.5-14.5 16.7-22.4 24.5a353.84 353.84 0 0 1-112.7 75.9A352.8 352.8 0 0 1 512.4 866c-47.9 0-94.3-9.4-137.9-27.8a353.84 353.84 0 0 1-112.7-75.9 353.28 353.28 0 0 1-76-112.5C167.3 606.2 158 559.9 158 512s9.4-94.2 27.8-137.8c17.8-42.1 43.4-80 76-112.5s70.5-58.1 112.7-75.9c43.6-18.4 90-27.8 137.9-27.8 47.9 0 94.3 9.3 137.9 27.8 42.2 17.8 80.1 43.4 112.7 75.9 7.9 7.9 15.3 16.1 22.4 24.5 3 3.7 7.6 5.8 12.3 5.8H868c6.3 0 10.2-7 6.7-12.3C798 160.5 663.8 81.6 511.3 82 271.7 82.6 79.6 277.1 82 516.4 84.4 751.9 276.2 942 512.4 942c152.1 0 285.7-78.8 362.3-197.7 3.4-5.3-.4-12.3-6.7-12.3zm88.9-226.3L815 393.7c-5.3-4.2-13-.4-13 6.3v76H488c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h314v76c0 6.7 7.8 10.5 13 6.3l141.9-112a8 8 0 0 0 0-12.6z"
+                      />
+                    </svg>
+                  </i>
+                  <span>
+                     Выход
+                  </span>
+                </button>
+              </span>
+            </div>
+          </div>
+        </header>
+        <main
+          className="user-list ant-layout-content"
+        >
+          <div
+            className="ant-row"
+          >
+            <div
+              className="ant-col ant-col-24"
+            >
+              <table
+                className="table table-filter table-users table-middle table-responsive"
+              >
+                <thead
+                  className="table-thead"
+                >
+                  <tr>
+                    <th
+                      className="t-head-item t-head-item-0"
+                    >
+                      <div
+                        className="row-table-filter"
+                      >
+                        <div
+                          className="cell"
+                          style={
+                            Object {
+                              "minWidth": "0px",
+                            }
+                          }
+                        >
+                          <div>
+                            <input
+                              className="filter-search"
+                              disabled={false}
+                              name="user.header.code"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyPress={[Function]}
+                              placeholder="Код"
+                              style={
+                                Object {
+                                  "minWidth": "0px",
+                                }
+                              }
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                        <div
+                          aria-controls="DataTables_Table_1"
+                          className="cell-2 sorting"
+                          id="code"
+                        />
+                      </div>
+                    </th>
+                    <th
+                      className="t-head-item t-head-item-1"
+                    >
+                      <div
+                        className="row-table-filter"
+                      >
+                        <div
+                          className="cell"
+                          style={
+                            Object {
+                              "minWidth": "0px",
+                            }
+                          }
+                        >
+                          <div>
+                            <input
+                              className="filter-search"
+                              disabled={false}
+                              name="user.header.name"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyPress={[Function]}
+                              placeholder="Имя"
+                              style={
+                                Object {
+                                  "minWidth": "0px",
+                                }
+                              }
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                        <div
+                          aria-controls="DataTables_Table_1"
+                          className="cell-2 sorting"
+                          id="name"
+                        />
+                      </div>
+                    </th>
+                    <th
+                      className="t-head-item t-head-item-2"
+                    >
+                      <div
+                        className="row-table-filter"
+                      >
+                        <div
+                          className="cell"
+                          style={
+                            Object {
+                              "minWidth": "0px",
+                            }
+                          }
+                        >
+                          <div>
+                            <input
+                              className="filter-search"
+                              disabled={false}
+                              name="user.header.login"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyPress={[Function]}
+                              placeholder="Логин"
+                              style={
+                                Object {
+                                  "minWidth": "0px",
+                                }
+                              }
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                        <div
+                          aria-controls="DataTables_Table_1"
+                          className="cell-2 sorting"
+                          id="login"
+                        />
+                      </div>
+                    </th>
+                    <th
+                      className="t-head-item t-head-item-3"
+                    >
+                      <span>
+                        Админ
+                      </span>
+                    </th>
+                    <th
+                      className="t-head-item t-head-item-4"
+                    >
+                      <span>
+                        Перепечать
+                      </span>
+                    </th>
+                    <th
+                      className="t-head-item t-head-item-5"
+                    >
+                      <span />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody />
+              </table>
+            </div>
+            <div
+              className="ant-col ant-col-24"
+            />
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+</section>
+`;
+
+exports[`Users UserAddForm correctly 1`] = `ShallowWrapper {}`;
