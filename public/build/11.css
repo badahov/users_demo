@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+}
+.auth {
+  background-color: #fafafa;
+}
+.auth .ant-layout-content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 70%;
+  background-color: #fafafa;
+}
+.auth .ant-layout-content .logo-name {
+  color: #9e1068;
+  font-size: 10vw;
+  font-weight: 800;
+  margin-bottom: 0px;
+}
+.auth .ant-layout-content .welcome-text {
+  text-align: center;
+}
+.auth .ant-layout-content .form-box {
+  text-align: center;
+}
+
