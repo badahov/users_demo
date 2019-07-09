@@ -1,28 +1,23 @@
 'use strict';
 
-const api = process.env['API_AUTH'];
+import config from "../../config";
 
-export function apiAuthLoginDefault() {
-    return {
-        login: '',
-        password: '',
-    };
-}
+const domain = process.env['API_AUTH'];
+const api = config.api;
 
 export function apiAuthLogin(data)
 {
-    const url = api + process.env['SET_POINT'] + '/auth/login';
+    const url = domain + process.env['SET_POINT'] + api.auth;
 
-    var formData = new FormData();
+    const formData = new FormData();
 
-    for( var key in data )
-    {
+    for (let key in data) {
         formData.append(key, data[key] );
     }
 
-    var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
+    const XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
 
-    var xhr = new XHR();
+    const xhr = new XHR();
 
     xhr.open('POST', url, true);
     xhr.withCredentials = true;

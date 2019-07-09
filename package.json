@@ -22,7 +22,9 @@
     "moduleNameMapper": {
       "\\.(css|less|scss|sss|styl)$": "<rootDir>/node_modules/jest-css-modules"
     },
-    "setupFiles": ["./test-env.js"]
+    "setupFiles": [
+      "./test-env.js"
+    ]
   },
   "author": "Anton Badashov",
   "license": "ISC",

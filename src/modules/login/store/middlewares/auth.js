@@ -7,14 +7,6 @@ import {getHomePage} from 'modules/app/component/core/auth';
 const middleware = store => next => action => {
     switch( action.type )
     {
-        case 'AUTH_LOGIN_DEFAULT':
-            const [startDefault] = action.actions;
-
-            store.dispatch({
-                type: startDefault,
-                data: action.promise
-            });
-            break;
         case 'AUTH_LOGIN':
             const [startAction, successAction, failureAction] = action.actions;
 

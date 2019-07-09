@@ -25,6 +25,12 @@ import MenuLeft from "./menu_left";
 
 class Edit extends React.Component
 {
+    static defaultProps = {
+        params: {
+            user_id: null
+        }
+    };
+
     constructor(props)
     {
         super(props);

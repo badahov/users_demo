@@ -13,7 +13,7 @@ function query (pointApi, data, type = ReactQuery.post) {
 
 export function modelUser(action, data, callback)
 {
-    const api = config[config.mode].api;
+    const api = config.api;
 
     switch (action) {
         case 'header':

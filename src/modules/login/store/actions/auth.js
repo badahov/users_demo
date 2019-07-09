@@ -1,14 +1,6 @@
 'use strict';
 
-import {apiAuthLogin, apiAuthLoginDefault} from '../api/auth';
-
-export function authLoginDefault() {
-    return {
-       type: 'AUTH_LOGIN_DEFAULT',
-       actions: ['AUTH_LOGIN_DEFAULT_LOADING'],
-       promise: apiAuthLoginDefault(),
-    };
-}
+import {apiAuthLogin} from '../api/auth';
 
 export function authLogin(query) {
     return {

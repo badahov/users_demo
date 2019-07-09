@@ -2,15 +2,6 @@
 
 import {combineForms} from 'react-redux-form';
 
-const defaultReducers = (state = [], action) => {
-    switch (action.type) {
-        case 'AUTH_LOGIN_DEFAULT_LOADING':
-            return action.data;
-        default:
-            return state;
-    }
-};
-
 const currentReducers = (state = [], action) => {
     switch (action.type) {
         case 'AUTH_CURRENT_USER_LOADED':
@@ -30,7 +21,6 @@ const forgotReducers = (state = [], action) => {
 };
 
 export default combineForms({
-    login: defaultReducers,
     current: currentReducers,
     forgot: forgotReducers,
 }, 'auth');

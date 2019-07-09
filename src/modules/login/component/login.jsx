@@ -5,7 +5,7 @@ import Helmet from "react-helmet";
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { authLogin, authLoginDefault } from '../store/actions/auth';
+import { authLogin } from '../store/actions/auth';
 
 import {
     Layout,
@@ -118,5 +118,5 @@ const WrappedRegistrationForm = Form.create({name: 'register'})(Login);
 
 export default connect(
     (state) => { return { login: state.auth.login }; },
-    (dispatch) => bindActionCreators({authLogin,authLoginDefault,dispatch}, dispatch)
+    (dispatch) => bindActionCreators({authLogin,dispatch}, dispatch)
 )(WrappedRegistrationForm);

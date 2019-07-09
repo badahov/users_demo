@@ -1,3 +1,5 @@
+'use strict';
+
 const path    = require('path');
 const webpack = require('webpack');
 const merge   = require('webpack-merge');
@@ -10,26 +12,37 @@ const html         = require('./webpack/html');
 const optimize     = require('./webpack/optimize');
 const optimization = require('./webpack/optimization');
 
-global.$ = {
-    PATHS: {
-        appRoot: __dirname,
-        root: path.join(__dirname),
-        source: path.join(__dirname, 'source'),
-        build: path.join(__dirname, 'build'),
-    },
-};
-
 module.exports = (env) => {
-    const outputPath       = __dirname + '/public/build/';
-    const outputPublicPath = '/build/';
-    const cleanRoot        = __dirname + '/public/';
+    const projectName    = 'operators';
+
+    let publicRoot = path.join(__dirname, "public");
+    let outputPath = path.join(__dirname, "public/build");
+    let outputPublicPath = path.join(__dirname, "build");
+
+    if (env === 'production') {
+        publicRoot       = path.resolve('../../' + projectName + '/');
+        outputPath       = path.resolve('../../' + projectName + '/build/');
+        outputPublicPath = path.join('/' + projectName + '/build/');
+    } else if (env === 'build') {
+        env = 'production';
+    }
 
     const common = merge([
         {
             mode: env === 'production' ? 'production' : 'development',
             context: __dirname + '/src',
             entry: path.resolve(__dirname, 'src/routes.jsx'),
-            devtool: env === 'development' ? "inline-source-map" : false,
+            output: {
+                path: outputPath,
+                publicPath: outputPublicPath,
+                filename: addHash('[name].js', 'chunkhash'),
+                //chunkFilename: addHash('[id].js', 'chunkhash'),
+                library: "[name]"
+            },
+            devtool: env === 'development' ? "inline-source-map" : false, //'source-map',
+            node: {
+                fs: "empty"
+            },
             resolve: {
                 modules: [
                     path.resolve(__dirname, './src'),
@@ -60,13 +73,6 @@ module.exports = (env) => {
         {
             context: __dirname + '/src',
             entry: path.resolve(__dirname, 'src/routes.jsx'),
-            output: {
-                path: outputPath,
-                publicPath: outputPublicPath,
-                filename: addHash('[name].js', 'chunkhash'),
-                //chunkFilename: addHash('[id].js', 'chunkhash'),
-                library: "[name]"
-            },
             watch: false,
             cache: true,
         },
@@ -76,13 +82,7 @@ module.exports = (env) => {
         {
             context: __dirname + '/src',
             entry: path.resolve(__dirname, 'src/routes.jsx'),
-            output: {
-                path: outputPath,
-                publicPath: outputPublicPath,
-                filename: addHash('[name].js', 'chunkhash'),
-                //chunkFilename: addHash('[id].js', 'chunkhash'),
-                library: "[name]"
-            },
+
             watch: true,
             cache: true,
             devServer: {
@@ -91,6 +91,7 @@ module.exports = (env) => {
                 port: 3000,
                 historyApiFallback: true,
                 compress: true,
+                https: false,
                 disableHostCheck: true,
                 headers: { "X-Custom-Header": "yes" },
                 stats: { colors: true, inline: true },
@@ -109,8 +110,8 @@ module.exports = (env) => {
             optimization(),
             modules(),
             optimize(),
-            clean(cleanRoot),
-            html(env, __dirname)
+            clean(publicRoot),
+            html(env, publicRoot)
         ]);
     }
 

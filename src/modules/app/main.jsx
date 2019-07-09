@@ -14,8 +14,6 @@ import 'modules/app/less/main.less';
 export default class Inbox extends Component
 {
     componentDidMount = () => {
-        window.scrollTo(0,0);
-
         Pace.start({
             document: false
         });

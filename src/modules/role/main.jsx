@@ -5,7 +5,7 @@ import UserStore from './store/state';
 
 import Index from './component/main/index';
 
-import './less/index';
+import './less/index.less';
 
 class EditMain extends Component {
     render() {
