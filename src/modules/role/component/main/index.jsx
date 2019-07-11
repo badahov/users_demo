@@ -14,7 +14,7 @@ import {
 
 import {permission as actionPermission, role as actionRole } from '../../store/actions/role';
 
-import {Collapse, Card, List, Menu, PageHeader, Layout, Spin, Icon, Row, Col, Popover} from 'antd';
+import {Collapse, Card, List, Menu, PageHeader, Layout, Spin, Icon, Row, Col, Popover, Button} from 'antd';
 const { Header, Content, Sider } = Layout;
 const Panel = Collapse.Panel;
 const { Meta } = Card;
@@ -145,9 +145,9 @@ class Roles extends React.Component
                                 />Управление ролями</span>}
                                 subTitle={`текущая: ${this.state.selectRoleName}`}
                                 extra={[
-                                    <Link key="add-user">
-                                        <Icon type="plus" onClick={() => this.onOpen()} />
-                                    </Link>,
+                                    <Button key="add-role" className="btn-user-add" onClick={() => this.onOpen()} type="primary" size="small">
+                                        Управление ролями
+                                    </Button>,
                                     <Logout key="logout-1" />
                                 ]}
                             />
