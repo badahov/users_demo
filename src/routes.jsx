@@ -1,11 +1,10 @@
 'use strict';
 
-import {config} from 'config';
+import config from 'config';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router} from 'react-router';
-import history from 'modules/app/component/core/history';
 
 import App from 'modules/app/main';
 import Login from 'modules/login/route';
@@ -25,6 +24,6 @@ const rootRoute = {
 };
 
 ReactDOM.render(
-  <Router history={history} routes={rootRoute} />,
+  <Router history={config.history} routes={rootRoute} />,
   document.getElementById('wrapper')
 );

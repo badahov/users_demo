@@ -14,7 +14,7 @@ import {
 import { Layout, Spin } from 'antd';
 const { Content } = Layout;
 
-import Logout from 'modules/app/component/logout';
+import Logout from 'modules/login/component/logout';
 
 import UserDataForm     from "../page/data/main";
 import UserPasswordForm from "../page/password/main";

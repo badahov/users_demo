@@ -1,14 +1,12 @@
 'use strict';
 
-import toastr from 'toastr';
-
-import {getHomePage} from 'modules/app/component/core/auth';
+import config from 'config';
 
 const middleware = store => next => action => {
     switch( action.type )
     {
         case 'AUTH_LOGIN':
-            const [startAction, successAction, failureAction] = action.actions;
+            const [startAction] = action.actions;
 
             store.dispatch({
                 type: startAction
@@ -19,25 +17,25 @@ const middleware = store => next => action => {
 
                 switch (action.promise.status) {
                     case 403:
-                        toastr.error("Недостаточно прав");
+                        config.message.error(config.error[action.promise.status]);
                         break;
                     case 401:
-                        toastr.error('Ошибка логина или пароля.');
+                        config.message.error(config.error[action.promise.status]);
                         break;
                     case 200:
                         if (result.status !== 'error') {
-                            getHomePage();
+                            config.page.home();
                         }
                         break;
                 }
             };
 
             action.promise.onerror = function() {
-                    toastr.error('Error');
+                config.message.error('Error');
             };
             break;
         case 'AUTH_CURRENT_USER':
-            const [startCurrentUserAction, successCurrentUserAction, failureCurrentUserAction] = action.actions;
+            const [startCurrentUserAction, successCurrentUserAction] = action.actions;
 
             store.dispatch({
                 type: startCurrentUserAction
@@ -48,10 +46,10 @@ const middleware = store => next => action => {
 
                 switch (action.promise.status) {
                     case 403:
-                        toastr.error("Недостаточно прав");
+                        config.message.error(config.error[action.promise.status]);
                         break;
                     case 401:
-                        toastr.error('Ошибка логина или пароля.');
+                        config.message.error(config.error[action.promise.status]);
                         break;
                     case 200:
                         if (data.status !== 'error') {
@@ -67,36 +65,6 @@ const middleware = store => next => action => {
         default:
             return next(action);
             break;
-            case 'AUTH_FORGOT_PASSWORD':
-                const [startForgotPassAction, successForgotPassAction, failureForgotPassAction] = action.actions;
-
-                store.dispatch({
-                    type: startForgotPassAction
-                });
-
-                action.promise.onload = function()
-                {
-                    let result = JSON.parse( this.responseText );
-
-                    if( result.error === 'AUTH_FORGOT_PASSWORD_NOT_ALLOWED' )
-                    {
-                        toastr.error( 'Ошибка LOGIN.' );
-                    } else {
-                        getHomePage();
-                    }
-                };
-
-                action.promise.onerror = function()
-                {
-                    let result = JSON.parse( this.responseText );
-
-                    if( result.status == 403 ) {
-                        toastr.error( "Недостаточно прав" );
-                    } else {
-                        toastr.error('Error');
-                    }
-                };
-                break;
     }
 
 };

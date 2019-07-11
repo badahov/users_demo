@@ -1,1 +1,2 @@
-(window.webpackJsonp_name_=window.webpackJsonp_name_||[]).push([[5],{26:function(n,e,o){"use strict";e.a={path:"/login",getComponent:function(n,e){Promise.all([o.e(0),o.e(2),o.e(11)]).then(function(n){e(null,o(54).default)}.bind(null,o)).catch(o.oe)}}}}]);
+(window.webpackJsonp_name_=window.webpackJsonp_name_||[]).push([[5],{27:function(n,e,o){"use strict";e.a={path:"/login",getComponent:function(n,e){Promise.all([o.e(0),o.e(2),o.e(12)]).then(function(n){e(null,o(51).default)}.bind(null,o)).catch(o.oe)}}}}]);
+//# sourceMappingURL=login.js.map

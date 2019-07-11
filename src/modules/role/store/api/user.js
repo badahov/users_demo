@@ -1,15 +1,16 @@
 'use strict';
 
-import ReactQuery from 'modules/app/component/core/query';
+import Query from 'modules/app/component/core/query';
+import appConfig from "../../config";
 import config from "../../config";
 
 const api = config.api;
 
 export function modelCurrentUser()
 {
-    let ReactQueryObject = new ReactQuery({
-        domain: process.env['API_AUTH'],
-        type: ReactQuery.get,
+    let ReactQueryObject = new Query({
+        domain: appConfig.domain.auth,
+        type: Query.get,
         pointApi: api.userCurrent
     });
 
@@ -18,7 +19,7 @@ export function modelCurrentUser()
 
 export function modelEdit(data, filter, action)
 {
-    let ReactQueryObject = new ReactQuery({
+    let ReactQueryObject = new Query({
         pointApi: api.userEdit,
         data: data
     });

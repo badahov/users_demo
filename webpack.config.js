@@ -12,49 +12,52 @@ const html         = require('./webpack/html');
 const optimize     = require('./webpack/optimize');
 const optimization = require('./webpack/optimization');
 
+const global = {
+    PATHS: {
+        appRoot: __dirname,
+        root:   path.join(__dirname),
+        public: path.join(__dirname, 'public'),
+        output: path.join(__dirname, 'public/build/'),
+
+        context: path.join(__dirname, 'src'),
+        index:   path.join(__dirname, 'src/routes.jsx'),
+        modules: path.join(__dirname, 'src/modules/'),
+
+        build: path.join(__dirname, 'build/'),
+    },
+};
+
 module.exports = (env) => {
-    const projectName    = 'operators';
-
-    let publicRoot = path.join(__dirname, "public");
-    let outputPath = path.join(__dirname, "public/build");
-    let outputPublicPath = path.join(__dirname, "build");
-
-    if (env === 'production') {
-        publicRoot       = path.resolve('../../' + projectName + '/');
-        outputPath       = path.resolve('../../' + projectName + '/build/');
-        outputPublicPath = path.join('/' + projectName + '/build/');
-    } else if (env === 'build') {
-        env = 'production';
-    }
-
     const common = merge([
         {
             mode: env === 'production' ? 'production' : 'development',
-            context: __dirname + '/src',
-            entry: path.resolve(__dirname, 'src/routes.jsx'),
+            context: global.PATHS.context,
+            entry: global.PATHS.index,
             output: {
-                path: outputPath,
-                publicPath: outputPublicPath,
+                path: global.PATHS.output,
+                publicPath: global.PATHS.build,
                 filename: addHash('[name].js', 'chunkhash'),
-                //chunkFilename: addHash('[id].js', 'chunkhash'),
                 library: "[name]"
             },
-            devtool: env === 'development' ? "inline-source-map" : false, //'source-map',
+            devtool: false,
             node: {
                 fs: "empty"
             },
             resolve: {
                 modules: [
-                    path.resolve(__dirname, './src'),
+                    global.PATHS.context,
                     'node_modules',
                 ],
                 alias: {
-                    Utilities: path.resolve(__dirname, './src/modules/'),
-                    Templates: path.resolve(__dirname, './src/store/')
+                    Modules: global.PATHS.modules,
                 },
                 extensions: ['.js','.jsx','.less','.json'],
             },
             plugins: [
+                new webpack.SourceMapDevToolPlugin({
+                    filename: '[file].map',
+                    exclude: ['/node_modules/']
+                }),
                 new webpack.DefinePlugin({
                     NODE_ENV : JSON.stringify(env)
                 }),
@@ -71,8 +74,6 @@ module.exports = (env) => {
 
     const prod = merge([
         {
-            context: __dirname + '/src',
-            entry: path.resolve(__dirname, 'src/routes.jsx'),
             watch: false,
             cache: true,
         },
@@ -80,13 +81,10 @@ module.exports = (env) => {
 
     const dev = merge([
         {
-            context: __dirname + '/src',
-            entry: path.resolve(__dirname, 'src/routes.jsx'),
-
             watch: true,
             cache: true,
             devServer: {
-                contentBase: path.resolve(__dirname, 'public'),
+                contentBase: global.PATHS.public,
                 host: '0.0.0.0',
                 port: 3000,
                 historyApiFallback: true,
@@ -110,8 +108,8 @@ module.exports = (env) => {
             optimization(),
             modules(),
             optimize(),
-            clean(publicRoot),
-            html(env, publicRoot)
+            clean(global.PATHS.public),
+            html(env, global.PATHS.public),
         ]);
     }
 

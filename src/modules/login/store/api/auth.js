@@ -1,13 +1,11 @@
 'use strict';
 
+import appConfig from "config";
 import config from "../../config";
-
-const domain = process.env['API_AUTH'];
-const api = config.api;
 
 export function apiAuthLogin(data)
 {
-    const url = domain + process.env['SET_POINT'] + api.auth;
+    const url = appConfig.domain.auth + appConfig.server.setPoint + config.api.auth;
 
     const formData = new FormData();
 

@@ -1,12 +1,12 @@
 'use strict';
 
-import ReactQuery from 'modules/app/component/core/query';
+import Query from 'modules/app/component/core/query';
 import config from "../../config";
 
 const api = config.api;
 
-function query (pointApi, data, type = ReactQuery.post) {
-    return new ReactQuery({
+function query (pointApi, data, type = Query.post) {
+    return new Query({
         pointApi: pointApi,
         type: type,
         data: data
@@ -25,11 +25,11 @@ export function modelPermission(action, data, callback)
 {
     switch (action) {
         case 'item':
-            return query(api.permission, data, ReactQuery.get).result();
+            return query(api.permission, data, Query.get).result();
         case 'switch':
-            return query(api.rolePermission, data, ReactQuery.post).result().then((json) => {
+            return query(api.rolePermission, data, Query.post).result().then((json) => {
                 if (json) {
-                    return query(api.permission, {id: data.role_id}, ReactQuery.get).result();
+                    return query(api.permission, {id: data.role_id}, Query.get).result();
                 }
             });
     }
@@ -47,21 +47,21 @@ export function modelRole(action, data = {}, callback)
 {
     switch (action) {
         case 'items':
-            return query(api.roles, data, ReactQuery.get).result();
+            return query(api.roles, data, Query.get).result();
         case 'add':
-            return query(api.roleAdd, data, ReactQuery.post).result().then((json) => {
+            return query(api.roleAdd, data, Query.post).result().then((json) => {
                 if (json) {
                     return query(api.roles).result();
                 }
             });
         case 'edit':
-            return query(api.roleEdit, data, ReactQuery.post).result().then((json) => {
+            return query(api.roleEdit, data, Query.post).result().then((json) => {
                 if (json) {
                     return query(api.roles).result(callback);
                 }
             });
         case 'delete':
-            return query(api.roleDelete, data, ReactQuery.post).result(callback).then((json) => {
+            return query(api.roleDelete, data, Query.post).result(callback).then((json) => {
                 if (json) {
                     return query(api.roles).result();
                 }

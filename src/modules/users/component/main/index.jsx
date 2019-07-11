@@ -1,9 +1,9 @@
 'use strict';
 
+import config from 'config';
+
 import React from 'react';
 import Helmet from "react-helmet";
-import history from 'modules/app/component/core/history';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -16,7 +16,7 @@ const { Header, Content, Sider } = Layout;
 
 import Table     from 'modules/app/component/table/table';
 
-import Logout     from 'modules/app/component/logout';
+import Logout     from 'modules/login/component/logout';
 import Pagination from 'modules/app/component/pagination';
 import Filter     from 'modules/app/component/filter/filter';
 import Sorting    from 'modules/app/component/filter/sorting';
@@ -124,22 +124,22 @@ class Users extends React.Component
             (header.name !== nextProps.header.name)) {
             location.query.name = nextProps.header.name;
 
-            history.push({pathname: '/', query: location.query});
+            config.history.push({pathname: '/', query: location.query});
             isUpdate = true;
         } else if (location.query.name === '') {
             delete location.query.name;
-            history.push({pathname: '/', query: location.query});
+            config.history.push({pathname: '/', query: location.query});
         }
 
         if ((location.query.code !== nextProps.header.code) &&
             (header.code !== nextProps.header.code)) {
             location.query.code = nextProps.header.code;
 
-            history.push({pathname: '/', query: location.query});
+            config.history.push({pathname: '/', query: location.query});
             isUpdate = true;
         } else if (location.query.code === '') {
             delete location.query.code;
-            history.push({pathname: '/', query: location.query});
+            config.history.push({pathname: '/', query: location.query});
         }
 
         if ((location.query.login !== nextProps.header.login) &&
@@ -147,11 +147,11 @@ class Users extends React.Component
 
             location.query.login = nextProps.header.login;
 
-            history.push({pathname: '/', query: location.query});
+            config.history.push({pathname: '/', query: location.query});
             isUpdate = true;
         } else if (location.query.login === '') {
             delete location.query.login;
-            history.push({pathname: '/', query: location.query});
+            config.history.push({pathname: '/', query: location.query});
         }
 
         if (isUpdate) {

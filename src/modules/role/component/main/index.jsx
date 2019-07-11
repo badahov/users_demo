@@ -19,7 +19,7 @@ const { Header, Content, Sider } = Layout;
 const Panel = Collapse.Panel;
 const { Meta } = Card;
 
-import Logout from 'modules/app/component/logout';
+import Logout from 'modules/login/component/logout';
 
 import UserAddForm from "./source_add_form";
 

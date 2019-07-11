@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import { Form, Button, Row, Select, Col } from 'antd';
 const { Option } = Select;
 
-import ReactQuery from 'modules/app/component/core/query';
+import Query from 'modules/app/component/core/query';
 
 const formItemLayout = {
     labelCol: {
@@ -24,7 +24,7 @@ class UserRolesFormModel extends Component
     {
         super(props);
 
-        let ReactQueryObject = new ReactQuery({
+        let ReactQueryObject = new Query({
             pointApi: 'interface-users/role-select',
         });
 
