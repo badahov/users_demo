@@ -166,7 +166,8 @@ class Users extends React.Component
 
         return this.props.loading !== nextProps.loading ||
             this.state.collapsedSiderMenu !== nextState.collapsedSiderMenu ||
-            this.state.visibleUserAddForm !== nextState.visibleUserAddForm;
+            this.state.visibleUserAddForm !== nextState.visibleUserAddForm ||
+            this.props.items !== nextProps.items;
     };
 
     render()

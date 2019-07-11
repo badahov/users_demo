@@ -33,7 +33,7 @@ class UserDataFormModel extends Component
     };
 
     shouldComponentUpdate = (nextProps, nextState) => {
-        return nextProps.item === this.props.item;
+        return nextProps.item !== this.props.item;
     };
 
     handleConfirmBlur = e => {

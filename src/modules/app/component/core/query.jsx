@@ -180,8 +180,6 @@ export default class Query
 
         let self = this;
         xhr.onload = function () {
-            console.log('requestXdomainToken');
-
             switch (this.status) {
                 case 401:// User is not authorized on the authorization server
                     self._loginPage();
