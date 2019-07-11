@@ -1,7 +1,7 @@
 'use strict';
 
 import Query from 'modules/app/component/core/query';
-import appConfig from "../../config";
+import appConfig from "config";
 import config from "../../config";
 
 const api = config.api;
