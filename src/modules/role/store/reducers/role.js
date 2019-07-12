@@ -2,25 +2,19 @@
 
 import {combineReducers} from 'redux';
 
-const permissionReducers = (state = [], action) => {
-    switch(action.type) {
-        case 'PERMISSION_LOADED':
-            return action.data;
-        default:
-            return state;
-    }
-};
-
-const roleReducers = (state = [], action) => {
-    switch(action.type) {
-        case 'ROLE_LOADED':
-            return action.data;
-        default:
-            return state;
+const actionReducers = status => (state = [], action) => {
+    if (status.includes(action.type)) {
+        return action.data;
+    } else {
+        return state;
     }
 };
 
 export default combineReducers({
-    role: roleReducers,
-    permission: permissionReducers,
+    permission: actionReducers([
+        'PERMISSION_LOADED'
+    ]),
+    role: actionReducers([
+        'ROLE_LOADED'
+    ]),
 });

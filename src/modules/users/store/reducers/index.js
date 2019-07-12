@@ -2,6 +2,6 @@
 
 import user from './user';
 
-export{
+export {
     user
 };

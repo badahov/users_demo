@@ -62,11 +62,6 @@ module.exports = (env) => {
                     NODE_ENV : JSON.stringify(env)
                 }),
                 new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en-gb/),
-                new webpack.ProvidePlugin({
-                    '$': 'jquery',
-                    'jQuery': 'jquery',
-                    'window.jQuery': 'jquery'
-                }),
                 new webpack.NoEmitOnErrorsPlugin(),
             ],
         },

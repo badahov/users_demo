@@ -1,13 +1,16 @@
 'use strict';
 
 import {modelUser} from '../api/user';
+import config from "../../config";
+
+const MODEL = config.model.toUpperCase();
 
 export function user(action, data, callback) {
     const actionKey = action.toUpperCase();
 
     return {
-        type: 'USER_' + actionKey,
-        actions: ['USER_' + actionKey + '_LOADING', 'USER_' + actionKey + '_LOADED', 'USER_' + actionKey + '_LOAD_FAILURE'],
+        type: `${MODEL}_${actionKey}`,
+        actions: [`${MODEL}_${actionKey}_LOADING`,`${MODEL}_${actionKey}_LOADED`,`${MODEL}_${actionKey}_LOAD_FAILURE`],
         promise: modelUser(action, data, callback),
     };
 }

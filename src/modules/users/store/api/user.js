@@ -15,34 +15,34 @@ function query (pointApi, data, type = Query.post) {
 
 export function modelUser(action, data, callback)
 {
-    switch (action) {
-        case 'header':
+    switch (action.toUpperCase()) {
+        case 'HEADER':
             return {
                 code: (data.code !== 0)? data.code : '',
                 name: (data.name !== 0)? data.name : '',
                 login: (data.login !== 0)? data.login : '',
                 status: (data.status == 0)? "0" : "1"
             };
-        case 'items':
+        case 'ITEMS':
             let queryItems = new Query({
                 pointApi: config.api.items,
                 data: data
             });
 
             return queryItems.result();
-        case 'delete':
+        case 'DELETE':
             return query(config.api.delete, data, Query.post).result(callback).then((json) => {
                 if (json) {
                     return query(config.api.items).result();
                 }
             });
-        case 'add':
+        case 'ADD':
             return query(config.api.add, data, Query.post).result(callback).then((json) => {
                 if (json) {
                     return query(config.api.items).result();
                 }
             });
-        case 'current':
+        case 'CURRENT':
             let queryCurrent = new Query({
                 domain: appConfig.domain.auth,
                 type: Query.get,

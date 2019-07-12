@@ -2,25 +2,19 @@
 
 import {combineForms} from 'react-redux-form';
 
-const currentReducers = (state = [], action) => {
-    switch (action.type) {
-        case 'AUTH_CURRENT_USER_LOADED':
-            return action.data;
-        default:
-            return state;
-    }
-};
-
-const forgotReducers = (state = [], action) => {
-    switch (action.type) {
-        case 'AUTH_AUTH_FORGOT_PASSWORD_LOADED':
-            return action.data;
-        default:
-            return state;
+const actionReducers = status => (state = [], action) => {
+    if (status.includes(action.type)) {
+        return action.data;
+    } else {
+        return state;
     }
 };
 
 export default combineForms({
-    current: currentReducers,
-    forgot: forgotReducers,
+    current: actionReducers([
+        'AUTH_CURRENT_USER_LOADED'
+    ]),
+    forgot: actionReducers([
+        'AUTH_AUTH_FORGOT_PASSWORD_LOADED'
+    ]),
 }, 'auth');

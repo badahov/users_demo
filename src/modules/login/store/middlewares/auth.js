@@ -3,8 +3,7 @@
 import config from 'config';
 
 const middleware = store => next => action => {
-    switch( action.type )
-    {
+    switch (action.type) {
         case 'AUTH_LOGIN':
             const [startAction] = action.actions;
 

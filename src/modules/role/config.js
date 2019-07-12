@@ -1,6 +1,7 @@
 'use strict';
 
 export default {
+    model: 'role',
     api: {
         permission:   'interface-users/permission',
         rolePermission:  'interface-users/role-permission',
@@ -12,5 +13,11 @@ export default {
 
         userCurrent: 'interface-users/user-current',
         userEdit: 'interface-users/user-edit',
-    }
+    },
+    middleware: [
+        'PERMISSION',
+        'ROLE',
+        'USER_CURRENT',
+        'USER_ITEM',
+    ]
 }

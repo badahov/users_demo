@@ -208,17 +208,17 @@ class Users extends React.Component
                             <Row>
                                 <Col span={24}>
                                     <Table overlayClassName="table-users" striped={false} thead={[
-                                        <Filter fsort={this._fsort}>
-                                            <Search model="user.header.code" placeholder="Код" />
-                                            <Sorting id='code' />
+                                        <Filter>
+                                            <Search model="user.header.code" value={this.props.header.code} placeholder="Код" />
+                                            <Sorting id='code' fsort={this._fsort} />
                                         </Filter>,
-                                        <Filter fsort={this._fsort}>
-                                            <Search model="user.header.name" placeholder="Имя" />
-                                            <Sorting id='name' />
+                                        <Filter>
+                                            <Search model="user.header.name" value={this.props.header.name} placeholder="Имя" />
+                                            <Sorting id='name' fsort={this._fsort} />
                                         </Filter>,
-                                        <Filter fsort={this._fsort}>
-                                            <Search model="user.header.login" placeholder="Логин" />
-                                            <Sorting id='login' />
+                                        <Filter>
+                                            <Search model="user.header.login" value={this.props.header.login} placeholder="Логин" />
+                                            <Sorting id='login' fsort={this._fsort} />
                                         </Filter>,
                                         <span>Админ</span>,
                                         <span>Перепечать</span>,

@@ -42,13 +42,20 @@ class UserAddFormModel extends Component
         this.props.onClose();
     };
 
-    onRoleEditAction = id => {
-        $('.link-role-name-' + id).hide();
-        $('.input-role-name-' + id).show();
+    onRoleEditAction = (ev, id) => {
+        let parent = ev.target.parentElement.parentElement.parentElement.parentElement;
+        let listRoleItemId = parent.querySelector(`.link-role-name-${id}`);
+        let inputRoleName  = parent.querySelector(`.input-role-name-${id}`);
+        let btnRoleEdit    = parent.querySelector(`.btn-role-edit-${id}`);
+        let btnRoleDelete  = parent.querySelector(`.btn-role-delete-${id}`);
+        let btnRoleSave    = parent.querySelector(`.btn-role-save-${id}`);
 
-        $('.btn-role-edit-' + id).hide();
-        $('.btn-role-delete-' + id).hide();
-        $('.btn-role-save-' + id).show();
+        listRoleItemId.style.display = "none";
+        inputRoleName.style.display = "inline";
+
+        btnRoleEdit.style.display = "none";
+        btnRoleDelete.style.display = "none";
+        btnRoleSave ? btnRoleSave.style.display = "inline" : null;
     };
 
     onRoleDelete = (id) => {
@@ -76,7 +83,9 @@ class UserAddFormModel extends Component
 
     };
 
-    onRoleEdit = (id, name) => {
+    onRoleEdit = (ev, id, name) => {
+        let parent = ev.target.parentElement.parentElement.parentElement.parentElement;
+
         this.props.actionRole('edit', {
             id: id,
             name: name
@@ -87,12 +96,18 @@ class UserAddFormModel extends Component
                 }
 
                 if (json.result) {
-                    $('.link-role-name-' + id).show();
-                    $('.input-role-name-' + id).hide();
+                    let listRoleItemId = parent.querySelector(`.link-role-name-${id}`);
+                    let inputRoleName  = parent.querySelector(`.input-role-name-${id}`);
+                    let btnRoleEdit    = parent.querySelector(`.btn-role-edit-${id}`);
+                    let btnRoleDelete  = parent.querySelector(`.btn-role-delete-${id}`);
+                    let btnRoleSave    = parent.querySelector(`.btn-role-save-${id}`);
 
-                    $('.btn-role-edit-' + id).show();
-                    $('.btn-role-delete-' + id).show();
-                    $('.btn-role-save-' + id).hide();
+                    listRoleItemId.style.display = "inline";
+                    inputRoleName.style.display = "none";
+
+                    btnRoleEdit.style.display = "inline";
+                    btnRoleDelete.style.display = "inline";
+                    btnRoleSave ? btnRoleSave.style.display = "none" : null;
 
                     return json.result;
                 } else {
@@ -155,7 +170,7 @@ class UserAddFormModel extends Component
                                 className={`list-role-item list-role-item-${item.id}`}
                                 actions={(item.editable) ? [
                                 <ButtonGroup>
-                                    <Button className={`btn-role-edit btn-role-edit-${item.id}`} onClick={() => this.onRoleEditAction(item.id)} size="small" icon="edit" />
+                                    <Button className={`btn-role-edit btn-role-edit-${item.id}`} onClick={(ev) => this.onRoleEditAction(ev, item.id)} size="small" icon="edit" />
                                     <Popconfirm
                                         title="Удалить роль?"
                                         onConfirm={() => this.onRoleDelete(item.id)}
@@ -168,7 +183,9 @@ class UserAddFormModel extends Component
                                     </Popconfirm>
                                 </ButtonGroup>
                                 ] : null}>
-                                <Link onClick={() => this.props.onRoleSelect(item.id)} className={`link-role-name link-role-name-${item.id}`} style={{width:'100%'}}>{item.name}</Link>
+                                <Link onClick={(ev) => {
+                                    this.props.onRoleSelect(ev, item.id)
+                                }} className={`link-role-name link-role-name-${item.id}`} style={{width:'100%'}}>{item.name}</Link>
 
                                 <Search
                                     className={`input-role-name input-role-name-${item.id}`}
@@ -176,7 +193,7 @@ class UserAddFormModel extends Component
                                     enterButton={<Icon type="save" />}
                                     size="small"
                                     defaultValue={item.name}
-                                    onSearch={value => this.onRoleEdit(item.id, value)}
+                                    onSearch={(value, event) => this.onRoleEdit(event, item.id, value)}
                                 />
                             </List.Item>}
                         />

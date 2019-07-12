@@ -1,58 +1,33 @@
 'use strict';
 
 import {combineForms} from 'react-redux-form';
+import config from '../../config';
 
+const MODEL = config.model.toUpperCase();
 
-const loadingReducers = (state = [], action) => {
-    switch(action.type) {
-        case 'USER_ITEMS_LOADING':
-        case 'USER_DELETE_LOADING':
-            return action.data;
-        default:
-            return state;
-    }
-};
-
-const itemsReducers = (state = [], action) => {
-    switch(action.type) {
-        case 'USER_ITEMS_LOADED':
-            return action.data;
-        default:
-            return state;
-    }
-};
-
-const saveReducers = (state = [], action) => {
-    switch(action.type) {
-        case 'USER_ADD_LOADED':
-            return action.data;
-        default:
-            return state;
-    }
-};
-
-const headerReducers = (state = [], action) => {
-    switch(action.type) {
-        case 'USER_HEADER_LOADED':
-            return action.data;
-        default:
-            return state;
-    }
-};
-
-const currentReducers = (state = [], action) => {
-    switch(action.type) {
-        case 'USER_CURRENT_LOADED':
-            return action.data;
-        default:
-            return state;
+const actionReducers = status => (state = [], action) => {
+    if (status.includes(action.type)) {
+        return action.data;
+    } else {
+        return state;
     }
 };
 
 export default combineForms({
-    loading:  loadingReducers,
-    items:   itemsReducers,
-    save:    saveReducers,
-    header:  headerReducers,
-    current: currentReducers
-}, 'user');
+    loading:  actionReducers([
+        `${MODEL}_ITEMS_LOADING`,
+        `${MODEL}_DELETE_LOADING`
+    ]),
+    items: actionReducers([
+        `${MODEL}_ITEMS_LOADED`
+    ]),
+    save: actionReducers([
+        `${MODEL}_ADD_LOADED`
+    ]),
+    header: actionReducers([
+        `${MODEL}_HEADER_LOADED`
+    ]),
+    current: actionReducers([
+        `${MODEL}_CURRENT_LOADED`
+    ])
+}, config.model);

@@ -50,10 +50,6 @@ class Edit extends React.Component
         });
     };
 
-    shouldComponentUpdate = (nextProps, nextState) => {
-        return nextProps.item === this.props.item;
-    };
-
     render()
     {
         if (this.props.item && this.props.current) {

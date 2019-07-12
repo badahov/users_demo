@@ -32,10 +32,6 @@ class UserDataFormModel extends Component
         });
     };
 
-    shouldComponentUpdate = (nextProps, nextState) => {
-        return nextProps.item !== this.props.item;
-    };
-
     handleConfirmBlur = e => {
         const { value } = e.target;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });

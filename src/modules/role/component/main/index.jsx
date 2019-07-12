@@ -66,7 +66,7 @@ class Roles extends React.Component
         });
     };
 
-    onRoleSelect = id => {
+    onRoleSelect = (ev, id) => {
         for (let i=0; i < this.props.role.length; i++) {
             let item = this.props.role[i];
 
@@ -82,8 +82,15 @@ class Roles extends React.Component
             }
         }
 
-        $('.list-role-item').css({background: '#fff'});
-        $('.list-role-item-' + id).css({background: '#fafafa'});
+        let parent = ev.target.parentElement.parentElement;
+
+        let listRoleItems = parent.querySelectorAll(".list-role-item");
+        listRoleItems.forEach((item) => {
+            item.setAttribute("style", "background: #fff");
+        });
+
+        let listRoleItemId = parent.querySelector(`.list-role-item-${id}`);
+        listRoleItemId.setAttribute("style", "background: #fafafa");
     };
 
     shouldComponentUpdate = (nextProps, nextState) => {
@@ -124,7 +131,9 @@ class Roles extends React.Component
                                     (this.props.role)
                                     ?
                                         this.props.role.map((item) =>
-                                            <Menu.Item onClick={() => {this.onRoleSelect(item.id)}} key={`role-${item.id}`}>
+                                            <Menu.Item onClick={(ev) => {
+                                                this.onRoleSelect(ev, item.id)
+                                            }} key={`role-${item.id}`}>
                                                 <Icon type="property-safety" />
                                                 <span>{item.name}</span>
                                             </Menu.Item>
@@ -231,7 +240,6 @@ export default connect(
     (state) => {
         return {
             access: state.user.access,
-            action: state.user.action,
             current: state.user.current,
             role: state.role.role,
             permission: state.role.permission

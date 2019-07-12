@@ -87,7 +87,7 @@ module.exports = () => {
                 }
             ],
 
-            noParse: wrapRegexp(/\/node_modules\/(jquery\/)/, 'noParse')
+            //noParse: wrapRegexp(/\/node_modules\/(jquery\/)/, 'noParse')
         },
         plugins: [
             new MiniCssExtractPlugin({
