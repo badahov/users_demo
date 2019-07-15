@@ -1,14 +1,7 @@
 'use strict';
 
-import {hashHistory} from 'react-router';
-import toastr from 'toastr';
-
-toastr.options = {
-    closeButton: true,
-    progressBar: true,
-    showMethod: 'slideDown',
-    timeOut: 4000
-};
+import { hashHistory } from 'react-router';
+import { message, notification } from 'antd';
 
 let api, auth;
 
@@ -37,11 +30,13 @@ export default {
     },
 
     message: {
-        error: message => {
-            toastr.error(message);
+        error: msg => {
+            notification['error']({
+                message: msg
+            });
         },
-        success: message => {
-            toastr.success(message);
+        success: msg => {
+            message.success(msg);
         },
     },
     server: {

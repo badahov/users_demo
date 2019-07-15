@@ -39,10 +39,6 @@ export default class Search extends React.Component
         }
     };
 
-    componentDidMount() {
-        console.log('value', this.props.value);
-    }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.value) {
             let placeholder = this.textInput.current.placeholder;

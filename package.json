@@ -45,7 +45,6 @@
     "history": "^4.9.0",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
-    "toastr": "^2.1.4",
     "translit": "^0.1.0",
     "whatwg-fetch": "^3.0.0",
     "antd": "^3.19.1"

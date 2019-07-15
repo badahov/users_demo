@@ -82,14 +82,12 @@ class Roles extends React.Component
             }
         }
 
-        let parent = ev.target.parentElement.parentElement;
-
-        let listRoleItems = parent.querySelectorAll(".list-role-item");
+        let listRoleItems = document.querySelectorAll(".list-role-item");
         listRoleItems.forEach((item) => {
             item.setAttribute("style", "background: #fff");
         });
 
-        let listRoleItemId = parent.querySelector(`.list-role-item-${id}`);
+        let listRoleItemId = document.querySelector(`.list-role-item-${id}`);
         listRoleItemId.setAttribute("style", "background: #fafafa");
     };
 

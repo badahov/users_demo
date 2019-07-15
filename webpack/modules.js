@@ -1,9 +1,23 @@
-const MiniCssExtractPlugin    = require("mini-css-extract-plugin");
+'use strict';
+
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const addHash = require('./func').addHash;
 
 module.exports = () => {
     return {
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    styles: {
+                        name: 'app',
+                        test: /\.css$/,
+                        chunks: 'all',
+                        enforce: true,
+                    },
+                },
+            },
+        },
         module: {
             rules: [
                 {
@@ -86,13 +100,10 @@ module.exports = () => {
                     ],
                 }
             ],
-
-            //noParse: wrapRegexp(/\/node_modules\/(jquery\/)/, 'noParse')
         },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: addHash('[name].css', 'chunkhash'),
-                //chunkFilename: addHash('[name].css', 'chunkhash'),
             }),
         ],
     };
