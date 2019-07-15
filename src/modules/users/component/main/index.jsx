@@ -6,24 +6,16 @@ import React from 'react';
 import Helmet from "react-helmet";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from "react-router";
 
-import {
-    user as actionUser
-} from '../../store/actions/user';
+import { Pagination, Filter, Sorting, Search, Table, Logout } from 'modules/app/core';
 
-import {Menu, PageHeader, Layout, Row, Col, Spin, Icon, Button, message} from 'antd';
+import { user as actionUser } from '../../store/actions/user';
+
+import { Menu, PageHeader, Layout, Row, Col, Spin, Icon, Button, message } from 'antd';
 const { Header, Content, Sider } = Layout;
 
-import Table     from 'modules/app/component/table/table';
-
-import Logout     from 'modules/login/component/logout';
-import Pagination from 'modules/app/component/pagination';
-import Filter     from 'modules/app/component/filter/filter';
-import Sorting    from 'modules/app/component/filter/sorting';
-import Search     from 'modules/app/component/filter/search';
-
 import UserTableItem from './user_table_item';
-import {Link} from "react-router";
 import UserAddForm from "./user_add_form";
 
 class Users extends React.Component

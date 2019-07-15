@@ -14,8 +14,7 @@ export default class Query
     pointApi = null;
     domain   = config.domain.api;
 
-    constructor(options)
-    {
+    constructor(options) {
         if (options.type !== undefined) {
             this.type = options.type;
         }
@@ -52,7 +51,7 @@ export default class Query
                     } else {
                         return true;
                     }
-                } else if(json.msg) {
+                } else if (json.msg) {
                     this._error(this._errorMsg(json.msg));
 
                     return false;
@@ -190,7 +189,6 @@ export default class Query
                     let domain = arr[0] + "//" + arr[2];
                     let domainAuth = domain + config.server.setPoint + 'auth/login';
 
-                    //Отправляем токен в точку авторизации целевого сервера
                     let formData = new FormData();
                     formData.append('xdomainToken', result.xdomainToken);
                     let xhr = new XMLHttpRequest();
@@ -214,6 +212,6 @@ export default class Query
     }
 
     _loginPage() {
-        config.history.push('/login');
+        config.page.login();
     }
 }

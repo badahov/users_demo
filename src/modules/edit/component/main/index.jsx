@@ -5,6 +5,8 @@ import Helmet from "react-helmet";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import {Logout} from 'modules/app/core';
+
 import {
     userEdit as actionEdit,
     userCurrent as actionCurrent,
@@ -14,14 +16,12 @@ import {
 import { Layout, Spin } from 'antd';
 const { Content } = Layout;
 
-import Logout from 'modules/login/component/logout';
-
 import UserDataForm     from "../page/data/main";
 import UserPasswordForm from "../page/password/main";
 import UserRolesForm    from "../page/roles/main";
 
 import HeaderPage from "./header_page";
-import MenuLeft from "./menu_left";
+import MenuLeft   from "./menu_left";
 
 class Edit extends React.Component
 {

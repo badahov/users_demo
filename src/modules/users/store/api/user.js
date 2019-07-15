@@ -1,6 +1,6 @@
 'use strict';
 
-import Query from 'modules/app/component/core/query';
+import {Query} from 'modules/app/core';
 
 import appConfig from 'config';
 import config from '../../config';
@@ -21,7 +21,7 @@ export function modelUser(action, data, callback)
                 code: (data.code !== 0)? data.code : '',
                 name: (data.name !== 0)? data.name : '',
                 login: (data.login !== 0)? data.login : '',
-                status: (data.status == 0)? "0" : "1"
+                status: (data.status === 0)? "0" : "1"
             };
         case 'ITEMS':
             let queryItems = new Query({

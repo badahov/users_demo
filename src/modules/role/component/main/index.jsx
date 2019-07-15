@@ -3,9 +3,11 @@
 import React from 'react';
 import Helmet from "react-helmet";
 import classNames from "classnames";
-import {Link} from "react-router";
+import { Link } from "react-router";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
+import {Logout} from 'modules/app/core';
 
 import {
     userEdit as actionEdit,
@@ -18,8 +20,6 @@ import {Collapse, Card, List, Menu, PageHeader, Layout, Spin, Icon, Row, Col, Po
 const { Header, Content, Sider } = Layout;
 const Panel = Collapse.Panel;
 const { Meta } = Card;
-
-import Logout from 'modules/login/component/logout';
 
 import UserAddForm from "./source_add_form";
 

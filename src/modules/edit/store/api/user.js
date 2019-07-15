@@ -1,6 +1,6 @@
 'use strict';
 
-import Query from 'modules/app/component/core/query';
+import {Query} from 'modules/app/core';
 import appConfig from "config";
 import config from "../../config";
 

@@ -19,7 +19,6 @@ export default {
 
     },
     history: hashHistory,
-
     page: {
         login: () => {
             hashHistory.push('/login');

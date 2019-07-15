@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import { Form, Button, Row, Select, Col } from 'antd';
 const { Option } = Select;
 
-import Query from 'modules/app/component/core/query';
+import {Query} from 'modules/app/core';
 
 const formItemLayout = {
     labelCol: {

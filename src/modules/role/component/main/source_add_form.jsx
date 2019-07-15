@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 
-import {Link} from "react-router";
-import {Form, Button, Row, Input, List, Drawer, Col, Icon, message, Popconfirm} from 'antd';
+import { Link } from "react-router";
+import { Form, Button, Row, Input, List, Drawer, Col, Icon, message, Popconfirm } from 'antd';
 const ButtonGroup = Button.Group;
 
 const { Search } = Input;
