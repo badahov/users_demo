@@ -128,10 +128,10 @@ exports[`Role Layout Index correctly 1`] = `
         className="ant-page-header"
       >
         <div
-          className="ant-page-header-title-view"
+          className="ant-page-header-heading"
         >
           <span
-            className="ant-page-header-title-view-title"
+            className="ant-page-header-heading-title"
           >
             <span>
               <i
@@ -159,12 +159,12 @@ exports[`Role Layout Index correctly 1`] = `
             </span>
           </span>
           <span
-            className="ant-page-header-title-view-sub-title"
+            className="ant-page-header-heading-sub-title"
           >
             текущая: Гость
           </span>
           <span
-            className="ant-page-header-title-view-extra"
+            className="ant-page-header-heading-extra"
           >
             <button
               className="ant-btn btn-user-add ant-btn-primary ant-btn-sm"

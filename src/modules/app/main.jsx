@@ -1,5 +1,7 @@
 'use strict';
 
+console.log('app index');
+
 import React, { Component } from 'react';
 
 import Pace from './js/plugins/pace/pace.min';

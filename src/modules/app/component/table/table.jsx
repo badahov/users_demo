@@ -2,7 +2,6 @@
 
 import React, {Component} from 'react';
 import classNames from "classnames";
-import {Icon} from 'react-fa';
 
 import './less/table.less';
 

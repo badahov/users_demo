@@ -148,10 +148,10 @@ exports[`Users Layout Index correctly 1`] = `
             className="ant-page-header"
           >
             <div
-              className="ant-page-header-title-view"
+              className="ant-page-header-heading"
             >
               <span
-                className="ant-page-header-title-view-title"
+                className="ant-page-header-heading-title"
               >
                 <span>
                   <i
@@ -179,12 +179,12 @@ exports[`Users Layout Index correctly 1`] = `
                 </span>
               </span>
               <span
-                className="ant-page-header-title-view-sub-title"
+                className="ant-page-header-heading-sub-title"
               >
                 Пользователи
               </span>
               <span
-                className="ant-page-header-title-view-extra"
+                className="ant-page-header-heading-extra"
               >
                 <button
                   className="ant-btn btn-user-add ant-btn-primary ant-btn-sm"
@@ -300,6 +300,7 @@ exports[`Users Layout Index correctly 1`] = `
                           aria-controls="DataTables_Table_1"
                           className="cell-2 sorting"
                           id="code"
+                          onClick={[Function]}
                         />
                       </div>
                     </th>
@@ -341,6 +342,7 @@ exports[`Users Layout Index correctly 1`] = `
                           aria-controls="DataTables_Table_1"
                           className="cell-2 sorting"
                           id="name"
+                          onClick={[Function]}
                         />
                       </div>
                     </th>
@@ -382,6 +384,7 @@ exports[`Users Layout Index correctly 1`] = `
                           aria-controls="DataTables_Table_1"
                           className="cell-2 sorting"
                           id="login"
+                          onClick={[Function]}
                         />
                       </div>
                     </th>

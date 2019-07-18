@@ -37,6 +37,7 @@
     vertical-align:middle;
     cursor: pointer;
     border:0px solid black;
+    padding-right: 5px;
 }
 
 .row-table-filter
@@ -80,45 +81,21 @@
 }
 
 /* DATATABLES */
-table.table-filter thead .sorting,
-table.table-filter thead .sorting_asc:after,
-table.table-filter thead .sorting_desc,
-table.table-filter thead .sorting_asc_disabled,
-table.table-filter thead .sorting_desc_disabled {
-    background: transparent;
-}
-table.table-filter thead .sorting_asc:after {
-    content: "\f0d8";
-    float: right;
-    font-family: fontawesome;
-}
-table.table-filter thead .sorting_desc:after {
-    content: "\f0dd";
-    float: right;
-    font-family: fontawesome;
-}
-table.table-filter thead .sorting:after {
-    content: "\f0dc";
-    float: right;
-    font-family: fontawesome;
-    color: rgba(50, 50, 50, 0.5);
-    margin-left: -1px
+
+table.table-filter thead .cell-2 .sorted-up {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 1px;
+    top: 10px;
+    position: absolute;
 }
 
-table.table-filter input {
-    width: 10px
-}
-
-table.table-filter thead .sorting {
-    background: rgba(0, 0, 0, 0) url("./images/sort_both.png") no-repeat scroll right center !important;
-}
-
-table.table-filter thead .sorting_asc {
-    background: rgba(0, 0, 0, 0) url("./images/sort_asc.png") no-repeat scroll right center !important;
-}
-
-table.table-filter thead .sorting_desc {
-    background: rgba(0, 0, 0, 0) url("./images/sort_desc.png") no-repeat scroll right center !important;
+table.table-filter thead .cell-2 .sorted-down {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 1px;
+    top: 18px;
+    position: absolute;
 }
 
 .table-thead tr th {
@@ -129,7 +106,6 @@ table.table-filter thead .sorting_desc {
 .update_check {
     width: 18px !important;
 }
-
 
 .table-thead .box-header-checkbox {
     vertical-align: middle

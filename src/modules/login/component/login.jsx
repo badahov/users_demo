@@ -1,5 +1,7 @@
 'use strict';
 
+console.log('login index');
+
 import React from 'react';
 import Helmet from "react-helmet";
 

@@ -31,7 +31,6 @@
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-fa": "^4.1.2",
     "react-helmet": "^5.2.1",
     "react-redux": "^7.0.3",
     "react-redux-form": "^1.16.13",
@@ -88,6 +87,9 @@
     "jest-cli": "^24.8.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "jest-css-modules": "^2.1.0"
+    "enzyme-to-json": "^3.3.5",
+    "jest-css-modules": "^2.1.0",
+    "jest-puppeteer": "^4.3.0",
+    "babel-plugin-import": "^1.12.0"
   }
 }

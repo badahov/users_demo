@@ -1,5 +1,7 @@
 'use strict';
 
+console.log('user index');
+
 import config from 'config';
 
 import React from 'react';

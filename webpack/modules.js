@@ -6,18 +6,18 @@ const addHash = require('./func').addHash;
 
 module.exports = () => {
     return {
-        optimization: {
-            splitChunks: {
-                cacheGroups: {
-                    styles: {
-                        name: 'app',
-                        test: /\.css$/,
-                        chunks: 'all',
-                        enforce: true,
-                    },
-                },
-            },
-        },
+        // optimization: {
+        //     splitChunks: {
+        //         cacheGroups: {
+        //             styles: {
+        //                 name: 'app',
+        //                 test: /\.css$/,
+        //                 chunks: 'all',
+        //                 enforce: true,
+        //             },
+        //         },
+        //     },
+        // },
         module: {
             rules: [
                 {
