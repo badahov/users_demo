@@ -5,7 +5,7 @@ import config from "../../config";
 
 const MODEL = config.model.toUpperCase();
 
-export function user(action, data, callback) {
+export default function user(action, data, callback) {
     const actionKey = action.toUpperCase();
 
     return {

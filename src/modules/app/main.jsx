@@ -1,30 +1,24 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-console.log('app index');
-
-import React, { Component } from 'react';
-
-import Pace from './js/plugins/pace/pace.min';
-import "modules/app/css/pace.css";
 import "modules/app/css/animate.css";
 
 import "antd/dist/antd.css";
 
-import 'modules/app/less/main.less';
+import './css/main.less';
 
-export default class Inbox extends Component
-{
-    componentDidMount = () => {
-        Pace.start({
-            document: false
-        });
-    };
+const Inbox = (props) => {
+    const { children } = props;
 
-    render() {
-        return (
-            <div className='theme-user'>
-                {this.props.children}
-            </div>
-        );
-    }
-}
+    return (
+      <div className="theme-user">
+          {children}
+      </div>
+    );
+};
+
+Inbox.propTypes = {
+    children: PropTypes.element.isRequired,
+};
+
+export default Inbox;

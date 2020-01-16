@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 
 import UserStore from './store/state';
 
-import Index from './component/main/index';
+import Index from './component/main';
 
 import './less/index.less';
 

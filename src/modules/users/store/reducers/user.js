@@ -5,7 +5,7 @@ import config from '../../config';
 
 const MODEL = config.model.toUpperCase();
 
-const actionReducers = status => (state = [], action) => {
+const actionReducers = status => (state = null, action) => {
     if (status.includes(action.type)) {
         return action.data;
     } else {

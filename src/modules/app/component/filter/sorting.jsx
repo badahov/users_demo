@@ -1,13 +1,13 @@
 'use strict';
 
-import React, { Component } from 'react';
-import { Button } from 'antd';
+import React from 'react';
+import Button from 'antd/lib/button';
 
-export default class Sorting extends Component {
+const Sorting = props => {
+    let classElement = 'cell-2';
 
-    static classElement = 'cell-2';
-
-    handlerClick = ev => {
+    const handlerClick = (ev) => {
+        let up, down;
         let sortArr = [];
 
         let element   = ev.target.parentElement;
@@ -16,9 +16,7 @@ export default class Sorting extends Component {
 
         if (typeof(sortId) !== 'undefined') {
             let parent = ev.target.parentElement.parentElement.parentElement.parentElement;
-            let cell   = parent.querySelectorAll(`div.${Sorting.classElement}`);
-
-            let up, down;
+            let cell   = parent.querySelectorAll(`div.${classElement}`);
 
             cell.forEach((item) => {
                 if (item.id !== sortId) {
@@ -35,7 +33,7 @@ export default class Sorting extends Component {
             });
 
             switch(sortClass) {
-                case Sorting.classElement + ' sorting':
+                case classElement + ' sorting':
 
                     up = element.querySelector('.sorted-up');
                     down = element.querySelector('.sorted-down');
@@ -46,11 +44,11 @@ export default class Sorting extends Component {
                     element.classList.remove("sorting");
                     element.classList.add("sorting_desc");
 
-                    this.sort_status = 'desc';
+                    down.focus();
 
-                    sortArr.push({name : this.sort_id, status : this.sort_status});
+                    sortArr.push({name : props.id, status : 'desc'});
                     break;
-                case Sorting.classElement + ' sorting_asc':
+                case classElement + ' sorting_asc':
 
                     up = element.querySelector('.sorted-up');
                     down = element.querySelector('.sorted-down');
@@ -58,16 +56,14 @@ export default class Sorting extends Component {
                     up.style.display   = "none";
                     down.style.display = "inline";
 
-
                     element.classList.remove("sorting_asc");
                     element.classList.add("sorting_desc");
 
-                    this.sort_status = 'desc';
+                    down.focus();
 
-                    sortArr.push({name : this.sort_id, status : this.sort_status});
+                    sortArr.push({name : props.id, status : 'desc'});
                     break;
-                case Sorting.classElement + ' sorting_desc':
-
+                case classElement + ' sorting_desc':
                     up = element.querySelector('.sorted-up');
                     down = element.querySelector('.sorted-down');
 
@@ -77,22 +73,22 @@ export default class Sorting extends Component {
                     element.classList.remove("sorting_desc");
                     element.classList.add("sorting_asc");
 
-                    this.sort_status = 'asc';
+                    up.focus();
 
-                    sortArr.push({name : this.sort_id, status : this.sort_status});
+                    sortArr.push({name : props.id, status :'asc'});
                     break;
             }
 
-            this.props.fsort(sortArr);
+            props.fsort(sortArr);
         }
     };
 
-    render() {
-        return (
-            <div className="cell-2 sorting" onClick={this.handlerClick} id={this.props.id} aria-controls="DataTables_Table_1">
-                <Button type="link" icon="caret-up" className="sorted-up" />
-                <Button type="link" icon="caret-down" className="sorted-down" />
-            </div>
-        )
-    }
-}
+    return (
+      <div className="cell-2 sorting" onClick={handlerClick} id={props.id} aria-controls="DataTables_Table_1">
+          <Button type="link" icon="caret-up" className="sorted-up" />
+          <Button type="link" icon="caret-down" className="sorted-down" />
+      </div>
+    )
+};
+
+export default Sorting;
