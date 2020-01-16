@@ -1,7 +1,5 @@
 'use strict';
 
-console.log('role index');
-
 import React from 'react';
 import Helmet from "react-helmet";
 import classNames from "classnames";

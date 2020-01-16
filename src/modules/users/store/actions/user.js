@@ -1,16 +1,15 @@
 'use strict';
 
-import {modelUser} from '../api/user';
-import config from "../../config";
+import { modelUser } from '../api/user';
 
-const MODEL = config.model.toUpperCase();
+const MODEL = 'system';
 
-export default function user(action, data, callback) {
-    const actionKey = action.toUpperCase();
+export default function user (action, data, callback) {
+  const actionKey = action.toUpperCase();
 
-    return {
-        type: `${MODEL}_${actionKey}`,
-        actions: [`${MODEL}_${actionKey}_LOADING`,`${MODEL}_${actionKey}_LOADED`,`${MODEL}_${actionKey}_LOAD_FAILURE`],
-        promise: modelUser(action, data, callback),
-    };
+  return {
+    type: MODEL,
+    actions: [`${MODEL}_${actionKey}`],
+    promise: modelUser(action, data, callback),
+  };
 }

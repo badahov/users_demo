@@ -1,33 +1,39 @@
 'use strict';
 
-import {combineForms} from 'react-redux-form';
-import config from '../../config';
+import {combineReducers} from 'redux';
 
-const MODEL = config.model.toUpperCase();
+function ucFirst(str) {
+  if (!str) return str;
 
-const actionReducers = status => (state = null, action) => {
-    if (status.includes(action.type)) {
-        return action.data;
-    } else {
-        return state;
-    }
+  return str[0].toUpperCase() + str.slice(1);
+}
+
+const module = {
+  name: 'system',
+  models: [
+    {
+      name: 'user',
+      points: ['header', 'items', 'current', 'add']
+    },
+  ]
 };
 
-export default combineForms({
-    loading:  actionReducers([
-        `${MODEL}_ITEMS_LOADING`,
-        `${MODEL}_DELETE_LOADING`
-    ]),
-    items: actionReducers([
-        `${MODEL}_ITEMS_LOADED`
-    ]),
-    save: actionReducers([
-        `${MODEL}_ADD_LOADED`
-    ]),
-    header: actionReducers([
-        `${MODEL}_HEADER_LOADED`
-    ]),
-    current: actionReducers([
-        `${MODEL}_CURRENT_LOADED`
-    ])
-}, config.model);
+const actionReducers = status => (state = null, action) => {
+  if (status.includes(action.type)) {
+    return action.data;
+  } else {
+    return state;
+  }
+};
+
+const reducers = {};
+module.models.map(item => {
+  item.points.map(point => {
+    let method = `${item.name}${ucFirst(point)}`;
+
+    let action = `${module.name}_${item.name}${point}`.toUpperCase();
+    reducers[method] = actionReducers([action]);
+  });
+});
+
+export default combineReducers(reducers);

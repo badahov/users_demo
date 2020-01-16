@@ -1,7 +1,7 @@
 'use strict';
 
-import user from './user';
+import system from './user';
 
 export {
-    user
+  system
 };

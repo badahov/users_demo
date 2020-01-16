@@ -1,15 +1,15 @@
 'use strict';
 
-import middlewareAction from 'modules/app/component/core/middleware';
+import middlewareAction from '../middleware';
 
-import config from '../../config';
+const MODEL = 'system'.toUpperCase();
 
 const middleware = store => next => action => {
-    if (config.middleware.includes(action.type)) {
-        middlewareAction(store, action);
-    } else {
-        return next(action);
-    }
+  if (MODEL === action.type.toUpperCase()) {
+    middlewareAction(store, action);
+  } else {
+    return next(action);
+  }
 };
 
 export default middleware;

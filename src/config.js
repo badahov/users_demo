@@ -7,8 +7,8 @@ let api, auth;
 
 if (process.env.NODE_ENV === 'development') {
     console.log('Development');
-    api  = 'http://core.localdev';
-    auth = 'http://core.localdev';
+    api  = 'https://yii.vitaopus.ru';
+    auth = 'https://yii.vitaopus.ru';
 } else {
     api  = 'http://core.mes.local';
     auth = 'http://core.mes.local';
