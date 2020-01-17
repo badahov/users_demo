@@ -1,10 +1,8 @@
-'use strict';
+import noop from 'lodash/noop';
 
 export default {
-    path: 'user/edit/:user_id/:page',
-    getComponent(location, cb) {
-        require.ensure([], (require) => {
-            cb(null, require('./main').default);
-        });
-    }
+    path: 'user/edit/:userId/:page',
+    getComponent(nextState, component) {
+        import('./main').then((mad) => component(null, mad.default)).catch(() => noop);
+    },
 };

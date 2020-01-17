@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 
 import UserStore from './state';
@@ -7,25 +7,23 @@ import Index from './component';
 
 import './css/index.less';
 
-class Module extends Component {
+const Module = (props) => {
+  const {location, visibleUserAddForm, collapsedSiderMenu} = props;
 
-  static defaultProps = {
-    visibleUserAddForm: false,
-    collapsedSiderMenu: true,
-  };
+  return (
+    <Provider store={UserStore}>
+      <Index
+        location={location}
+        visibleUserAddForm={visibleUserAddForm}
+        collapsedSiderMenu={collapsedSiderMenu}
+      />
+    </Provider>
+  );
+};
 
-  render() {
-    return (
-      <Provider store={UserStore}>
-        <Index
-          header={this.props.header}
-          location={this.props.location}
-          visibleUserAddForm={this.props.visibleUserAddForm}
-          collapsedSiderMenu={this.props.collapsedSiderMenu}
-        />
-      </Provider>
-    );
-  }
-}
+Module.defaultProps = {
+  visibleUserAddForm: false,
+  collapsedSiderMenu: true,
+};
 
 export default Module;

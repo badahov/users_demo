@@ -1,14 +1,14 @@
 'use strict';
 
-import React, { Component } from 'react';
-import classNames from "classnames";
+import React from 'react';
+import classNames from 'classnames';
 
-import "./lib/filterdata/table.filter.css";
+import './css/index.css';
 
-const Filter = props => {
-    const classes  = classNames('row-table-filter', props.className);
+const Filter = (props) => {
+  const classes = classNames('row-table-filter', props.className);
 
-    return (<div className={classes}>{props.children}</div>)
+  return (<div className={classes}>{props.children}</div>);
 };
 
 export default Filter;

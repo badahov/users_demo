@@ -15,12 +15,12 @@ import {
   Filters,
 } from 'modules/app/core';
 
-import { Menu, PageHeader, Layout, Row, Col, Spin, Icon, Button, message } from 'antd';
+import { Menu, PageHeader, Layout, Row, Col, Spin, Icon, Button } from 'antd';
 
 const { Header, Content, Sider } = Layout;
 
 import UserTableItem from './user_table_item';
-import UserAddForm from './form_add';
+import UserAddForm from './forms/add';
 
 class Users extends React.Component {
   constructor(props) {
@@ -39,7 +39,8 @@ class Users extends React.Component {
   }
 
   shouldComponentUpdate = (nextProps, nextState) => {
-    const { location, header } = this.props;
+    const { items, location, header, modelItems, loading, location: {query} } = this.props;
+    const { page, collapsedSiderMenu, visibleUserAddForm } = this.state;
 
     const params = ['name', 'code', 'login'];
 
@@ -48,16 +49,17 @@ class Users extends React.Component {
       query: location.query,
       nextHeader: nextProps.header,
       header: header,
-      page: this.state.page,
+      page: page,
       action: () => {
-        this.props.modelItems(this.props.location.query);
+        modelItems(query);
       },
     })).isUpdate();
 
-    return this.props.loading !== nextProps.loading ||
-      this.state.collapsedSiderMenu !== nextState.collapsedSiderMenu ||
-      this.state.visibleUserAddForm !== nextState.visibleUserAddForm ||
-      this.props.items !== nextProps.items;
+    return loading !== nextProps.loading ||
+      collapsedSiderMenu !== nextState.collapsedSiderMenu ||
+      visibleUserAddForm !== nextState.visibleUserAddForm ||
+      header !== nextProps.header ||
+      items !== nextProps.items;
   };
 
   /**

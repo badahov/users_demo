@@ -1,24 +1,23 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Provider} from 'react-redux';
 
 import UserStore from './store/state';
 
-import Index from './component/main/index';
+import Index from './component';
 
-import './less/index.less';
+import './css/index.less';
 
-class EditMain extends Component {
-    render() {
-        return (
-            <Provider store={UserStore}>
-                <Index
-                    header={this.props.header}
-                    location={this.props.location}
-                    params={this.props.params}
-                />
-            </Provider>
-        );
-    }
-}
+const Module = (props) => {
+  const {location, params} = props;
 
-export default EditMain;
+  return (
+    <Provider store={UserStore}>
+      <Index
+        location={location}
+        params={params}
+      />
+    </Provider>
+  );
+};
+
+export default Module;
