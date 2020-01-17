@@ -42,10 +42,7 @@ class Roles extends React.Component {
       operationId: '',
     };
 
-    this.props.actionCurrent();
-    this.props.actionRole('items');
-
-    this.props.actionPermission('item', { id: 0 });
+    props.modelServer();
   }
 
   toggle = () => {
@@ -77,8 +74,7 @@ class Roles extends React.Component {
           selectRoleId: item.id,
         });
 
-        this.props.actionPermission('item', { id: item.id });
-
+        this.props.modelPermissionItem({ id: item.id });
         break;
       }
     }
@@ -100,7 +96,7 @@ class Roles extends React.Component {
   };
 
   permissionsSwitch = (group, permission, enabled) => {
-    this.props.actionPermission('switch', {
+    this.props.modelPermissionSwitch({
       enabled: enabled,
       permission_id: permission,
       role_id: this.state.selectRoleId,
@@ -217,9 +213,11 @@ class Roles extends React.Component {
                     visible={this.state.visibleSourceAddForm}
                     visibleId={this.state.visibleId}
                     title='Роли'
-                    onRoleSelect={this.onRoleSelect}
                     roleList={this.props.role}
-                    actionRole={this.props.actionRole}
+                    onRoleSelect={this.onRoleSelect}
+                    actionDelete={this.props.modelRoleDelete}
+                    actionEdit={this.props.modelRoleEdit}
+                    actionAdd={this.props.modelRoleAdd}
                     onClose={this.onClose}
                     wrappedComponentRef={(form) => this.form = form}
                   />

@@ -6,11 +6,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router';
 
-import App from 'modules/app';
-import Login from 'modules/login';
-import Users from 'modules/users';
-import Edit from 'modules/edit';
-import Role from 'modules/role';
+import App   from './modules/app';
+import Login from './modules/login';
+import Users from './modules/users';
+import Edit  from './modules/edit';
+import Role  from './modules/role';
 
 const rootRoute = {
   path: '/',
@@ -19,7 +19,7 @@ const rootRoute = {
   childRoutes: [
     Login,
     Edit,
-    Role,
+    Role
   ],
 };
 
