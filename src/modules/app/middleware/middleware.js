@@ -1,4 +1,4 @@
-'use strict';
+import toUpper from 'lodash/toUpper';
 
 const middlewareAction = (store, action) => {
     const [point] = action.actions;
@@ -6,18 +6,18 @@ const middlewareAction = (store, action) => {
     if (action.promise.constructor.name === 'Promise') {
         action.promise.then((data) => {
             store.dispatch({
-                type: point.toUpperCase(),
+                type: toUpper(point),
                 data,
             });
         }, (error) => {
             store.dispatch({
-                type: point.toUpperCase(),
+                type: toUpper(point),
                 error,
             });
         });
     } else {
         store.dispatch({
-            type: point.toUpperCase(),
+            type: toUpper(point),
             data: action.promise
         });
     }

@@ -1,25 +1,24 @@
-import { bindActionCreators } from 'redux';
 import { shallowEqual } from 'react-redux';
 import { connectAdvanced } from 'react-redux';
 
-import model from '../../store/actions/user';
+import creator from '../../app/creator';
+import api from '../api';
 
 import Users from './main';
 
 export default connectAdvanced((dispatch) => {
+  const module = 'system';
   let ownProps = {};
   let result = {};
 
-  const actions = bindActionCreators({model}, dispatch);
+  const sendTo = creator(api, module, dispatch);
 
-  const actionUser = (action, data, callback) => actions.model(action, data, callback);
+  const modelCurrentUser = () => sendTo('userCurrent');
 
-  const modelCurrentUser = () => actions.model('userCurrent');
+  const modelItems  = (data) => sendTo('userItems', data);
+  const modelHeader = (data) => sendTo('userHeader', data);
 
-  const modelItems  = (data) => actions.model('userItems', data);
-  const modelHeader = (data) => actions.model('userHeader', data);
-
-  const modelAdd = (data) => actions.model('userAdd', data, (json) => {
+  const modelAdd = (data) => sendTo('userAdd', data, (json) => {
     modelItems(ownProps.location.query);
     return json;
   });
@@ -28,7 +27,7 @@ export default connectAdvanced((dispatch) => {
    * User delete
    * @param id
    */
-  const modelDelete = (id) => actions.model('userDelete', {id: id}, (json) => {
+  const modelDelete = (id) => sendTo('userDelete', {id: id}, (json) => {
     modelItems(ownProps.location.query);
     return json;
   });
@@ -55,12 +54,12 @@ export default connectAdvanced((dispatch) => {
   return (nextState, nextOwnProps) => {
     const isNull = (value) => value === null;
 
-    const loading  = isNull(nextState.system.userItems) ? true : false;
-    const header   = isNull(nextState.system.userItems) ? []   : nextState.system.userHeader;
-    const items    = isNull(nextState.system.userItems) ? null : nextState.system.userItems.data;
-    const paginate = isNull(nextState.system.userItems) ? null : nextState.system.userItems.paginate;
-    const access   = isNull(nextState.system.userItems) ? null : nextState.system.userItems.access;
-    const current  = isNull(nextState.system.userCurrent) ? null : nextState.system.userCurrent.data;
+    const loading  = isNull(nextState[module].userItems) ? true : false;
+    const header   = isNull(nextState[module].userItems) ? []   : nextState[module].userHeader;
+    const items    = isNull(nextState[module].userItems) ? null : nextState[module].userItems.data;
+    const paginate = isNull(nextState[module].userItems) ? null : nextState[module].userItems.paginate;
+    const access   = isNull(nextState[module].userItems) ? null : nextState[module].userItems.access;
+    const current  = isNull(nextState[module].userCurrent) ? null : nextState[module].userCurrent.data;
 
     const nextResult = {
       ...nextOwnProps,
@@ -70,7 +69,6 @@ export default connectAdvanced((dispatch) => {
       paginate,
       access,
       current,
-      actionUser,
       setHeader,
       modelCurrentUser,
       modelItems,

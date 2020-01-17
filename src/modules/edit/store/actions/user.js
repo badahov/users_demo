@@ -1,9 +1,8 @@
 'use strict';
 
 import {modelUser, modelEdit, modelCurrentUser} from '../api/user';
-import config from "../../../users/config";
 
-const MODEL = config.model.toUpperCase();
+const MODEL = 'user'.toUpperCase();
 
 export function userItem(query) {
     return {

@@ -1,5 +1,6 @@
 export { default as Query } from './component/core/query';
 export { default as Filters } from './component/core/filters';
+export { default as middleware } from './component/core/middleware';
 export { default as Pagination } from './component/pagination';
 export { default as Filter } from './component/filter/filter';
 export { default as Sorting } from './component/filter/sorting';

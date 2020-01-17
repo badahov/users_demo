@@ -1,9 +1,7 @@
-'use strict';
+import noop from 'lodash/noop';
 
 export default {
-    getComponent(location, cb) {
-        require.ensure([], (require) => {
-            cb(null, require('./main').default);
-        });
-    }
+  getComponent(nextState, component) {
+    import('./main').then((mad) => component(null, mad.default)).catch(() => noop);
+  },
 };

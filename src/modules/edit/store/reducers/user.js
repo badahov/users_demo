@@ -1,9 +1,8 @@
 'use strict';
 
 import {combineReducers} from 'redux';
-import config from "../../../users/config";
 
-const MODEL = config.model.toUpperCase();
+const MODEL = 'user'.toUpperCase();
 
 const actionReducers = status => (state = [], action) => {
     if (status.includes(action.type)) {

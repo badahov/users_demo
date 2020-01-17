@@ -3,9 +3,15 @@
 import { Query } from 'modules/app/core';
 
 import appConfig from 'config';
-import config from '../../config';
 
-function query (pointApi, data, type = Query.post) {
+const entryPoints = {
+  items: 'interface-users/items',
+  delete: 'interface-users/user-delete',
+  add: 'interface-users/user-add',
+  current: 'interface-users/user-current'
+};
+
+function query(pointApi, data, type = Query.post) {
   return new Query({
     pointApi: pointApi,
     type: type,
@@ -13,7 +19,7 @@ function query (pointApi, data, type = Query.post) {
   });
 }
 
-export function modelUser (action, data, callback) {
+export default function api(action, data, callback) {
   switch (action) {
     case 'userHeader':
       return {
@@ -24,28 +30,28 @@ export function modelUser (action, data, callback) {
       };
     case 'userItems':
       let queryItems = new Query({
-        pointApi: config.api.items,
+        pointApi: entryPoints.items,
         data: data
       });
 
       return queryItems.result();
     case 'userDelete':
-      return query(config.api.delete, data, Query.post).result(callback).then((json) => {
+      return query(entryPoints.delete, data, Query.post).result(callback).then((json) => {
         if (json) {
-          return query(config.api.items).result();
+          return query(entryPoints.items).result();
         }
       });
     case 'userAdd':
-      return query(config.api.add, data, Query.post).result(callback).then((json) => {
+      return query(entryPoints.add, data, Query.post).result(callback).then((json) => {
         if (json) {
-          return query(config.api.items).result();
+          return query(entryPoints.items).result();
         }
       });
     case 'userCurrent':
       let queryCurrent = new Query({
         domain: appConfig.domain.auth,
         type: Query.get,
-        pointApi: config.api.current
+        pointApi: entryPoints.current
       });
 
       return queryCurrent.result();
