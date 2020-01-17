@@ -26,7 +26,7 @@ class UserDataFormModel extends Component {
       if (!err) {
         values.operator_id = Number(this.props.user_id);
 
-        this.props.actionEdit(values);
+        this.props.submit(values);
       }
     });
   };

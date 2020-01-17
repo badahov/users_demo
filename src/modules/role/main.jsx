@@ -3,9 +3,9 @@ import {Provider} from 'react-redux';
 
 import UserStore from './store/state';
 
-import Index from './component/main/index';
+import Index from './component';
 
-import './less/index.less';
+import './css/index.less';
 
 class EditMain extends Component {
     render() {

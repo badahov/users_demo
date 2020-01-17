@@ -24,8 +24,7 @@ class Edit extends React.Component {
       collapsed: false,
     };
 
-    props.actionCurrent();
-    props.actionUser({ id: props.params.userId });
+    props.modelServer();
   }
 
   toggle = () => {
@@ -35,7 +34,7 @@ class Edit extends React.Component {
   };
 
   renderTemplate = (page) => {
-    const { item, params: {userId}, actionEdit } = this.props;
+    const { item, params: {userId}, modelEdit } = this.props;
 
     let getTemplate;
 
@@ -45,7 +44,7 @@ class Edit extends React.Component {
           <UserPasswordForm
             title='Добавить пользователя'
             user_id={userId}
-            actionEdit={actionEdit}
+            submit={modelEdit}
             wrappedComponentRef={(form) => this.form = form}
           />
         );
@@ -56,7 +55,7 @@ class Edit extends React.Component {
             title='Добавить пользователя'
             user_id={userId}
             item={item}
-            actionEdit={actionEdit}
+            submit={modelEdit}
             wrappedComponentRef={(form) => this.form = form}
           />
         );
@@ -67,7 +66,7 @@ class Edit extends React.Component {
             title='Добавить пользователя'
             user_id={userId}
             item={item}
-            actionEdit={actionEdit}
+            submit={modelEdit}
             wrappedComponentRef={(form) => this.form = form}
           />);
         break;

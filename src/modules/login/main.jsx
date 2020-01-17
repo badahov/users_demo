@@ -7,7 +7,7 @@ import localStore from './store/state';
 
 import Login from './component/login';
 
-import './less/login.less';
+import './css/index.less';
 
 export default class Inbox extends Component {
     render() {

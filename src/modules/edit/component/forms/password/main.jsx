@@ -32,7 +32,7 @@ class UserPasswordFormModel extends Component {
 
         values.operator_id = Number(this.props.user_id);
 
-        this.props.actionEdit(values);
+        this.props.submit(values);
       }
     });
   };
@@ -118,4 +118,3 @@ class UserPasswordFormModel extends Component {
 }
 
 export default UserPasswordFormModel;
-

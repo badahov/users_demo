@@ -48,14 +48,13 @@ class UserRolesFormModel extends Component {
       if (!err) {
         values.operator_id = Number(this.props.user_id);
 
-        let rules = [];
-        values.roles.map((item) => {
-          rules.push({ id: Number(item) });
+        let rules = values.roles.map((item) => {
+          return { id: Number(item) };
         });
 
         values.roles = rules;
 
-        this.props.actionEdit(values);
+        this.props.submit(values);
       }
     });
   };

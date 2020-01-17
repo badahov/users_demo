@@ -13,7 +13,7 @@ const module = {
   models: [
     {
       name: 'user',
-      points: ['header', 'items', 'current']
+      points: ['item', 'current']
     }
   ]
 };

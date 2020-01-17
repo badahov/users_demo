@@ -1,7 +1,7 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import UserStore from './store/state';
+import UserStore from './state';
 
 import Index from './component';
 
