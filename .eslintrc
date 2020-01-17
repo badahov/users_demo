@@ -1,0 +1,34 @@
+{
+  // Настройки проекта
+  "env": {
+    // Проект для браузера
+    "browser": true,
+    // Включаем возможности ES6
+    "es6": true,
+    // Добавляем возможности ES2017
+    "es2017": true
+  },
+  // Наборы правил
+  "extends": [
+    "airbnb",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jsx-a11y/recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:promise/recommended",
+    "plugin:react/recommended",
+    "plugin:lodash/recommended"
+  ],
+  "plugins": ["react", "jsx-a11y", "optimize-regex", "sonarjs", "no-use-extend-native", "promise", "lodash"],
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "packageDir": "./",
+        "devDependencies": true
+      }
+    ],
+    "optimize-regex/optimize-regex": "warn",
+    "sonarjs/cognitive-complexity": ["error", 20]
+  }
+}

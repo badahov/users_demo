@@ -1,19 +1,15 @@
-'use strict';
-
 import { hashHistory } from 'react-router';
 import { message, notification } from 'antd';
 
-let api, auth;
+let api = 'http://core.mes.local';
+let auth = 'http://core.mes.local';
 
 if (process.env.NODE_ENV === 'development') {
-  console.log('Development');
+  // console.log('Development');
   // api  = 'https://yii.vitaopus.ru';
   // auth = 'https://yii.vitaopus.ru';
   api = 'http://core.localdev';
   auth = 'http://core.localdev';
-} else {
-  api = 'http://core.mes.local';
-  auth = 'http://core.mes.local';
 }
 
 export default {
@@ -29,12 +25,12 @@ export default {
   },
 
   message: {
-    error: msg => {
-      notification['error']({
+    error: (msg) => {
+      notification.error({
         message: msg,
       });
     },
-    success: msg => {
+    success: (msg) => {
       message.success(msg);
     },
   },
@@ -43,8 +39,8 @@ export default {
     prefix: '&',
   },
   domain: {
-    api: api,
-    auth: auth,
+    api,
+    auth,
   },
   error: {
     200: 'Ok',
