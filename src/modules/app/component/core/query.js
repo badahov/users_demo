@@ -1,72 +1,84 @@
-'use strict';
+import isNil from 'lodash/isNil';
+import isFunction from 'lodash/isFunction';
+import isString from 'lodash/isString';
+import map from 'lodash/map';
+import keys from 'lodash/keys';
+import split from 'lodash/split';
+import config from '../../../../config';
 
-import config from 'config';
-
-const fetch = require('isomorphic-fetch');
-
-export default class Query {
-  static post = 'POST';
-  static get = 'GET';
-
-  type = 'POST';
-  data = null;
-  pointApi = null;
-  domain = config.domain.api;
-
-  constructor(options) {
-    if (options.type !== undefined) {
-      this.type = options.type;
-    }
-
-    if (options.data !== undefined) {
-      this.data = options.data;
-    }
-
-    if (options.pointApi !== undefined) {
-      this.pointApi = options.pointApi;
-    }
-
-    if (options.domain !== undefined) {
-      this.domain = options.domain;
-    }
+const errorMsg = (param) => {
+  if (isString(param)) {
+    return param;
   }
 
-  send = () => {
-    return this._fetch();
-  };
+  const str = ['<ul class="list-unstyled">'];
+  const strLi = map(param, (item) => `<li>${item}</li>`);
+  const newStr = str.concat(strLi);
 
-  result = (callback = null) => {
-    return this.send().then((json) => {
-      if (callback instanceof Function) {
-        return callback(json);
-      } else {
-        if (json.status === 'ok') {
-          if (json.msg) {
-            this._success(json.msg);
-          }
+  newStr.push('</ul>');
 
-          if (json.result) {
-            return json.result;
-          } else {
-            return true;
-          }
-        } else if (json.msg) {
-          this._error(this._errorMsg(json.msg));
+  return newStr.join(' ');
+};
 
-          return false;
+const getParams = (data) => (
+  map(keys(data), (key) => `${key}=${encodeURIComponent(data[key])}`).join('&')
+);
+
+export default class Query {
+  constructor(options) {
+    this.type = isNil(options.type) ? 'POST' : options.type;
+    this.data = isNil(options.data) ? null : options.data;
+    this.pointApi = isNil(options.pointApi) ? null : options.pointApi;
+    this.domain = isNil(options.domain) ? config.domain.api : options.domain;
+
+    this.message = config.message;
+    this.page = config.page;
+  }
+
+  send() {
+    return this.fetch();
+  }
+
+  response(json) {
+    let result = null;
+
+    if (json !== undefined) {
+      if (json.status === 'ok') {
+        if (json.msg) {
+          this.success(json.msg);
         }
-      }
-    });
-  };
 
-  _getUrl = () => {
+        if (json.result) {
+          result = json.result;
+        } else {
+          result = true;
+        }
+      } else if (json.msg) {
+        this.error(errorMsg(json.msg));
+
+        result = false;
+      }
+    }
+
+    return result;
+  }
+
+  result(callback = null) {
+    if (isFunction(callback)) {
+      return this.send().then(callback).then(this.response);
+    }
+
+    return this.send().then(this.response);
+  }
+
+  getUrl() {
     let url = '';
 
     if (this.type === Query.get) {
       let get = null;
 
       if (this.data) {
-        get = this._getParams(this.data);
+        get = getParams(this.data);
       }
 
       url = get
@@ -77,25 +89,23 @@ export default class Query {
     }
 
     return url;
-  };
+  }
 
-  _getFetchParam = () => {
+  getFetchParam() {
     let fetchParam = {};
 
-    if (this.type === Query.get) {
+    if (this.type === 'GET') {
       fetchParam = {
-        method: Query.get,
+        method: 'GET',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
         credentials: 'include',
       };
     } else {
       fetchParam = {
-        method: Query.post,
+        method: 'POST',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(this.data),
@@ -104,115 +114,90 @@ export default class Query {
     }
 
     return fetchParam;
-  };
+  }
 
-  _fetch = () => {
-    const url = this._getUrl();
-    let fetchParam = this._getFetchParam();
+  fetch() {
+    const url = this.getUrl();
+    const fetchParam = this.getFetchParam();
 
     return fetch(url, fetchParam).then((response) => {
       if (response.status === 200) {
         return response.json();
-      } else if (response.status === 500) {
-        this._error(config.error[response.status]);
-        throw response.statusText;
-      } else if (response.status === 404) {
-        this._error(config.error[response.status]);
-        throw response.statusText;
-      } else if (response.status === 417) {
-        const res = response.json();
-        res.then((data) => {
-          if (!data.status) {
-            this._error(this._errorMsg(data.msg));
-          } else {
-            this._error(config.error[response.status]);
-          }
-        });
-        throw response.statusText;
-      } else if (response.status === 423) {
-        this._error(config.error[response.status]);
-        throw response.statusText;
-      } else if (response.status === 401) {
-        this._requestXdomainToken(url);
-      } else if (response.status === 403) {
-        this._error(config.error[response.status]);
-        throw response.statusText;
-      } else {
-        throw response.statusText;
       }
+
+      if (response.status === 500) {
+        this.error(config.error[response.status]);
+      } else if (response.status === 404) {
+        this.error(config.error[response.status]);
+      } else if (response.status === 423) {
+        this.error(config.error[response.status]);
+      } else if (response.status === 401) {
+        this.requestXdomainToken(url);
+      } else if (response.status === 403) {
+        this.error(config.error[response.status]);
+      }
+
+      if (response.status === 417) {
+        return response.json().then((data) => {
+          if (!data.status) {
+            this.error(errorMsg(data.msg));
+          } else {
+            this.error(config.error[response.status]);
+          }
+
+          return null;
+        });
+      }
+
+      return null;
     });
-  };
+  }
 
-  _error = message => {
-    config.message.error(message);
-  };
+  error(message) {
+    this.message.error(message);
+  }
 
-  _success = message => {
-    config.message.success(message);
-  };
+  success(message) {
+    this.message.success(message);
+  }
 
-  _errorMsg = param => {
-    if (typeof (param) === 'string') {
-      return param;
-    } else {
-      let str = ['<ul class="list-unstyled">'];
-      param.map((item) =>
-        str.push('<li>' + item + '</li>'),
-      );
-      str.push('</ul>');
+  loginPage() {
+    this.page.login();
+  }
 
-      return str.join(' ');
-    }
-  };
-
-  _getParams = data => {
-    return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&');
-  };
-
-  _requestXdomainToken(setUrl) {
-    //We request a token on the authorization server
-    const url = config.domain.auth + config.server.setPoint + '/auth/get-xdomain-token';
-    let XHR = ('onload' in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
-    let xhr = new XHR();
+  requestXdomainToken(setUrl) {
+    // We request a token on the authorization server
+    const url = `${config.domain.auth}${config.server.setPoint}/auth/get-xdomain-token`;
+    const xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.withCredentials = true;
     xhr.send();
 
-    let self = this;
+    const self = this;
     xhr.onload = function () {
-      switch (this.status) {
-        case 401:// User is not authorized on the authorization server
-          self._loginPage();
-          break;
-        case 200:
-          let result = JSON.parse(this.responseText);
-          let arr = setUrl.split('/');
-          let domain = arr[0] + '//' + arr[2];
-          let domainAuth = domain + config.server.setPoint + 'auth/login';
+      if (this.status === 401) {
+        self.loginPage();
+      } else if (this.status === 200) {
+        const result = JSON.parse(this.responseText);
+        const arr = split(setUrl, '/');
+        const domain = `${arr[0]}//${arr[2]}`;
+        const domainAuth = `${domain}${config.server.setPoint}auth/login`;
 
-          let formData = new FormData();
-          formData.append('xdomainToken', result.xdomainToken);
-          let xhr = new XMLHttpRequest();
-          xhr.open('POST', domainAuth, true);
-          xhr.withCredentials = true;
-          xhr.send(formData);
+        const formData = new FormData();
+        formData.append('xdomainToken', result.xdomainToken);
+        const xhr2 = new XMLHttpRequest();
+        xhr2.open('POST', domainAuth, true);
+        xhr2.withCredentials = true;
+        xhr2.send(formData);
 
-          xhr.onload = function () {
-            switch (this.status) {
-              case 401:// User is not authorized
-                self._loginPage();
-                break;
-              case 200:
-                location.reload();
-                break;
-            }
-          };
-          break;
+        xhr2.onload = function () {
+          if (this.status === 401) {
+            self.loginPage();
+          } else if (this.status === 200) {
+            document.location.reload(true);
+          }
+        };
       }
     };
-  }
-
-  _loginPage() {
-    config.page.login();
   }
 }

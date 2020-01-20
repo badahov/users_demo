@@ -6,4 +6,4 @@ export { default as Sorting } from './component/filter/sorting';
 export { default as Search } from './component/filter/search';
 export { default as Text } from './component/filter/text';
 export { default as Table } from './component/table/table';
-export { default as Logout } from 'modules/login/component/logout';
+export { default as Logout } from '../login/component/logout';

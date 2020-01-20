@@ -36,17 +36,9 @@ export default function api(action, data, callback) {
 
       return queryItems.result();
     case 'userDelete':
-      return query(entryPoints.delete, data, Query.post).result(callback).then((json) => {
-        if (json) {
-          return query(entryPoints.items).result();
-        }
-      });
+      return query(entryPoints.delete, data, Query.post).result(callback);
     case 'userAdd':
-      return query(entryPoints.add, data, Query.post).result(callback).then((json) => {
-        if (json) {
-          return query(entryPoints.items).result();
-        }
-      });
+      return query(entryPoints.add, data, Query.post).result(callback);
     case 'userCurrent':
       let queryCurrent = new Query({
         domain: appConfig.domain.auth,

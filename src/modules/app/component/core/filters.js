@@ -1,50 +1,22 @@
-'use strict';
-
 import appConfig from '../../../../config';
 
-export default class Filters {
-  params = [];
-  query = null;
-  nextHeader = null;
-  header = null;
-  page = null;
-  callback = null;
-  action = null;
-
+class Filters {
   constructor(options) {
-    if (options.params !== undefined) {
-      this.params = options.params;
-    }
-
-    if (options.query !== undefined) {
-      this.query = options.query;
-    }
-
-    if (options.nextHeader !== undefined) {
-      this.nextHeader = options.nextHeader;
-    }
-
-    if (options.header !== undefined) {
-      this.header = options.header;
-    }
-
-    if (options.page !== undefined) {
-      this.page = options.page;
-    }
-
-    if (options.callback !== undefined) {
-      this.callback = options.callback;
-    }
-
-    if (options.action !== undefined) {
-      this.action = options.action;
-    }
+    this.params = (options.params !== undefined) ? options.params : [];
+    this.query = (options.query !== undefined) ? options.query : null;
+    this.nextHeader = (options.nextHeader !== undefined) ? options.nextHeader : null;
+    this.header = (options.header !== undefined) ? options.header : null;
+    this.page = (options.page !== undefined) ? options.page : null;
+    this.callback = (options.callback !== undefined) ? options.callback : null;
+    this.action = (options.action !== undefined) ? options.action : null;
   }
 
-  isUpdate = () => {
+  isUpdate() {
     let isUpdate = false;
 
-    this.params.map(param => {
+    for (let i = 0; i < this.params.length; i += 1) {
+      const param = this.params[i];
+
       if (this.header[param] !== this.nextHeader[param]) {
         this.query[param] = this.nextHeader[param];
         this.query.page = 1;
@@ -66,8 +38,10 @@ export default class Filters {
         delete this.query[param];
         appConfig.history.push({ pathname: this.page, query: this.query });
       }
-    });
+    }
 
     return isUpdate;
-  };
+  }
 }
+
+export default Filters;

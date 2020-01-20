@@ -24,18 +24,19 @@ module.exports = () => {
           test: /\.(jsx|js)(\?.*$|$)/,
           exclude: [/node_modules/, /public/],
           use: {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
-              //plugins: ['transform-runtime'],
-              presets: [
-                '@babel/preset-env', '@babel/preset-react',
+              plugins: [
+                'transform-react-remove-prop-types',
+              ],
+              presets: ["@babel/preset-env", "@babel/preset-react",
                 {
                   plugins: [
-                    '@babel/plugin-proposal-class-properties',
-                  ],
+                    '@babel/plugin-proposal-class-properties'
+                  ]
                 }],
             },
-          },
+          }
         },
         {
           test: /\.(css|less)$/,

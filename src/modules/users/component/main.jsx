@@ -144,6 +144,7 @@ class Users extends React.Component {
                           model="code"
                           value={this.props.header.code}
                           placeholder="Код"
+                          isFocus={true}
                         />
                         <Sorting id='code' fsort={this.props.sort}/>
                       </Filter>
@@ -171,14 +172,10 @@ class Users extends React.Component {
                       </Filter>
                     </th>,
                     <th key="ht-4">
-                      <Filter>
-                        <Text>Админ</Text>
-                      </Filter>
+                      <Text>Админ</Text>
                     </th>,
                     <th key="ht-5">
-                      <Filter>
-                        <Text>Перепечать</Text>
-                      </Filter>
+                      <Text>Перепечать</Text>
                     </th>,
                     <th key="ht-6"></th>,
                   ]}>

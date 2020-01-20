@@ -1,28 +1,34 @@
-'use strict';
-
 import React from 'react';
+import PropTypes from 'prop-types';
+import isUndefined from 'lodash/isUndefined';
+
 import Button from 'antd/lib/button';
 
-const Sorting = props => {
-  let classElement = 'cell-2';
+const Sorting = (props) => {
+  const { id } = props;
+  const classElement = 'cell-2';
 
   const handlerClick = (ev) => {
-    let up, down;
-    let sortArr = [];
+    let up;
+    let down;
+    const sortArr = [];
 
-    let element = ev.target.parentElement;
-    let sortClass = element.className;
-    let sortId = element.id;
+    const element = ev.target.parentElement;
+    const sortClass = element.className;
+    const sortId = element.id;
 
-    if (typeof (sortId) !== 'undefined') {
-      let parent = ev.target.parentElement.parentElement.parentElement.parentElement;
-      let cell = parent.querySelectorAll(`div.${classElement}`);
+    const sortedDown = '.sorted-down';
+    const sortedUp = '.sorted-up';
 
-      cell.forEach((item) => {
+    if (!isUndefined(sortId)) {
+      const parent = ev.target.parentElement.parentElement.parentElement.parentElement;
+      const cell = parent.querySelectorAll(`div.${classElement}`);
+
+      for (let i = 0; i < cell.length; i += 1) {
+        const item = cell[i];
         if (item.id !== sortId) {
-
-          up = item.querySelector('.sorted-up');
-          down = item.querySelector('.sorted-down');
+          up = item.querySelector(sortedUp);
+          down = item.querySelector(sortedDown);
 
           up.style.display = 'inline';
           down.style.display = 'inline';
@@ -30,53 +36,47 @@ const Sorting = props => {
           item.classList.remove('sorting_desc', 'sorting_asc');
           item.classList.add('sorting');
         }
-      });
+      }
 
-      switch (sortClass) {
-        case classElement + ' sorting':
+      if (sortClass === `${classElement} sorting`) {
+        up = element.querySelector(sortedUp);
+        down = element.querySelector(sortedDown);
 
-          up = element.querySelector('.sorted-up');
-          down = element.querySelector('.sorted-down');
+        up.style.display = 'none';
+        down.style.display = 'inline';
 
-          up.style.display = 'none';
-          down.style.display = 'inline';
+        element.classList.remove('sorting');
+        element.classList.add('sorting_desc');
 
-          element.classList.remove('sorting');
-          element.classList.add('sorting_desc');
+        down.focus();
 
-          down.focus();
+        sortArr.push({ name: props.id, status: 'desc' });
+      } else if (sortClass === `${classElement} sorting_asc`) {
+        up = element.querySelector(sortedUp);
+        down = element.querySelector(sortedDown);
 
-          sortArr.push({ name: props.id, status: 'desc' });
-          break;
-        case classElement + ' sorting_asc':
+        up.style.display = 'none';
+        down.style.display = 'inline';
 
-          up = element.querySelector('.sorted-up');
-          down = element.querySelector('.sorted-down');
+        element.classList.remove('sorting_asc');
+        element.classList.add('sorting_desc');
 
-          up.style.display = 'none';
-          down.style.display = 'inline';
+        down.focus();
 
-          element.classList.remove('sorting_asc');
-          element.classList.add('sorting_desc');
+        sortArr.push({ name: props.id, status: 'desc' });
+      } else if (sortClass === `${classElement} sorting_desc`) {
+        up = element.querySelector(sortedUp);
+        down = element.querySelector(sortedDown);
 
-          down.focus();
+        up.style.display = 'inline';
+        down.style.display = 'none';
 
-          sortArr.push({ name: props.id, status: 'desc' });
-          break;
-        case classElement + ' sorting_desc':
-          up = element.querySelector('.sorted-up');
-          down = element.querySelector('.sorted-down');
+        element.classList.remove('sorting_desc');
+        element.classList.add('sorting_asc');
 
-          up.style.display = 'inline';
-          down.style.display = 'none';
+        up.focus();
 
-          element.classList.remove('sorting_desc');
-          element.classList.add('sorting_asc');
-
-          up.focus();
-
-          sortArr.push({ name: props.id, status: 'asc' });
-          break;
+        sortArr.push({ name: props.id, status: 'asc' });
       }
 
       props.fsort(sortArr);
@@ -85,15 +85,20 @@ const Sorting = props => {
 
   return (
     <div
+      role="form"
       className="cell-2 sorting"
-      onClick={handlerClick}
-      id={props.id}
+      id={id}
       aria-controls="DataTables_Table_1"
     >
-      <Button type="link" icon="caret-up" className="sorted-up"/>
-      <Button type="link" icon="caret-down" className="sorted-down"/>
+      <Button onClick={handlerClick} onKeyDown={handlerClick} type="link" icon="caret-up" className="sorted-up" />
+      <Button onClick={handlerClick} onKeyDown={handlerClick} type="link" icon="caret-down" className="sorted-down" />
     </div>
   );
+};
+
+Sorting.propTypes = {
+  id: PropTypes.string.isRequired,
+  fsort: PropTypes.func.isRequired,
 };
 
 export default Sorting;

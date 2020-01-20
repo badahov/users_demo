@@ -1,79 +1,127 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
+import isArray from 'lodash/isArray';
+
 import { Link } from 'react-router';
 
 import PaginationAntd from 'antd/lib/pagination';
 
 const Item = (props) => {
+  const {
+    query,
+    url,
+    className,
+    children,
+  } = props;
+
   return (
-    <Link query={props.query} to={{ pathname: props.url, query: props.query }}
-          className={props.className}>{props.children}</Link>
+    <Link
+      query={query}
+      to={{ query, pathname: url }}
+      className={className}
+    >
+      {children}
+    </Link>
   );
 };
+
+Item.defaultProps = {
+  className: '',
+};
+
 Item.propTypes = {
-  type: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  query: PropTypes.object.isRequired,
+  query: PropTypes.objectOf(PropTypes.object).isRequired,
   className: PropTypes.string,
+  children: PropTypes.objectOf(PropTypes.object).isRequired,
 };
 
 const Items = (props) => {
-  function handleChange(page, pageSize) {
-    props.onQuery({ page, ...props.query });
-  }
+  const {
+    total,
+    current,
+    query,
+    onQuery,
+    url,
+    pageSize,
+  } = props;
 
-  const itemRender = (current, type, originalElement) => {
-    return <Item
+  const handleChange = (page) => {
+    onQuery({ page, ...query });
+  };
+
+  const itemRender = (setCurrent, type, originalElement) => (
+    <Item
       type={type}
       className={originalElement.props.className}
-      children={originalElement.props.children}
-      query={{ page: current, ...props.query }}
-      url={props.url}
-    />;
-  };
+      query={{
+        page: setCurrent,
+        ...query,
+      }}
+      url={url}
+    >
+      {originalElement.props.children}
+    </Item>
+  );
 
   return (
     <PaginationAntd
-      total={props.total}
-      pageSize={props.page_size}
-      current={props.current}
+      total={total}
+      pageSize={pageSize}
+      current={current}
       onChange={handleChange}
       itemRender={itemRender}
     />
   );
 };
+
 Items.propTypes = {
+  total: PropTypes.number.isRequired,
+  current: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
   url: PropTypes.string.isRequired,
   onQuery: PropTypes.func.isRequired,
+  query: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const Index = React.memo((props) => {
-  const query = Array.isArray(props.data.query) ? {} : props.data.query;
+  const {
+    data: {
+      query,
+      total,
+      page_size: pageSize,
+      current,
+    },
+    url,
+    onQuery,
+  } = props;
 
-  if (props.data.total >= props.data.page_size) {
+  const setQuery = isArray(query) ? {} : query;
+
+  if (total >= pageSize) {
     return (
       <Items
-        key='paginate-1'
-        total={props.data.total}
-        page_size={props.data.page_size}
-        current={parseInt(props.data.current)}
-        query={query}
-        page_url={props.data.page_url}
-        url={props.url ? props.url : '/'}
-
-        onQuery={props.onQuery}
+        total={total}
+        pageSize={pageSize}
+        current={Number(current)}
+        query={setQuery}
+        url={url}
+        onQuery={onQuery}
       />
     );
-  } else {
-    return null;
   }
+
+  return null;
 });
 
+Index.defaultProps = {
+  url: '/',
+};
+
 Index.propTypes = {
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   onQuery: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Index;

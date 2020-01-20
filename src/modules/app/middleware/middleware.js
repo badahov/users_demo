@@ -9,10 +9,17 @@ const middlewareAction = (store, action) => {
         type: toUpper(point),
         data,
       });
+
+      return true;
     }, (error) => {
       store.dispatch({
         type: toUpper(point),
         error,
+      });
+    }).catch((criticalError) => {
+      store.dispatch({
+        type: toUpper(point),
+        error: criticalError,
       });
     });
   } else {
@@ -21,6 +28,8 @@ const middlewareAction = (store, action) => {
       data: action.promise,
     });
   }
+
+  return true;
 };
 
 export default middlewareAction;

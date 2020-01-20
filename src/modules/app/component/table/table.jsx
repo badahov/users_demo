@@ -1,30 +1,38 @@
-'use strict';
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import map from 'lodash/map';
 
-import './css';
+import './css/index.less';
 
 const Table = (props) => {
-  const classes = classNames(props.className, props.overlayClassName, {
-    'table-striped': props.striped,
-    'table-middle': props.middle,
-    'table-responsive': props.responsive,
+  const {
+    className,
+    overlayClassName,
+    striped,
+    middle,
+    responsive,
+    thead,
+    children,
+  } = props;
+
+  const classes = classNames(className, overlayClassName, {
+    'table-striped': striped,
+    'table-middle': middle,
+    'table-responsive': responsive,
   });
 
   return (
     <table className={classes}>
-      <thead className='table-thead'>
+      <thead className="table-thead">
         <tr>
           {
-            (props.thead) ?
-              props.thead.map((item, i) => item)
-              : null
+            (thead) ? map(thead) : null
           }
         </tr>
       </thead>
       <tbody>
-        {props.children}
+        {children}
       </tbody>
     </table>
   );
@@ -36,6 +44,18 @@ Table.defaultProps = {
   responsive: true,
   className: 'table table-filter',
   overlayClassName: null,
+  children: [],
+  thead: [],
+};
+
+Table.propTypes = {
+  overlayClassName: PropTypes.string,
+  striped: PropTypes.bool,
+  thead: PropTypes.arrayOf(PropTypes.object),
+  children: PropTypes.arrayOf(PropTypes.object),
+  middle: PropTypes.bool,
+  responsive: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 export default Table;

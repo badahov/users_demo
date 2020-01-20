@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 
-import action from './action';
+import actions from './action';
 
 /**
  *
@@ -10,7 +10,7 @@ import action from './action';
  * @returns {function(*=, *=, *=): {promise: *, type: *, actions: [string]}}
  */
 export default function creator(api, module, dispatch) {
-  const sendTo = bindActionCreators({action}, dispatch).action;
+  const sendTo = bindActionCreators({ actions }, dispatch).actions;
 
   return (action, data, callback) => sendTo(api, module, action, data, callback);
 }
