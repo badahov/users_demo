@@ -1,11 +1,10 @@
-'use strict';
-
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+
+import thunk from 'redux-thunk';
 
 import middleware from '../app/middleware';
 import reducer from '../app/reducer';
 
-import thunk from 'redux-thunk';
 // import {createLogger} from 'redux-logger';
 
 const module = {
@@ -13,9 +12,9 @@ const module = {
   models: [
     {
       name: 'user',
-      points: ['header', 'items', 'current']
-    }
-  ]
+      points: ['header', 'items', 'current'],
+    },
+  ],
 };
 
 const createStoreWithMiddleware = applyMiddleware(
@@ -25,5 +24,5 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore);
 
 export default createStoreWithMiddleware(combineReducers({
-  system: reducer(module)
+  system: reducer(module),
 }));

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import toUpper from 'lodash/toUpper';
+import includes from 'lodash/includes';
 
 function ucFirst(str) {
   if (!str) return str;
@@ -8,7 +9,7 @@ function ucFirst(str) {
 }
 
 const actionReducers = (status) => (state = null, action) => {
-  if (status.includes(action.type)) {
+  if (includes(status, action.type)) {
     return action.data;
   }
 

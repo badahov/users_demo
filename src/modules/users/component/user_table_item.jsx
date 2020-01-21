@@ -1,70 +1,93 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Button, Popconfirm } from 'antd';
 
 import { Link } from 'react-router';
 
-class UserTableItem extends Component {
-  render() {
-    const { isAdmin, isReprintAdmin, userCode, userName, userLogin, access, userId } = this.props;
+const UserTableItem = (props) => {
+  const {
+    isAdmin,
+    isReprintAdmin,
+    userCode,
+    userName,
+    userLogin,
+    access,
+    userId,
+    onDeleteUser,
+  } = props;
 
-    let admin = (isAdmin) ? 'Да' : 'Нет';
-    let reprintAdmin = (isReprintAdmin) ? 'Да' : 'Нет';
+  const admin = (isAdmin) ? 'Да' : 'Нет';
+  const reprintAdmin = (isReprintAdmin) ? 'Да' : 'Нет';
 
-    return (
-      <tr>
-        <td>{userCode}</td>
-        <td>{userName}</td>
-        <td>{userLogin}</td>
-        <td>{admin}</td>
-        <td>{reprintAdmin}</td>
+  const { update: isUpdate, delete: isDelete } = access.user;
 
-        <td className="box-button">
-          <Button.Group>
-            {
-              (access.user.update)
-                ?
-                <Link className="ant-btn ant-btn-primary ant-btn-sm ant-btn-icon-only"
-                      title="Изменить" to={`/user/edit/${userId}/data`}>
-                  <Icon type="edit"/>
-                </Link>
-                : null
-            }
-            {
-              (access.user.delete)
-                ?
-                <Popconfirm
-                  title="Удалить пользователя?"
-                  onConfirm={() => this.props.onDeleteUser(userId)}
-                  okText="Да"
-                  cancelText="Нет"
-                  placement="left"
-                  zIndex={1050}
-                >
-                  <Button type="primary" size="small" icon="delete"/>
-                </Popconfirm>
-                : null
-            }
-          </Button.Group>
-        </td>
-      </tr>
-    );
-  }
-}
+  const tmplButtonEdit = (isAction) => {
+    if (isAction) {
+      return (
+        <Link
+          className="ant-btn ant-btn-primary ant-btn-sm ant-btn-icon-only"
+          title="Изменить"
+          to={`/user/edit/${userId}/data`}
+        >
+          <Icon type="edit" />
+        </Link>
+      );
+    }
+
+    return null;
+  };
+
+  const tmplButtonDelete = (isAction) => {
+    if (isAction) {
+      return (
+        <Popconfirm
+          title="Удалить пользователя?"
+          onConfirm={() => onDeleteUser(userId)}
+          okText="Да"
+          cancelText="Нет"
+          placement="left"
+          zIndex={1050}
+        >
+          <Button type="primary" size="small" icon="delete" />
+        </Popconfirm>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <tr>
+      <td>{userCode}</td>
+      <td>{userName}</td>
+      <td>{userLogin}</td>
+      <td>{admin}</td>
+      <td>{reprintAdmin}</td>
+
+      <td className="box-button">
+        <Button.Group>
+          { tmplButtonEdit(isUpdate) }
+          { tmplButtonDelete(isDelete) }
+        </Button.Group>
+      </td>
+    </tr>
+  );
+};
 
 UserTableItem.propTypes = {
   access: PropTypes.objectOf(PropTypes.shape({
-    user: PropTypes.arrayOf(PropTypes.shape({
+    user: PropTypes.objectOf(PropTypes.shape({
       delete: PropTypes.bool.isRequired,
       update: PropTypes.bool.isRequired,
     })),
-  })),
-  isAdmin: PropTypes.bool,
-  isReprintAdmin: PropTypes.bool,
-  userCode: PropTypes.number,
+  })).isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  isReprintAdmin: PropTypes.bool.isRequired,
+  userCode: PropTypes.number.isRequired,
   userId: PropTypes.number.isRequired,
   userLogin: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
+  onDeleteUser: PropTypes.func.isRequired,
 };
 
 export default UserTableItem;

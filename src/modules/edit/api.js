@@ -1,15 +1,5 @@
-'use strict';
-
-import { Query } from 'modules/app/core';
-import appConfig from 'config';
-
-function query(pointApi, data, type = Query.post) {
-  return new Query({
-    pointApi: pointApi,
-    type: type,
-    data: data
-  });
-}
+import Query from '../app/component/core/query';
+import appConfig from '../../config';
 
 const entryPoints = {
   item: 'interface-users/user',
@@ -23,12 +13,12 @@ export default function api(action, data, callback) {
       return (new Query({
         data,
         pointApi: entryPoints.item,
-        type: Query.get,
+        type: 'GET',
       })).result();
     case 'userCurrent':
       return (new Query({
         domain: appConfig.domain.auth,
-        type: Query.get,
+        type: 'GET',
         pointApi: entryPoints.current
       })).result();
     case 'userEdit':

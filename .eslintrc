@@ -19,6 +19,11 @@
     "plugin:react/recommended",
     "plugin:lodash/recommended"
   ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  },
   "plugins": ["react", "jsx-a11y", "optimize-regex", "sonarjs", "no-use-extend-native", "promise", "lodash"],
   "rules": {
     "import/no-extraneous-dependencies": [
@@ -29,6 +34,7 @@
       }
     ],
     "optimize-regex/optimize-regex": "warn",
-    "sonarjs/cognitive-complexity": ["error", 20]
+    "sonarjs/cognitive-complexity": ["error", 20],
+    "no-param-reassign": [2, {"props": false}]
   }
 }

@@ -1,21 +1,21 @@
-'use strict';
-
-import { Query } from 'modules/app/core';
-
-import appConfig from 'config';
+import Query from '../app/component/core/query';
+import appConfig from '../../config';
 
 const entryPoints = {
   items: 'interface-users/items',
   delete: 'interface-users/user-delete',
   add: 'interface-users/user-add',
-  current: 'interface-users/user-current'
+  current: 'interface-users/user-current',
 };
 
-function query(pointApi, data, type = Query.post) {
+const typeGet = 'GET';
+const typePost = 'POST';
+
+function query(pointApi, data, type = typePost) {
   return new Query({
-    pointApi: pointApi,
-    type: type,
-    data: data
+    pointApi,
+    type,
+    data,
   });
 }
 
@@ -26,26 +26,24 @@ export default function api(action, data, callback) {
         code: (data.code !== 0) ? data.code : '',
         name: (data.name !== 0) ? data.name : '',
         login: (data.login !== 0) ? data.login : '',
-        status: (data.status === 0) ? '0' : '1'
+        status: (data.status === 0) ? '0' : '1',
       };
     case 'userItems':
-      let queryItems = new Query({
+      return (new Query({
+        data,
         pointApi: entryPoints.items,
-        data: data
-      });
-
-      return queryItems.result();
+      })).result();
     case 'userDelete':
-      return query(entryPoints.delete, data, Query.post).result(callback);
+      return query(entryPoints.delete, data).result(callback);
     case 'userAdd':
-      return query(entryPoints.add, data, Query.post).result(callback);
+      return query(entryPoints.add, data).result(callback);
     case 'userCurrent':
-      let queryCurrent = new Query({
+      return (new Query({
         domain: appConfig.domain.auth,
-        type: Query.get,
-        pointApi: entryPoints.current
-      });
-
-      return queryCurrent.result();
+        type: typeGet,
+        pointApi: entryPoints.current,
+      })).result();
+    default:
+      return null;
   }
 }

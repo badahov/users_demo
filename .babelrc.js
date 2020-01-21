@@ -1,16 +1,15 @@
 module.exports = {
-  'presets': [[
-    '@babel/preset-env',{
-      "useBuiltIns": "entry"
-    }],
-    '@babel/preset-react',
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
   ],
-  'plugins': [
-    '@babel/plugin-proposal-class-properties',
-    ["@babel/plugin-transform-runtime",
-      {
-        "regenerator": true
-      }
-    ]
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    //["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
   ],
+  "env": {
+    "production": {
+      "plugins": ["transform-react-remove-prop-types"]
+    }
+  }
 };

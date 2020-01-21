@@ -31,32 +31,34 @@ Item.defaultProps = {
 
 Item.propTypes = {
   url: PropTypes.string.isRequired,
-  query: PropTypes.objectOf(PropTypes.object).isRequired,
+  query: PropTypes.shape({
+    page: PropTypes.number.isRequired,
+  }).isRequired,
   className: PropTypes.string,
-  children: PropTypes.objectOf(PropTypes.object).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.number,
+  ]).isRequired,
 };
 
 const Items = (props) => {
   const {
     total,
     current,
-    query,
     onQuery,
     url,
     pageSize,
   } = props;
 
   const handleChange = (page) => {
-    onQuery({ page, ...query });
+    onQuery({ page });
   };
 
   const itemRender = (setCurrent, type, originalElement) => (
     <Item
-      type={type}
       className={originalElement.props.className}
       query={{
         page: setCurrent,
-        ...query,
       }}
       url={url}
     >
@@ -81,34 +83,37 @@ Items.propTypes = {
   pageSize: PropTypes.number.isRequired,
   url: PropTypes.string.isRequired,
   onQuery: PropTypes.func.isRequired,
-  query: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const Index = React.memo((props) => {
   const {
-    data: {
-      query,
-      total,
-      page_size: pageSize,
-      current,
-    },
+    data,
     url,
     onQuery,
   } = props;
 
-  const setQuery = isArray(query) ? {} : query;
+  if (data) {
+    const {
+      query,
+      total,
+      page_size: pageSize,
+      current,
+    } = data;
 
-  if (total >= pageSize) {
-    return (
-      <Items
-        total={total}
-        pageSize={pageSize}
-        current={Number(current)}
-        query={setQuery}
-        url={url}
-        onQuery={onQuery}
-      />
-    );
+    const setQuery = isArray(query) ? {} : query;
+
+    if (total >= pageSize) {
+      return (
+        <Items
+          total={total}
+          pageSize={pageSize}
+          current={Number(current)}
+          query={setQuery}
+          url={url}
+          onQuery={onQuery}
+        />
+      );
+    }
   }
 
   return null;
@@ -116,12 +121,46 @@ const Index = React.memo((props) => {
 
 Index.defaultProps = {
   url: '/',
+  data: null,
 };
 
 Index.propTypes = {
   url: PropTypes.string,
   onQuery: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.shape({
+    total: PropTypes.number.isRequired,
+    current: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]).isRequired,
+    next_page_query: PropTypes.shape({
+      page: PropTypes.number.isRequired,
+    }),
+    next_page_url: PropTypes.string.isRequired,
+    offset: PropTypes.number.isRequired,
+    page_size: PropTypes.number.isRequired,
+    page_url: PropTypes.string.isRequired,
+    param: PropTypes.shape({
+      current_page: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]).isRequired,
+      has_more_pages: PropTypes.number.isRequired,
+      last_page: PropTypes.number.isRequired,
+    }),
+    prev_page_query: PropTypes.shape({
+      page: PropTypes.number.isRequired,
+    }),
+    prev_page_url: PropTypes.string.isRequired,
+    query: PropTypes.any,
+    row: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.number.isRequired,
+      query: PropTypes.shape({
+        page: PropTypes.number.isRequired,
+      }),
+      url: PropTypes.string.isRequired,
+    })),
+  }),
 };
 
 export default Index;

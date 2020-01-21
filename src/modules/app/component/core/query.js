@@ -74,7 +74,7 @@ export default class Query {
   getUrl() {
     let url = '';
 
-    if (this.type === Query.get) {
+    if (this.type === 'GET') {
       let get = null;
 
       if (this.data) {
@@ -126,23 +126,23 @@ export default class Query {
       }
 
       if (response.status === 500) {
-        this.error(config.error[response.status]);
+        this.message.error(config.error[response.status]);
       } else if (response.status === 404) {
-        this.error(config.error[response.status]);
+        this.message.error(config.error[response.status]);
       } else if (response.status === 423) {
-        this.error(config.error[response.status]);
+        this.message.error(config.error[response.status]);
       } else if (response.status === 401) {
         this.requestXdomainToken(url);
       } else if (response.status === 403) {
-        this.error(config.error[response.status]);
+        this.message.error(config.error[response.status]);
       }
 
       if (response.status === 417) {
         return response.json().then((data) => {
           if (!data.status) {
-            this.error(errorMsg(data.msg));
+            this.message.error(errorMsg(data.msg));
           } else {
-            this.error(config.error[response.status]);
+            this.message.error(config.error[response.status]);
           }
 
           return null;

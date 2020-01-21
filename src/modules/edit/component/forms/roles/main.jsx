@@ -4,7 +4,7 @@ import { Form, Button, Row, Select, Col } from 'antd';
 
 const { Option } = Select;
 
-import { Query } from 'modules/app/core';
+import Query from '../../../../app/component/core/query';
 
 const formItemLayout = {
   labelCol: {

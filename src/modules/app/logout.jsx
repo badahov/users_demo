@@ -5,9 +5,7 @@ import { Modal, Icon, Button } from 'antd';
 import config from '../../config';
 
 const {
-  Modal: {
-    confirm,
-  },
+  confirm,
 } = Modal;
 
 const Logout = () => {
@@ -44,9 +42,8 @@ const Logout = () => {
       size="small"
       onClick={handleLogout}
     >
-      <Icon type="logout">
-        Выход
-      </Icon>
+      <Icon type="logout" />
+      Выход
     </Button>
   );
 };

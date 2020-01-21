@@ -16,14 +16,14 @@ const global = {
   PATHS: {
     appRoot: __dirname,
     root: path.join(__dirname),
-    public: path.join(__dirname, 'public'),
-    output: path.join(__dirname, 'public/build/'),
+    public: path.resolve(__dirname, 'public'),
+    output: path.resolve(__dirname, 'public/build/'),
 
     context: path.join(__dirname, 'src'),
     index: path.join(__dirname, 'src/routes.jsx'),
     modules: path.join(__dirname, 'src/modules/'),
 
-    build: '/build/',
+    build: path.join('/build/'),
   },
 };
 

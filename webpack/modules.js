@@ -26,9 +26,13 @@ module.exports = () => {
           use: {
             loader: "babel-loader",
             options: {
-              plugins: [
-                'transform-react-remove-prop-types',
-              ],
+              env: {
+                production: {
+                  plugins: [
+                    'transform-react-remove-prop-types',
+                  ],
+                },
+              },
               presets: ["@babel/preset-env", "@babel/preset-react",
                 {
                   plugins: [

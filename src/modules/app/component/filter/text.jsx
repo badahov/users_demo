@@ -11,8 +11,12 @@ const Text = (props) => {
   );
 };
 
+Text.defaultProps = {
+  children: '',
+};
+
 Text.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.string,
 };
 
 export default Text;

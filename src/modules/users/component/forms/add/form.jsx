@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { Form, Button, Row, Input, InputNumber, Switch, Drawer } from 'antd';
+import {
+  Form,
+  Button,
+  Row,
+  Input,
+  InputNumber,
+  Switch,
+  Drawer,
+} from 'antd';
 
 const style = {
   position: 'absolute',
@@ -26,28 +35,34 @@ const formItemLayout = {
 };
 
 class UserAddFormModel extends Component {
-  state = {
-    DrawerWidth: 550,
-    DrawerZIndex: 1050,
-  };
+  constructor(props) {
+    super(props);
 
-  handleSubmit = e => {
+    this.state = {
+      DrawerWidth: 550,
+      DrawerZIndex: 1050,
+    };
+  }
+
+  handleSubmit = (e) => {
+    const { form, submitForm } = this.props;
+
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         delete values.confirm;
-        this.props.submitForm(values);
+        submitForm(values);
       }
     });
   };
 
-  onClose = () => {
-    this.props.onClose();
-  };
-
-  handleConfirmBlur = e => {
+  handleConfirmBlur = (e) => {
     const { value } = e.target;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    const { confirmDirty } = this.state;
+
+    this.setState({
+      confirmDirty: confirmDirty || !!value,
+    });
   };
 
   compareToFirstPassword = (rule, value, callback) => {
@@ -61,49 +76,67 @@ class UserAddFormModel extends Component {
 
   validateToNextPassword = (rule, value, callback) => {
     const { form } = this.props;
-    if (value && this.state.confirmDirty) {
+    const { confirmDirty } = this.state;
+    if (value && confirmDirty) {
       form.validateFields(['confirm'], { force: true });
     }
     callback();
   };
 
   render() {
-    const { form: {getFieldDecorator} } = this.props;
+    const {
+      title,
+      onClose,
+      visible,
+      form: {
+        getFieldDecorator,
+      },
+    } = this.props;
+
+    const { DrawerWidth, DrawerZIndex } = this.state;
 
     return (
       <Drawer
-        title={this.props.title}
-        width={this.state.DrawerWidth}
-        onClose={this.onClose}
-        visible={this.props.visible}
-        zIndex={this.state.DrawerZIndex}
+        title={title}
+        width={DrawerWidth}
+        onClose={onClose}
+        visible={visible}
+        zIndex={DrawerZIndex}
       >
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form
+          labelCol={formItemLayout.labelCol}
+          wrapperCol={formItemLayout.wrapperCol}
+          onSubmit={this.handleSubmit}
+        >
           <Row gutter={16} style={{ marginBottom: '20px' }}>
             <Form.Item label="Код" hasFeedback>
-              {getFieldDecorator('operator_code', {
-                rules: [
-                  { required: true, message: 'Пожалуйста, ввидите код пользователя' },
-                ],
-              })(<InputNumber style={{ width: '65%' }} min={1} placeholder="Код пользователя"/>)}
+              {
+                getFieldDecorator('operator_code', {
+                  rules: [
+                    { required: true, message: 'Пожалуйста, ввидите код пользователя' },
+                  ],
+                })(<InputNumber style={{ width: '65%' }} min={1} placeholder="Код пользователя" />)
+              }
             </Form.Item>
 
             <Form.Item label="Имя" hasFeedback>
-              {getFieldDecorator('operator_name', {
-                rules: [
-                  { required: true, message: 'Пожалуйста, ввидите имя пользователя' },
-                ],
-              })(<Input placeholder="Имя пользователя"/>)}
+              {
+                getFieldDecorator('operator_name', {
+                  rules: [
+                    { required: true, message: 'Пожалуйста, ввидите имя пользователя' },
+                  ],
+                })(<Input placeholder="Имя пользователя" />)
+              }
             </Form.Item>
-
             <Form.Item label="Логин" hasFeedback>
-              {getFieldDecorator('operator_login', {
-                rules: [
-                  { required: true, message: 'Пожалуйста, ввидите логин пользователя' },
-                ],
-              })(<Input placeholder="Логин пользователя"/>)}
+              {
+                getFieldDecorator('operator_login', {
+                  rules: [
+                    { required: true, message: 'Пожалуйста, ввидите логин пользователя' },
+                  ],
+                })(<Input placeholder="Логин пользователя" />)
+              }
             </Form.Item>
-
             <Form.Item label="Пароль" hasFeedback>
               {getFieldDecorator('password', {
                 rules: [
@@ -115,30 +148,42 @@ class UserAddFormModel extends Component {
                     validator: this.validateToNextPassword,
                   },
                 ],
-              })(<Input.Password/>)}
+              })(<Input.Password />)}
             </Form.Item>
             <Form.Item label="Повторить пароль" hasFeedback>
-              {getFieldDecorator('confirm', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Пожалуйста, повторите пароль!',
-                  },
-                  {
-                    validator: this.compareToFirstPassword,
-                  },
-                ],
-              })(<Input.Password onBlur={this.handleConfirmBlur}/>)}
+              {
+                getFieldDecorator('confirm', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Пожалуйста, повторите пароль!',
+                    },
+                    {
+                      validator: this.compareToFirstPassword,
+                    },
+                  ],
+                })(
+                  <Input.Password
+                    onBlur={
+                      this.handleConfirmBlur
+                    }
+                  />,
+                )
+              }
             </Form.Item>
             <Form.Item label="Администратор">
-              {getFieldDecorator('is_admin', { valuePropName: 'checked' })(<Switch/>)}
+              {getFieldDecorator('is_admin', { valuePropName: 'checked' })(<Switch />)}
             </Form.Item>
             <Form.Item label="Перепечать">
-              {getFieldDecorator('is_reprint_admin', { valuePropName: 'checked' })(<Switch/>)}
+              {
+                getFieldDecorator('is_reprint_admin', {
+                  valuePropName: 'checked',
+                })(<Switch />)
+              }
             </Form.Item>
           </Row>
           <Row style={style}>
-            <Button onClick={this.onClose} style={{ marginRight: 8 }}>
+            <Button onClick={onClose} style={{ marginRight: 8 }}>
               Закрыить
             </Button>
             <Button type="primary" htmlType="submit">
@@ -150,5 +195,13 @@ class UserAddFormModel extends Component {
     );
   }
 }
+
+UserAddFormModel.propTypes = {
+  form: PropTypes.objectOf(PropTypes.func).isRequired,
+  title: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default UserAddFormModel;
