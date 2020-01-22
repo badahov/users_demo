@@ -1,13 +1,9 @@
-'use strict';
-
 import React from 'react';
 import Helmet from 'react-helmet';
 
-import { Logout } from 'modules/app/core';
-
 import { Layout, Spin } from 'antd';
 
-const { Content } = Layout;
+import Logout from '../../app/logout';
 
 import UserDataForm from './forms/data';
 import UserPasswordForm from './forms/password';
@@ -15,6 +11,8 @@ import UserRolesForm from './forms/roles';
 
 import HeaderPage from './header';
 import Menu from './menu';
+
+const { Content } = Layout;
 
 class Edit extends React.Component {
   constructor(props) {
@@ -28,13 +26,21 @@ class Edit extends React.Component {
   }
 
   toggle = () => {
+    const { collapsed } = this.state;
+
     this.setState({
-      collapsed: !this.state.collapsed,
+      collapsed: !collapsed,
     });
   };
 
   renderTemplate = (page) => {
-    const { item, params: {userId}, modelEdit } = this.props;
+    const {
+      item,
+      params: {
+        userId,
+      },
+      modelEdit,
+    } = this.props;
 
     let getTemplate;
 
@@ -42,33 +48,40 @@ class Edit extends React.Component {
       case 'password':
         getTemplate = (
           <UserPasswordForm
-            title='Добавить пользователя'
+            title="Добавить пользователя"
             user_id={userId}
             submit={modelEdit}
-            wrappedComponentRef={(form) => this.form = form}
+            wrappedComponentRef={(form) => {
+              this.form = form;
+            }}
           />
         );
         break;
       case 'roles':
         getTemplate = (
           <UserRolesForm
-            title='Добавить пользователя'
+            title="Добавить пользователя"
             user_id={userId}
             item={item}
             submit={modelEdit}
-            wrappedComponentRef={(form) => this.form = form}
+            wrappedComponentRef={(form) => {
+              this.form = form;
+            }}
           />
         );
         break;
       default:
         getTemplate = (
           <UserDataForm
-            title='Добавить пользователя'
+            title="Добавить пользователя"
             user_id={userId}
             item={item}
             submit={modelEdit}
-            wrappedComponentRef={(form) => this.form = form}
-          />);
+            wrappedComponentRef={(form) => {
+              this.form = form;
+            }}
+          />
+        );
         break;
     }
 
@@ -76,14 +89,22 @@ class Edit extends React.Component {
   };
 
   render() {
-    const { item, current, params: {page, userId} } = this.props;
+    const {
+      item,
+      current,
+      params: {
+        page,
+        userId,
+      },
+    } = this.props;
+
     const { collapsed } = this.state;
 
     if (item && current) {
       const operatorName = item.operator_name;
       const operatorLogin = item.operator_login;
 
-      let isLoad = (!current);
+      const isLoad = (!current);
 
       return (
         <Layout>
@@ -115,9 +136,9 @@ class Edit extends React.Component {
           </Layout>
         </Layout>
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 }
 

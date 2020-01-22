@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import map from 'lodash/map';
+import noop from 'lodash/noop';
 
-import { Form, Button, Row, Select, Col } from 'antd';
-
-const { Option } = Select;
+import {
+  Form,
+  Button,
+  Row,
+  Select,
+  Col,
+} from 'antd';
 
 import Query from '../../../../app/component/core/query';
+
+const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -21,20 +29,19 @@ class UserRolesFormModel extends Component {
   constructor(props) {
     super(props);
 
-    let ReactQueryObject = new Query({
+    const ReactQueryObject = new Query({
       pointApi: 'interface-users/role-select',
     });
 
     ReactQueryObject.send().then((result) => {
-      let option = [];
-      result.map((item) => {
-        option.push(<Option key={item.id}>{item.title}</Option>);
-      });
+      const option = map(result, (item) => (<Option key={item.id}>{item.title}</Option>));
 
       this.setState({
         options: option,
       });
-    });
+
+      return option;
+    }).catch(() => noop);
 
     this.state = {
       options: [],
@@ -42,19 +49,23 @@ class UserRolesFormModel extends Component {
     };
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        values.operator_id = Number(this.props.user_id);
+    const {
+      form,
+      user_id: userId,
+      submit,
+    } = this.props;
 
-        let rules = values.roles.map((item) => {
-          return { id: Number(item) };
-        });
+    form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        values.operator_id = Number(userId);
+
+        const rules = map(values.roles, (item) => ({ id: Number(item) }));
 
         values.roles = rules;
 
-        this.props.submit(values);
+        submit(values);
       }
     });
   };
@@ -66,30 +77,44 @@ class UserRolesFormModel extends Component {
   };
 
   shouldComponentUpdate = (nextProps, nextState) => {
-    return nextState.options !== this.state.options || nextState.selected !== this.state.selected;
+    const { options, selected } = this.state;
+
+    return nextState.options !== options
+      || nextState.selected !== selected;
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {
+      form: {
+        getFieldDecorator,
+      },
+    } = this.props;
+    const { options } = this.state;
 
     return (
       <Row>
         <Col span={24}>
-          <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+          <Form
+            labelCol={formItemLayout.labelCol}
+            wrapperCol={formItemLayout.wrapperCol}
+            onSubmit={this.handleSubmit}
+          >
             <Row gutter={16} style={{ marginBottom: '50px' }}>
               <Form.Item label="Выбор ролей" hasFeedback>
                 {getFieldDecorator('roles', {
                   // rules: [
                   //     { required: true, message: 'Пожалуйста, выберите роль' }
                   // ],
-                })(<Select
-                  mode="multiple"
-                  style={{ width: '100%' }}
-                  placeholder="Пожалуйста, выберите роли"
-                  onChange={this.handleSelectedChange}
-                >
-                  {this.state.options}
-                </Select>)}
+                })(
+                  <Select
+                    mode="multiple"
+                    style={{ width: '100%' }}
+                    placeholder="Пожалуйста, выберите роли"
+                    onChange={this.handleSelectedChange}
+                  >
+                    {options}
+                  </Select>,
+                )}
               </Form.Item>
             </Row>
             <Row

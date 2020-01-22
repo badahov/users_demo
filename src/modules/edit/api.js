@@ -19,13 +19,15 @@ export default function api(action, data, callback) {
       return (new Query({
         domain: appConfig.domain.auth,
         type: 'GET',
-        pointApi: entryPoints.current
+        pointApi: entryPoints.current,
       })).result();
     case 'userEdit':
       return (new Query({
         data,
-        pointApi: entryPoints.edit
-      })).result();
+        pointApi: entryPoints.edit,
+      })).result(callback);
+    default:
+      return null;
   }
 }
 

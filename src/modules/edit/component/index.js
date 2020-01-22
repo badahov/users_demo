@@ -1,5 +1,4 @@
-import { shallowEqual } from 'react-redux';
-import { connectAdvanced } from 'react-redux';
+import { connectAdvanced, shallowEqual } from 'react-redux';
 
 import creator from '../../app/creator';
 import api from '../api';
@@ -15,7 +14,7 @@ export default connectAdvanced((dispatch) => {
 
   const modelCurrentUser = () => sendTo('userCurrent');
 
-  const modelItem   = (data) => sendTo('userItem', data);
+  const modelItem = (data) => sendTo('userItem', data);
 
   const modelEdit = (data) => sendTo('userEdit', data, (json) => {
     modelItem(ownProps.location.query);
@@ -34,10 +33,16 @@ export default connectAdvanced((dispatch) => {
   return (nextState, nextOwnProps) => {
     const isNull = (value) => value === null;
 
-    const loading  = isNull(nextState[module].userItem) ? true : false;
-    const item     = isNull(nextState[module].userItem) ? null : nextState[module].userItem.data;
-    const access   = isNull(nextState[module].userItem) ? null : nextState[module].userItem.access;
-    const current  = isNull(nextState[module].userCurrent) ? null : nextState[module].userCurrent.data;
+    const loading = isNull(nextState[module].userItem);
+    const item = isNull(nextState[module].userItem)
+      ? null
+      : nextState[module].userItem.data;
+    const access = isNull(nextState[module].userItem)
+      ? null
+      : nextState[module].userItem.access;
+    const current = isNull(nextState[module].userCurrent)
+      ? null
+      : nextState[module].userCurrent.data;
 
     const nextResult = {
       ...nextOwnProps,
@@ -46,13 +51,13 @@ export default connectAdvanced((dispatch) => {
       access,
       current,
       modelEdit,
-      modelServer
+      modelServer,
     };
     ownProps = nextOwnProps;
     if (!shallowEqual(result, nextResult)) {
-      result = nextResult
+      result = nextResult;
     }
 
     return result;
-  }
+  };
 })(Users);

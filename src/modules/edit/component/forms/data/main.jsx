@@ -1,8 +1,15 @@
-'use strict';
-
 import React, { Component } from 'react';
 
-import { Form, Button, Row, Input, InputNumber, Switch, Col, Spin } from 'antd';
+import {
+  Form,
+  Button,
+  Row,
+  Input,
+  InputNumber,
+  Switch,
+  Col,
+  Spin,
+} from 'antd';
 
 const formItemLayout = {
   labelCol: {
@@ -16,44 +23,61 @@ const formItemLayout = {
 };
 
 class UserDataFormModel extends Component {
-  static defaultProps = {
-    item: null,
-  };
-
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        values.operator_id = Number(this.props.user_id);
+    const {
+      form,
+      user_id: userId,
+      submit,
+    } = this.props;
 
-        this.props.submit(values);
+    form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        values.operator_id = Number(userId);
+
+        submit(values);
       }
     });
   };
 
-  handleConfirmBlur = e => {
+  handleConfirmBlur = (e) => {
     const { value } = e.target;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    const { confirmDirty } = this.state;
+    this.setState({ confirmDirty: confirmDirty || !!value });
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {
+      item,
+      form: {
+        getFieldDecorator,
+      },
+    } = this.props;
 
-    let isLoad = (this.props.item) ? false : true;
+    const isLoad = (!item);
 
     return (
       <Spin tip="Загрузка..." size="large" spinning={isLoad}>
         <Row>
           <Col span={24}>
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form
+              labelCol={formItemLayout.labelCol}
+              wrapperCol={formItemLayout.wrapperCol}
+              onSubmit={this.handleSubmit}
+            >
               <Row gutter={16} style={{ marginBottom: '50px' }}>
                 <Form.Item label="Код" hasFeedback>
                   {getFieldDecorator('operator_code', {
                     rules: [
                       { required: true, message: 'Пожалуйста, ввидите код пользователя' },
                     ],
-                  })(<InputNumber style={{ width: '65%' }} min={0}
-                                  placeholder="Код пользователя"/>)}
+                  })(
+                    <InputNumber
+                      style={{ width: '65%' }}
+                      min={0}
+                      placeholder="Код пользователя"
+                    />,
+                  )}
                 </Form.Item>
 
                 <Form.Item label="Имя" hasFeedback>
@@ -61,7 +85,7 @@ class UserDataFormModel extends Component {
                     rules: [
                       { required: true, message: 'Пожалуйста, ввидите имя пользователя' },
                     ],
-                  })(<Input placeholder="Имя пользователя"/>)}
+                  })(<Input placeholder="Имя пользователя" />)}
                 </Form.Item>
 
                 <Form.Item label="Логин" hasFeedback>
@@ -69,15 +93,15 @@ class UserDataFormModel extends Component {
                     rules: [
                       { required: true, message: 'Пожалуйста, ввидите логин пользователя' },
                     ],
-                  })(<Input placeholder="Логин пользователя"/>)}
+                  })(<Input placeholder="Логин пользователя" />)}
                 </Form.Item>
 
                 <Form.Item label="Администратор">
-                  {getFieldDecorator('is_admin', { valuePropName: 'checked' })(<Switch/>)}
+                  {getFieldDecorator('is_admin', { valuePropName: 'checked' })(<Switch />)}
                 </Form.Item>
 
                 <Form.Item label="Перепечать">
-                  {getFieldDecorator('is_reprint_admin', { valuePropName: 'checked' })(<Switch/>)}
+                  {getFieldDecorator('is_reprint_admin', { valuePropName: 'checked' })(<Switch />)}
                 </Form.Item>
               </Row>
 
@@ -104,5 +128,9 @@ class UserDataFormModel extends Component {
     );
   }
 }
+
+UserDataFormModel.defaultProps = {
+  item: null,
+};
 
 export default UserDataFormModel;

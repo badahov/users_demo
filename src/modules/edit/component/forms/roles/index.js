@@ -1,4 +1,5 @@
 import { Form } from 'antd';
+import map from 'lodash/map';
 
 import UserRolesFormModel from './main';
 
@@ -7,9 +8,7 @@ export default Form.create({
   mapPropsToFields(props) {
     let roles = [];
     if (props.item.roles) {
-      roles = props.item.roles.map((item) => {
-        return String(item.id);
-      });
+      roles = map(props.item.roles, (item) => String(item.id));
     }
 
     return {

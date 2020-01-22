@@ -1,8 +1,12 @@
-'use strict';
-
 import React, { Component } from 'react';
 
-import { Form, Button, Row, Input, Col } from 'antd';
+import {
+  Form,
+  Button,
+  Row,
+  Input,
+  Col,
+} from 'antd';
 
 const formItemLayout = {
   labelCol: {
@@ -24,22 +28,31 @@ class UserPasswordFormModel extends Component {
     };
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
+    const {
+      form,
+      user_id: userId,
+      submit,
+    } = this.props;
+
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         delete values.confirm;
 
-        values.operator_id = Number(this.props.user_id);
+        values.operator_id = Number(userId);
 
-        this.props.submit(values);
+        submit(values);
       }
     });
   };
 
-  handleConfirmBlur = e => {
+  handleConfirmBlur = (e) => {
     const { value } = e.target;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    const { confirmDirty } = this.state;
+    this.setState({
+      confirmDirty: confirmDirty || !!value,
+    });
   };
 
   compareToFirstPassword = (rule, value, callback) => {
@@ -53,19 +66,28 @@ class UserPasswordFormModel extends Component {
 
   validateToNextPassword = (rule, value, callback) => {
     const { form } = this.props;
-    if (value && this.state.confirmDirty) {
+    const { confirmDirty } = this.state;
+    if (value && confirmDirty) {
       form.validateFields(['confirm'], { force: true });
     }
     callback();
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {
+      form: {
+        getFieldDecorator,
+      },
+    } = this.props;
 
     return (
       <Row>
         <Col span={24}>
-          <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+          <Form
+            labelCol={formItemLayout.labelCol}
+            wrapperCol={formItemLayout.wrapperCol}
+            onSubmit={this.handleSubmit}
+          >
             <Row gutter={16} style={{ marginBottom: '50px' }}>
               <Form.Item label="Пароль" hasFeedback>
                 {getFieldDecorator('password', {
@@ -78,7 +100,7 @@ class UserPasswordFormModel extends Component {
                       validator: this.validateToNextPassword,
                     },
                   ],
-                })(<Input.Password/>)}
+                })(<Input.Password />)}
               </Form.Item>
               <Form.Item label="Повторить пароль" hasFeedback>
                 {getFieldDecorator('confirm', {
@@ -91,7 +113,7 @@ class UserPasswordFormModel extends Component {
                       validator: this.compareToFirstPassword,
                     },
                   ],
-                })(<Input.Password onBlur={this.handleConfirmBlur}/>)}
+                })(<Input.Password onBlur={this.handleConfirmBlur} />)}
               </Form.Item>
             </Row>
             <Row
