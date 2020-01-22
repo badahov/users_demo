@@ -75,12 +75,12 @@ const UserTableItem = (props) => {
 };
 
 UserTableItem.propTypes = {
-  access: PropTypes.objectOf(PropTypes.shape({
-    user: PropTypes.objectOf(PropTypes.shape({
+  access: PropTypes.shape({
+    user: PropTypes.shape({
       delete: PropTypes.bool.isRequired,
       update: PropTypes.bool.isRequired,
-    })),
-  })).isRequired,
+    }).isRequired,
+  }).isRequired,
   isAdmin: PropTypes.bool.isRequired,
   isReprintAdmin: PropTypes.bool.isRequired,
   userCode: PropTypes.number.isRequired,

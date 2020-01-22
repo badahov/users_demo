@@ -55,19 +55,23 @@ export default connectAdvanced((dispatch) => {
     const loading = isNull(nextState[module].userItems);
 
     const header = isNull(nextState[module].userItems)
-      ? []
+      ? {}
       : nextState[module].userHeader;
+
     const items = isNull(nextState[module].userItems)
       ? null
       : nextState[module].userItems.data;
+
     const paginate = isNull(nextState[module].userItems)
       ? null
       : nextState[module].userItems.paginate;
+
     const access = isNull(nextState[module].userItems)
-      ? null
+      ? {}
       : nextState[module].userItems.access;
+
     const current = isNull(nextState[module].userCurrent)
-      ? null
+      ? {}
       : nextState[module].userCurrent.data;
 
     const nextResult = {

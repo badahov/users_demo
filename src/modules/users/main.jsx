@@ -30,7 +30,7 @@ Module.defaultProps = {
 Module.propTypes = {
   location: PropTypes.oneOfType([
     PropTypes.any,
-  ]),
+  ]).isRequired,
   visibleUserAddForm: PropTypes.bool,
   collapsedSiderMenu: PropTypes.bool,
 };
