@@ -2,10 +2,10 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 // import createLogger from 'redux-logger';
 
-import auth from './middlewares/auth';
+import auth from './middlewares';
 
 // Найдет и загрузит все reducers из папки
-import * as reducers from './reducers';
+import authReducer from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware(
   auth,
@@ -13,4 +13,6 @@ const createStoreWithMiddleware = applyMiddleware(
   // createLogger()
 )(createStore);
 
-export default createStoreWithMiddleware(combineReducers(reducers));
+export default createStoreWithMiddleware(combineReducers({
+  auth: authReducer,
+}));

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Form,
@@ -129,8 +130,19 @@ class UserDataFormModel extends Component {
   }
 }
 
-UserDataFormModel.defaultProps = {
-  item: null,
+UserDataFormModel.propTypes = {
+  form: PropTypes.objectOf(PropTypes.func).isRequired,
+  user_id: PropTypes.string.isRequired,
+  submit: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    is_admin: PropTypes.bool.isRequired,
+    is_reprint_admin: PropTypes.bool.isRequired,
+    operator_code: PropTypes.number.isRequired,
+    operator_id: PropTypes.number.isRequired,
+    operator_login: PropTypes.string.isRequired,
+    operator_name: PropTypes.string.isRequired,
+    operator_token: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default UserDataFormModel;

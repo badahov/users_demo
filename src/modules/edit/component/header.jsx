@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import {
@@ -51,6 +52,16 @@ const HeaderPage = (props) => {
       </Menu>
     </Header>
   );
+};
+
+HeaderPage.propTypes = {
+  title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string.isRequired,
+  collapsed: PropTypes.bool.isRequired,
+  extra: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.element.isRequired,
+  ])).isRequired,
+  toggle: PropTypes.func.isRequired,
 };
 
 export default HeaderPage;

@@ -6,9 +6,8 @@ export default function apiAuthLogin(data) {
 
   const formData = new FormData();
 
-  for (let key in data) {
-    formData.append(key, data[key]);
-  }
+  formData.append('login', data.login);
+  formData.append('password', data.password);
 
   const xhr = new XMLHttpRequest();
 

@@ -29,14 +29,13 @@ import {
   Filters,
 } from '../../app/core';
 
-const { Header, Content, Sider } = Layout;
-
 import {
   accessTypes,
   locationTypes,
-  currentTypes,
   paginateTypes,
 } from '../../global/types';
+
+const { Header, Content, Sider } = Layout;
 
 const helmetContext = {};
 
@@ -325,7 +324,6 @@ Users.propTypes = {
   sort: PropTypes.func.isRequired,
   visibleUserAddForm: PropTypes.bool.isRequired,
   access: accessTypes.isRequired,
-  current: currentTypes.isRequired,
   location: locationTypes.isRequired,
   header: PropTypes.shape({
     code: PropTypes.string,

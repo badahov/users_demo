@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import map from 'lodash/map';
 import noop from 'lodash/noop';
 
@@ -70,7 +71,7 @@ class UserRolesFormModel extends Component {
     });
   };
 
-  handleSelectedChange = value => {
+  handleSelectedChange = (value) => {
     this.setState({
       selected: value,
     });
@@ -139,5 +140,20 @@ class UserRolesFormModel extends Component {
     );
   }
 }
+
+UserRolesFormModel.propTypes = {
+  form: PropTypes.objectOf(PropTypes.func).isRequired,
+  user_id: PropTypes.string.isRequired,
+  submit: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    is_admin: PropTypes.bool.isRequired,
+    is_reprint_admin: PropTypes.bool.isRequired,
+    operator_code: PropTypes.number.isRequired,
+    operator_id: PropTypes.number.isRequired,
+    operator_login: PropTypes.string.isRequired,
+    operator_name: PropTypes.string.isRequired,
+    operator_token: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default UserRolesFormModel;

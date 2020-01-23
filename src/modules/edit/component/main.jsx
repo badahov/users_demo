@@ -1,7 +1,11 @@
 import React from 'react';
 import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
 
-import { Layout, Spin } from 'antd';
+import {
+  Layout,
+  Spin,
+} from 'antd';
 
 import Logout from '../../app/logout';
 
@@ -11,6 +15,7 @@ import UserRolesForm from './forms/roles';
 
 import HeaderPage from './header';
 import Menu from './menu';
+import { currentTypes } from '../../global/types';
 
 const { Content } = Layout;
 
@@ -146,6 +151,27 @@ Edit.defaultProps = {
   params: {
     userId: null,
   },
+  item: null,
+  current: null,
+};
+
+Edit.propTypes = {
+  current: currentTypes,
+  modelServer: PropTypes.func.isRequired,
+  modelEdit: PropTypes.func.isRequired,
+  params: PropTypes.shape({
+    userId: PropTypes.string.isRequired,
+    page: PropTypes.string.isRequired,
+  }),
+  item: PropTypes.shape({
+    is_admin: PropTypes.bool.isRequired,
+    is_reprint_admin: PropTypes.bool.isRequired,
+    operator_code: PropTypes.number.isRequired,
+    operator_id: PropTypes.number.isRequired,
+    operator_login: PropTypes.string.isRequired,
+    operator_name: PropTypes.string.isRequired,
+    operator_token: PropTypes.string.isRequired,
+  }),
 };
 
 export default Edit;
