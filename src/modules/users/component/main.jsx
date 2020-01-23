@@ -31,6 +31,13 @@ import {
 
 const { Header, Content, Sider } = Layout;
 
+import {
+  accessTypes,
+  locationTypes,
+  currentTypes,
+  paginateTypes,
+} from '../../global/types';
+
 const helmetContext = {};
 
 class Users extends React.Component {
@@ -306,25 +313,9 @@ Users.defaultProps = {
 };
 
 Users.propTypes = {
-  access: PropTypes.shape({
-    user: PropTypes.objectOf(PropTypes.bool),
-  }).isRequired,
   collapsedSiderMenu: PropTypes.bool.isRequired,
-  current: PropTypes.shape({
-    is_admin: PropTypes.bool,
-    is_reprint_admin: PropTypes.bool,
-  }).isRequired,
-  header: PropTypes.shape({
-    code: PropTypes.string,
-    login: PropTypes.string,
-    name: PropTypes.string,
-    status: PropTypes.string,
-  }).isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool.isRequired,
-  location: PropTypes.shape({
-    query: PropTypes.object,
-  }).isRequired,
   modelAdd: PropTypes.func.isRequired,
   modelCurrentUser: PropTypes.func.isRequired,
   modelDelete: PropTypes.func.isRequired,
@@ -333,12 +324,16 @@ Users.propTypes = {
   setHeader: PropTypes.func.isRequired,
   sort: PropTypes.func.isRequired,
   visibleUserAddForm: PropTypes.bool.isRequired,
-  paginate: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-    PropTypes.array,
-  ]),
+  access: accessTypes.isRequired,
+  current: currentTypes.isRequired,
+  location: locationTypes.isRequired,
+  header: PropTypes.shape({
+    code: PropTypes.string,
+    login: PropTypes.string,
+    name: PropTypes.string,
+    status: PropTypes.string,
+  }).isRequired,
+  paginate: paginateTypes,
 };
 
 export default Users;

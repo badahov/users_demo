@@ -1,7 +1,7 @@
 import Query from '../app/component/core/query';
 import appConfig from '../../config';
 
-function query (pointApi, data, type = 'POST') {
+function query(pointApi, data, type = 'POST') {
   return new Query({
     pointApi,
     type,
@@ -18,12 +18,12 @@ const entryPoints = {
     items: 'interface-users/roles',
     add: 'interface-users/role-add',
     edit: 'interface-users/role-edit',
-    delete: 'interface-users/role-delete'
+    delete: 'interface-users/role-delete',
   },
   permission: {
     item: 'interface-users/permission',
     switch: 'interface-users/role-permission',
-  }
+  },
 };
 
 export default function api(action, data, callback) {
@@ -31,42 +31,26 @@ export default function api(action, data, callback) {
     case 'roleItems':
       return query(entryPoints.role.items, data, 'GET').result();
     case 'roleAdd':
-      return query(entryPoints.role.add, data).result().then((json) => {
-        if (json) {
-          //return query(api.roles).result();
-        }
-      });
+      return query(entryPoints.role.add, data).result(callback);
     case 'roleEdit':
-      return query(entryPoints.role.edit, data).result().then((json) => {
-        if (json) {
-          //return query(api.roles).result(callback);
-        }
-      });
+      return query(entryPoints.role.edit, data).result(callback);
     case 'roleDelete':
-      return query(entryPoints.role.delete, data).result(callback).then((json) => {
-        if (json) {
-          return query(api.roles).result();
-        }
-      });
-
+      return query(entryPoints.role.delete, data).result(callback);
     case 'permissionItem':
-      return query(entryPoints.permission.item, data, 'GET').result();
+      return query(entryPoints.permission.item, data, 'GET').result(callback);
     case 'permissionSwitch':
-      return query(entryPoints.permission.switch, data).result().then((json) => {
-        // if (json) {
-        //   return query(api.permission, {id: data.role_id}, Query.get).result();
-        // }
-      });
-
+      return query(entryPoints.permission.switch, data).result(callback);
     case 'userItem':
-      return (new Query({ data, pointApi: entryPoints.item, type: 'GET', })).result();
+      return (new Query({ data, pointApi: entryPoints.item, type: 'GET' })).result();
     case 'userCurrent':
       return (new Query({
         domain: appConfig.domain.auth,
         type: 'GET',
-        pointApi: entryPoints.user.current
+        pointApi: entryPoints.user.current,
       })).result();
     case 'userEdit':
       return (new Query({ data, pointApi: entryPoints.edit })).result();
+    default:
+      return null;
   }
 }

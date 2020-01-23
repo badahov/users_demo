@@ -7,8 +7,10 @@ import Index from './component';
 
 import './css/index.less';
 
+import { locationTypes, paramsTypes } from '../global/types';
+
 const Module = (props) => {
-  const {location, params} = props;
+  const { location, params } = props;
 
   return (
     <Provider store={UserStore}>
@@ -18,6 +20,11 @@ const Module = (props) => {
       />
     </Provider>
   );
+};
+
+Module.propTypes = {
+  location: locationTypes.isRequired,
+  params: paramsTypes.isRequired,
 };
 
 export default Module;

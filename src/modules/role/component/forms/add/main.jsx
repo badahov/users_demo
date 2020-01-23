@@ -1,124 +1,110 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { Link } from 'react-router';
-import { Form, Button, Row, Input, List, Drawer, Col, Icon, message, Popconfirm } from 'antd';
+import {
+  Form,
+  Button,
+  Row,
+  Input,
+  List,
+  Drawer,
+  Col,
+  Icon,
+  Popconfirm,
+} from 'antd';
 
 const ButtonGroup = Button.Group;
 
 const { Search } = Input;
 
 class UserAddFormModel extends Component {
-  static defaultProps = {
-    visible: true,
-    visibleId: null,
-    successionId: null,
-    operationId: null,
-    inputSourceId: null,
-    stageId: null,
-    title: null,
-  };
-
   constructor(props) {
     super(props);
 
+    const { visible } = props;
+
     this.state = {
-      visible: props.visible,
+      visible,
     };
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    const { form, actionAdd } = this.props;
+
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         delete values.confirm;
 
-        this.props.actionAdd(values);
+        actionAdd(values);
       }
     });
   };
 
-  onClose = () => {
-    this.props.onClose();
-  };
-
   onRoleEditAction = (ev, id) => {
-    let parent = ev.target.parentElement.parentElement.parentElement.parentElement;
-    let listRoleItemId = parent.querySelector(`.link-role-name-${id}`);
-    let inputRoleName = parent.querySelector(`.input-role-name-${id}`);
-    let btnRoleEdit = parent.querySelector(`.btn-role-edit-${id}`);
-    let btnRoleDelete = parent.querySelector(`.btn-role-delete-${id}`);
-    let btnRoleSave = parent.querySelector(`.btn-role-save-${id}`);
+    const parent = ev.target.parentElement.parentElement.parentElement.parentElement;
+    const listRoleItemId = parent.querySelector(`.link-role-name-${id}`);
+    const inputRoleName = parent.querySelector(`.input-role-name-${id}`);
+    const btnRoleEdit = parent.querySelector(`.btn-role-edit-${id}`);
+    const btnRoleDelete = parent.querySelector(`.btn-role-delete-${id}`);
+    const btnRoleSave = parent.querySelector(`.btn-role-save-${id}`);
 
     listRoleItemId.style.display = 'none';
     inputRoleName.style.display = 'inline';
 
     btnRoleEdit.style.display = 'none';
     btnRoleDelete.style.display = 'none';
-    btnRoleSave ? btnRoleSave.style.display = 'inline' : null;
+
+    if (btnRoleSave) {
+      btnRoleSave.setAttribute('style', 'display: inline;');
+    }
   };
 
   onRoleDelete = (id) => {
-    this.props.actionDelete({
-      id: id,
-    }, (json) => {
-      if (json.status === 'ok') {
-        if (json.msg) {
-          message.success(json.msg);
+    const { actionDelete, onRoleSelect } = this.props;
+    actionDelete({ id }, (json) => {
+      onRoleSelect(0);
 
-          this.props.onRoleSelect(0);
-        }
-
-        if (json.result) {
-          return json.result;
-        } else {
-          return true;
-        }
-      } else if (json.msg) {
-        message.error(this._errorMsg(json.msg));
-        return false;
-      }
+      return json;
     });
   };
 
   onRoleEdit = (ev, id, name) => {
-    let parent = ev.target.parentElement.parentElement.parentElement.parentElement;
+    const { actionEdit } = this.props;
 
-    this.props.actionEdit({
-      id: id,
-      name: name,
+    const parent = ev.target.parentElement.parentElement.parentElement.parentElement;
+
+    actionEdit({
+      id,
+      name,
     }, (json) => {
-      if (json.status === 'ok') {
-        if (json.msg) {
-          message.success(json.msg);
+      if (json.status === 'ok' && json.result) {
+        const listRoleItemId = parent.querySelector(`.link-role-name-${id}`);
+        const inputRoleName = parent.querySelector(`.input-role-name-${id}`);
+        const btnRoleEdit = parent.querySelector(`.btn-role-edit-${id}`);
+        const btnRoleDelete = parent.querySelector(`.btn-role-delete-${id}`);
+        const btnRoleSave = parent.querySelector(`.btn-role-save-${id}`);
+
+        listRoleItemId.style.display = 'inline';
+        inputRoleName.style.display = 'none';
+
+        btnRoleEdit.style.display = 'inline';
+        btnRoleDelete.style.display = 'inline';
+
+        if (btnRoleSave) {
+          btnRoleSave.setAttribute('style', 'display: none;');
         }
 
-        if (json.result) {
-          let listRoleItemId = parent.querySelector(`.link-role-name-${id}`);
-          let inputRoleName = parent.querySelector(`.input-role-name-${id}`);
-          let btnRoleEdit = parent.querySelector(`.btn-role-edit-${id}`);
-          let btnRoleDelete = parent.querySelector(`.btn-role-delete-${id}`);
-          let btnRoleSave = parent.querySelector(`.btn-role-save-${id}`);
-
-          listRoleItemId.style.display = 'inline';
-          inputRoleName.style.display = 'none';
-
-          btnRoleEdit.style.display = 'inline';
-          btnRoleDelete.style.display = 'inline';
-          btnRoleSave ? btnRoleSave.style.display = 'none' : null;
-
-          return json.result;
-        } else {
-          return true;
-        }
-      } else if (json.msg) {
-        message.error(this._errorMsg(json.msg));
-        return false;
+        // btnRoleSave ? btnRoleSave.style.display = 'none' : null;
       }
+
+      return json;
     });
   };
 
-  shouldComponentUpdate = (nextProps, nextState) => {
-    if (this.props.visible !== nextProps.visible) {
+  shouldComponentUpdate = (nextProps) => {
+    const { visible } = this.props;
+    if (visible !== nextProps.visible) {
       this.setState({
         visible: nextProps.visible,
       });
@@ -128,14 +114,26 @@ class UserAddFormModel extends Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {
+      title,
+      form: {
+        getFieldDecorator,
+      },
+      onClose,
+      roleList,
+      onRoleSelect,
+    } = this.props;
+
+    const { visible } = this.state;
+
+    // console.log(this.props);
 
     return (
       <Drawer
-        title={this.props.title}
+        title={title}
         width={550}
-        onClose={this.onClose}
-        visible={this.state.visible}
+        onClose={onClose}
+        visible={visible}
         zIndex={1050}
       >
         <Row style={{ marginBottom: '20px' }}>
@@ -146,7 +144,7 @@ class UserAddFormModel extends Component {
                   // rules: [
                   //     { required: true, message: 'Пожалуйста, ввидите код пользователя' }
                   // ],
-                })(<Input placeholder="Название новой роли"/>)}
+                })(<Input placeholder="Название новой роли" />)}
               </Form.Item>
 
               <Form.Item>
@@ -161,15 +159,16 @@ class UserAddFormModel extends Component {
               size="small"
               style={{ marginTop: '10px' }}
               bordered
-              dataSource={this.props.roleList}
-              renderItem={item =>
+              dataSource={roleList}
+              renderItem={(item) => (
                 <List.Item
                   className={`list-role-item list-role-item-${item.id}`}
                   actions={(item.editable) ? [
-                    <ButtonGroup>
+                    <ButtonGroup key="btn-g-1">
                       <Button
                         className={`btn-role-edit btn-role-edit-${item.id}`}
-                        onClick={(ev) => this.onRoleEditAction(ev, item.id)} size="small"
+                        onClick={(ev) => this.onRoleEditAction(ev, item.id)}
+                        size="small"
                         icon="edit"
                       />
                       <Popconfirm
@@ -187,21 +186,25 @@ class UserAddFormModel extends Component {
                         />
                       </Popconfirm>
                     </ButtonGroup>,
-                  ] : null}>
-                  <Link onClick={(ev) => {
-                    this.props.onRoleSelect(ev, item.id);
-                  }} className={`link-role-name link-role-name-${item.id}`}
-                        style={{ width: '100%' }}>{item.name}</Link>
-
+                  ] : null}
+                >
+                  <Button
+                    onClick={() => onRoleSelect(item.id)}
+                    className={`link-role-name link-role-name-${item.id}`}
+                    style={{ width: '100%' }}
+                  >
+                    {item.name}
+                  </Button>
                   <Search
                     className={`input-role-name input-role-name-${item.id}`}
                     placeholder="Название новой роли"
-                    enterButton={<Icon type="save"/>}
+                    enterButton={<Icon type="save" />}
                     size="small"
                     defaultValue={item.name}
                     onSearch={(value, event) => this.onRoleEdit(event, item.id, value)}
                   />
-                </List.Item>}
+                </List.Item>
+              )}
             />
           </Col>
         </Row>
@@ -209,5 +212,23 @@ class UserAddFormModel extends Component {
     );
   }
 }
+
+UserAddFormModel.propTypes = {
+  title: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired,
+  actionAdd: PropTypes.func.isRequired,
+  actionDelete: PropTypes.func.isRequired,
+  actionEdit: PropTypes.func.isRequired,
+  onRoleSelect: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  form: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.func,
+  ])).isRequired,
+  roleList: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    editable: PropTypes.number.isRequired,
+  })).isRequired,
+};
 
 export default UserAddFormModel;

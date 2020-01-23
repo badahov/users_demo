@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
+import map from 'lodash/map';
+import forEach from 'lodash/forEach';
 import { Link } from 'react-router';
-
-import { Logout } from 'modules/app/core';
 
 import {
   Collapse,
@@ -20,11 +21,17 @@ import {
   Button,
 } from 'antd';
 
-const { Header, Content, Sider } = Layout;
-const Panel = Collapse.Panel;
-const { Meta } = Card;
+import Logout from '../../app/logout';
 
 import UserAddForm from './forms/add';
+
+import {
+  currentTypes,
+} from '../../global/types';
+
+const { Header, Content, Sider } = Layout;
+const { Panel } = Collapse;
+const { Meta } = Card;
 
 class Roles extends React.Component {
   constructor(props) {
@@ -37,17 +44,15 @@ class Roles extends React.Component {
       collapsed: true,
       visibleSourceAddForm: false,
       visibleId: null,
-      items: props.items,
-      loading: true,
-      operationId: '',
     };
 
     props.modelServer();
   }
 
   toggle = () => {
+    const { collapsed } = this.state;
     this.setState({
-      collapsed: !this.state.collapsed,
+      collapsed: !collapsed,
     });
   };
 
@@ -58,113 +63,167 @@ class Roles extends React.Component {
   };
 
   onOpen = () => {
+    const { visibleSourceAddForm } = this.state;
     this.setState({
-      visibleSourceAddForm: !this.state.visibleSourceAddForm,
+      visibleSourceAddForm: !visibleSourceAddForm,
       visibleId: 1,
     });
   };
 
-  onRoleSelect = (ev, id) => {
-    for (let i = 0; i < this.props.role.length; i++) {
-      let item = this.props.role[i];
+  onRoleSelect = (setId) => {
+    const {
+      role,
+      modelPermissionItem,
+    } = this.props;
 
-      if (item.id === id) {
+    for (let i = 0; i < role.length; i += 1) {
+      const {
+        id,
+        name,
+      } = role[i];
+
+      if (id === setId) {
         this.setState({
-          selectRoleName: item.name,
-          selectRoleId: item.id,
+          selectRoleName: name,
+          selectRoleId: id,
         });
 
-        this.props.modelPermissionItem({ id: item.id });
+        modelPermissionItem({ id });
         break;
       }
     }
 
-    let listRoleItems = document.querySelectorAll('.list-role-item');
-    listRoleItems.forEach((item) => {
+    const listRoleItems = document.querySelectorAll('.list-role-item');
+    forEach(listRoleItems, (item) => {
       item.setAttribute('style', 'background: #fff');
     });
 
-    let listRoleItemId = document.querySelector(`.list-role-item-${id}`);
+    const listRoleItemId = document.querySelector(`.list-role-item-${setId}`);
     listRoleItemId.setAttribute('style', 'background: #fafafa');
   };
 
   shouldComponentUpdate = (nextProps, nextState) => {
-    return nextProps.permission !== this.props.permission ||
-      nextState.visibleSourceAddForm !== this.state.visibleSourceAddForm ||
-      nextState.collapsed !== this.state.collapsed ||
-      nextProps.role !== this.props.role;
+    const {
+      permission,
+      role,
+    } = this.props;
+
+    const {
+      visibleSourceAddForm,
+      collapsed,
+    } = this.state;
+
+    return nextProps.permission !== permission
+      || nextState.visibleSourceAddForm !== visibleSourceAddForm
+      || nextState.collapsed !== collapsed
+      || nextProps.role !== role;
   };
 
   permissionsSwitch = (group, permission, enabled) => {
-    this.props.modelPermissionSwitch({
-      enabled: enabled,
+    const { modelPermissionSwitch } = this.props;
+    const { selectRoleId } = this.state;
+
+    modelPermissionSwitch({
+      enabled,
       permission_id: permission,
-      role_id: this.state.selectRoleId,
+      role_id: selectRoleId,
     });
   };
 
   render() {
-    if (this.props.current) {
-      let isLoad = (this.props.current) ? false : true;
+    const {
+      current,
+      role,
+      permission,
+      modelRoleDelete,
+      modelRoleEdit,
+      modelRoleAdd,
+    } = this.props;
+
+    const {
+      collapsed,
+      selectRoleName,
+      visibleSourceAddForm,
+      visibleId,
+    } = this.state;
+
+    if (current && permission) {
+      const isLoad = (!current);
 
       return (
         <Layout>
-          <Sider width={300} trigger={null} collapsible collapsed={this.state.collapsed}>
+          <Sider width={300} trigger={null} collapsible collapsed={collapsed}>
             <div className="logo">
               USER
             </div>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
               <Menu.Item key="1">
-                <Link to="/"><Icon type="team"/><span>Пользователи</span></Link>
+                <Link to="/">
+                  <Icon type="team" />
+                  <span>Пользователи</span>
+                </Link>
               </Menu.Item>
               <Menu.Item key="2">
-                <Link to="/role"><Icon type="cluster"/><span>Роли</span></Link>
+                <Link to="/role">
+                  <Icon type="cluster" />
+                  <span>Роли</span>
+                </Link>
               </Menu.Item>
               <Menu.ItemGroup key="roles" title="">
                 {
-                  (this.props.role)
-                    ?
-                    this.props.role.map((item) =>
-                      <Menu.Item onClick={(ev) => {
-                        this.onRoleSelect(ev, item.id);
-                      }} key={`role-${item.id}`}>
-                        <Icon type="property-safety"/>
+                  (role)
+                    ? map(map, (item) => (
+                      <Menu.Item
+                        onClick={() => this.onRoleSelect(item.id)}
+                        key={`role-${item.id}`}
+                      >
+                        <Icon type="property-safety" />
                         <span>{item.name}</span>
-                      </Menu.Item>,
-                    )
+                      </Menu.Item>
+                    ))
                     : null
                 }
               </Menu.ItemGroup>
             </Menu>
           </Sider>
           <Layout>
-            <Helmet title={this.state.selectRoleName}/>
+            <Helmet title={selectRoleName} />
             <Header>
               <PageHeader
-                title={<span><Icon
-                  className="trigger"
-                  type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                  onClick={this.toggle}
-                />Управление ролями</span>}
-                subTitle={`текущая: ${this.state.selectRoleName}`}
+                title={(
+                  <span>
+                    <Icon
+                      className="trigger"
+                      type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                      onClick={this.toggle}
+                    />
+                    Управление ролями
+                  </span>
+                )}
+                subTitle={`текущая: ${selectRoleName}`}
                 extra={[
-                  <Button key="add-role" className="btn-user-add" onClick={() => this.onOpen()}
-                          type="primary" size="small">
+                  <Button
+                    key="add-role"
+                    className="btn-user-add"
+                    onClick={() => this.onOpen()}
+                    type="primary"
+                    size="small"
+                  >
                     Управление ролями
                   </Button>,
-                  <Logout key="logout-1"/>,
+                  <Logout key="logout-1" />,
                 ]}
               />
             </Header>
-            <Content className='user-list'>
+            <Content className="user-list">
               <Spin tip="Загрузка..." size="large" spinning={isLoad}>
                 <Row>
                   <Col span={24}>
                     <Collapse defaultActiveKey={['1']}>
                       {
-                        (this.props.permission.modules) ?
-                          this.props.permission.modules.map((item) =>
-                            <Panel header={`${item.name}: ${item.desc}`} key={item.group}>
+                        (permission.modules)
+                          ? map(permission.modules, (module) => (
+                            <Panel header={`${module.name}: ${module.desc}`} key={module.group}>
                               <List
                                 grid={{
                                   gutter: 16,
@@ -175,12 +234,14 @@ class Roles extends React.Component {
                                   xl: 4,
                                   xxl: 4,
                                 }}
-                                dataSource={item.permissions}
-                                renderItem={(item, i) => (
+                                dataSource={module.permissions}
+                                renderItem={(item) => (
                                   <List.Item>
-                                    <Link onClick={() => {
-                                      this.permissionsSwitch(item.group, item.id, item.enabled);
-                                    }}>
+                                    <Button
+                                      onClick={() => {
+                                        this.permissionsSwitch(item.group, item.id, item.enabled);
+                                      }}
+                                    >
                                       <Popover content={item.desc} title={item.name}>
                                         <Card
                                           className={
@@ -192,34 +253,37 @@ class Roles extends React.Component {
                                         >
                                           <Meta
                                             avatar={
-                                              (item.enabled) ? <Icon type="check"/> : <Icon
-                                                type="stop"/>
+                                              (item.enabled)
+                                                ? <Icon type="check" />
+                                                : <Icon type="stop" />
                                             }
                                             title={item.name}
                                           />
                                         </Card>
                                       </Popover>
-                                    </Link>
+                                    </Button>
                                   </List.Item>
                                 )}
                               />
-                            </Panel>,
-                          )
+                            </Panel>
+                          ))
                           : null
                       }
                     </Collapse>
                   </Col>
                   <UserAddForm
-                    visible={this.state.visibleSourceAddForm}
-                    visibleId={this.state.visibleId}
-                    title='Роли'
-                    roleList={this.props.role}
+                    visible={visibleSourceAddForm}
+                    visibleId={visibleId}
+                    title="Роли"
+                    roleList={role}
                     onRoleSelect={this.onRoleSelect}
-                    actionDelete={this.props.modelRoleDelete}
-                    actionEdit={this.props.modelRoleEdit}
-                    actionAdd={this.props.modelRoleAdd}
+                    actionDelete={modelRoleDelete}
+                    actionEdit={modelRoleEdit}
+                    actionAdd={modelRoleAdd}
                     onClose={this.onClose}
-                    wrappedComponentRef={(form) => this.form = form}
+                    wrappedComponentRef={(form) => {
+                      this.form = form;
+                    }}
                   />
                 </Row>
               </Spin>
@@ -227,10 +291,40 @@ class Roles extends React.Component {
           </Layout>
         </Layout>
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 }
+
+Roles.defaultProps = {
+  permission: null,
+  role: null,
+};
+
+Roles.propTypes = {
+  current: currentTypes.isRequired,
+  modelPermissionItem: PropTypes.func.isRequired,
+  modelPermissionSwitch: PropTypes.func.isRequired,
+  modelRoleAdd: PropTypes.func.isRequired,
+  modelRoleDelete: PropTypes.func.isRequired,
+  modelRoleEdit: PropTypes.func.isRequired,
+  modelServer: PropTypes.func.isRequired,
+  permission: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    editable: PropTypes.number.isRequired,
+    modules: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      desc: PropTypes.string.isRequired,
+      group: PropTypes.number.isRequired,
+    })),
+  }),
+  role: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    editable: PropTypes.number.isRequired,
+  })),
+};
 
 export default Roles;

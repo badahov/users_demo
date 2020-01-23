@@ -1,11 +1,6 @@
-'use strict';
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { authLogin } from '../store/actions/auth';
 
 import {
   Layout,
@@ -19,33 +14,51 @@ import {
 const { Content } = Layout;
 
 class Login extends React.Component {
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
-  };
+  constructor(props) {
+    super(props);
 
-  handleSubmit = e => {
+    this.state = {
+      confirmDirty: false,
+    };
+  }
+
+  handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    const {
+      authLogin,
+      form: {
+        validateFieldsAndScroll,
+      },
+    } = this.props;
+
+    validateFieldsAndScroll((err, values) => {
       if (!err) {
-        new Promise((resolve) => {
-          this.props.authLogin(values);
-          setTimeout(() => { resolve(true); }, 1000);
-        });
+        authLogin(values);
       }
     });
   };
 
   validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
+    const {
+      form: {
+        validateFields,
+      },
+    } = this.props;
+
+    const { confirmDirty } = this.state;
+
+    if (value && confirmDirty) {
+      validateFields(['confirm'], { force: true });
     }
     callback();
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {
+      form: {
+        getFieldDecorator,
+      },
+    } = this.props;
 
     const formItemLayout = {
       wrapperCol: {
@@ -70,7 +83,7 @@ class Login extends React.Component {
 
     return (
       <Layout className="auth">
-        <Helmet title="Авторизация"/>
+        <Helmet title="Авторизация" />
         <Content>
           <Row className="form-box animated fadeInDown">
             <Col span={10} offset={7}>
@@ -78,11 +91,14 @@ class Login extends React.Component {
               <h3>Добро пожаловать</h3>
             </Col>
             <Col span={10} offset={7}>
-              <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+              <Form
+                wrapperCol={formItemLayout.wrapperCol}
+                onSubmit={this.handleSubmit}
+              >
                 <Form.Item>
                   {getFieldDecorator('login', {
                     rules: [{ required: true, message: 'Впишите логин', whitespace: true }],
-                  })(<Input placeholder="Логин"/>)}
+                  })(<Input placeholder="Логин" />)}
                 </Form.Item>
 
                 <Form.Item>
@@ -96,10 +112,12 @@ class Login extends React.Component {
                         validator: this.validateToNextPassword,
                       },
                     ],
-                  })(<Input.Password placeholder="Пароль"/>)}
+                  })(<Input.Password placeholder="Пароль" />)}
                 </Form.Item>
 
-                <Form.Item {...tailFormItemLayout}>
+                <Form.Item
+                  wrapperCol={tailFormItemLayout.wrapperCol}
+                >
                   <Button type="primary" htmlType="submit">
                     Войти
                   </Button>
@@ -113,9 +131,11 @@ class Login extends React.Component {
   }
 }
 
-const WrappedRegistrationForm = Form.create({ name: 'register' })(Login);
+Login.propTypes = {
+  form: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.func,
+  ])).isRequired,
+  authLogin: PropTypes.func.isRequired,
+};
 
-export default connect(
-  (state) => { return { login: state.auth.login }; },
-  (dispatch) => bindActionCreators({ authLogin, dispatch }, dispatch),
-)(WrappedRegistrationForm);
+export default Form.create({ name: 'register' })(Login);
