@@ -22,13 +22,13 @@ const Logout = () => {
         xhr.open('POST', urlAuth, true);
         xhr.withCredentials = true;
         xhr.send();
-        xhr.onload = function () {
+        xhr.onload = function onload() {
           const urlMain = `${config.domain.api}${config.server.setPoint}/auth/log-out`;
-          const xhr2 = new XMLHttpRequest();
-          xhr2.open('POST', urlMain, true);
-          xhr2.withCredentials = true;
-          xhr2.send();
-          xhr2.onload = function () {
+          const xhrX = new XMLHttpRequest();
+          xhrX.open('POST', urlMain, true);
+          xhrX.withCredentials = true;
+          xhrX.send();
+          xhrX.onload = function onloadX() {
             config.page.login();
           };
         };

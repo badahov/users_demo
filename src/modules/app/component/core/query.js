@@ -39,7 +39,7 @@ export default class Query {
     return this.fetch();
   }
 
-  response(json) {
+  response = (json) => {
     let result = null;
 
     if (json !== undefined) {
@@ -61,11 +61,13 @@ export default class Query {
     }
 
     return result;
-  }
+  };
 
-  result(callback = null) {
-    if (isFunction(callback)) {
-      return this.send().then(callback).then(this.response);
+  result(action = null) {
+    if (isFunction(action)) {
+      const responseBefore = action;
+
+      return this.send().then(responseBefore).then(this.response);
     }
 
     return this.send().then(this.response);
@@ -135,18 +137,8 @@ export default class Query {
         this.requestXdomainToken(url);
       } else if (response.status === 403) {
         this.message.error(config.error[response.status]);
-      }
-
-      if (response.status === 417) {
-        return response.json().then((data) => {
-          if (!data.status) {
-            this.message.error(errorMsg(data.msg));
-          } else {
-            this.message.error(config.error[response.status]);
-          }
-
-          return null;
-        });
+      } else if (response.status === 417) {
+        this.message.error(config.error[response.status]);
       }
 
       return null;
@@ -174,26 +166,26 @@ export default class Query {
     xhr.send();
 
     const self = this;
-    xhr.onload = function () {
-      if (this.status === 401) {
+    xhr.onload = function onload() {
+      if (xhr.status === 401) {
         self.loginPage();
-      } else if (this.status === 200) {
-        const result = JSON.parse(this.responseText);
+      } else if (xhr.status === 200) {
+        const result = JSON.parse(xhr.response);
         const arr = split(setUrl, '/');
         const domain = `${arr[0]}//${arr[2]}`;
         const domainAuth = `${domain}${config.server.setPoint}auth/login`;
 
         const formData = new FormData();
         formData.append('xdomainToken', result.xdomainToken);
-        const xhr2 = new XMLHttpRequest();
-        xhr2.open('POST', domainAuth, true);
-        xhr2.withCredentials = true;
-        xhr2.send(formData);
+        const xhrX = new XMLHttpRequest();
+        xhrX.open('POST', domainAuth, true);
+        xhrX.withCredentials = true;
+        xhrX.send(formData);
 
-        xhr2.onload = function () {
-          if (this.status === 401) {
+        xhrX.onload = function onloadX() {
+          if (xhrX.status === 401) {
             self.loginPage();
-          } else if (this.status === 200) {
+          } else if (xhrX.status === 200) {
             document.location.reload(true);
           }
         };

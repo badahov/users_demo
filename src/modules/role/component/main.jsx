@@ -70,7 +70,7 @@ class Roles extends React.Component {
     });
   };
 
-  onRoleSelect = (setId) => {
+  onRoleSelect = (ev, setId) => {
     const {
       role,
       modelPermissionItem,
@@ -99,7 +99,9 @@ class Roles extends React.Component {
     });
 
     const listRoleItemId = document.querySelector(`.list-role-item-${setId}`);
-    listRoleItemId.setAttribute('style', 'background: #fafafa');
+    if (listRoleItemId) {
+      listRoleItemId.setAttribute('style', 'background: #fafafa');
+    }
   };
 
   shouldComponentUpdate = (nextProps, nextState) => {
@@ -172,9 +174,9 @@ class Roles extends React.Component {
               <Menu.ItemGroup key="roles" title="">
                 {
                   (role)
-                    ? map(map, (item) => (
+                    ? map(role, (item) => (
                       <Menu.Item
-                        onClick={() => this.onRoleSelect(item.id)}
+                        onClick={(ev) => this.onRoleSelect(ev, item.id)}
                         key={`role-${item.id}`}
                       >
                         <Icon type="property-safety" />
@@ -238,6 +240,7 @@ class Roles extends React.Component {
                                 renderItem={(item) => (
                                   <List.Item>
                                     <Button
+                                      className="btn-permission"
                                       onClick={() => {
                                         this.permissionsSwitch(item.group, item.id, item.enabled);
                                       }}

@@ -17,7 +17,8 @@ export default connectAdvanced((dispatch) => {
   const modelItem = (data) => sendTo('userItem', data);
 
   const modelEdit = (data) => sendTo('userEdit', data, (json) => {
-    modelItem(ownProps.location.query);
+    modelItem({ id: ownProps.params.userId });
+
     return json;
   });
 

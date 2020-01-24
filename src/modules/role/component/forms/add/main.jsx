@@ -189,6 +189,7 @@ class UserAddFormModel extends Component {
                   ] : null}
                 >
                   <Button
+                    type="link"
                     onClick={() => onRoleSelect(item.id)}
                     className={`link-role-name link-role-name-${item.id}`}
                     style={{ width: '100%' }}

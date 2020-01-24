@@ -6,10 +6,10 @@ let auth = 'http://core.mes.local';
 
 if (process.env.NODE_ENV === 'development') {
   // console.log('Development');
-  api = 'https://yii.vitaopus.ru';
-  auth = 'https://yii.vitaopus.ru';
-  // api = 'http://core.localdev';
-  // auth = 'http://core.localdev';
+  // api = 'https://yii.vitaopus.ru';
+  // auth = 'https://yii.vitaopus.ru';
+  api = 'http://core.localdev';
+  auth = 'http://core.localdev';
 }
 
 export default {
