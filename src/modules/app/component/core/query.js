@@ -4,6 +4,8 @@ import isString from 'lodash/isString';
 import map from 'lodash/map';
 import keys from 'lodash/keys';
 import split from 'lodash/split';
+import fetch from 'node-fetch';
+
 import config from '../../../../config';
 
 const errorMsg = (param) => {

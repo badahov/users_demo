@@ -7,10 +7,10 @@ import Login from './component';
 
 import './css/index.less';
 
-const Inbox = () => (
+const LoginInbox = () => (
   <Provider store={localStore}>
     <Login />
   </Provider>
 );
 
-export default Inbox;
+export default LoginInbox;

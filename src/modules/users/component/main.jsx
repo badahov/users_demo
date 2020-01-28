@@ -218,7 +218,6 @@ class Users extends React.Component {
                               model="code"
                               value={code}
                               placeholder="Код"
-                              isFocus
                             />
                             <Sorting id="code" fsort={sort} />
                           </Filter>

@@ -1,5 +1,5 @@
 import React from 'react';
-import Helmet from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 
 import {
@@ -18,6 +18,8 @@ import Menu from './menu';
 import { currentTypes } from '../../global/types';
 
 const { Content } = Layout;
+
+const helmetContext = {};
 
 class Edit extends React.Component {
   constructor(props) {
@@ -112,34 +114,36 @@ class Edit extends React.Component {
       const isLoad = (!current);
 
       return (
-        <Layout>
-          <Menu
-            collapsed={collapsed}
-            page={page}
-            userId={userId}
-          />
+        <HelmetProvider context={helmetContext}>
           <Layout>
-            <Helmet title="Users" />
-            <HeaderPage
-              title={operatorName}
-              subTitle={`login: ${operatorLogin}`}
+            <Menu
               collapsed={collapsed}
-              toggle={this.toggle}
-              extra={[
-                <Logout key="logout-1" />,
-              ]}
+              page={page}
+              userId={userId}
             />
-            <Content className="user-edit">
-              <Spin
-                tip="Загрузка..."
-                size="large"
-                spinning={isLoad}
-              >
-                { this.renderTemplate(page) }
-              </Spin>
-            </Content>
+            <Layout>
+              <Helmet title="Users" />
+              <HeaderPage
+                title={operatorName}
+                subTitle={`login: ${operatorLogin}`}
+                collapsed={collapsed}
+                toggle={this.toggle}
+                extra={[
+                  <Logout key="logout-1" />,
+                ]}
+              />
+              <Content className="user-edit">
+                <Spin
+                  tip="Загрузка..."
+                  size="large"
+                  spinning={isLoad}
+                >
+                  { this.renderTemplate(page) }
+                </Spin>
+              </Content>
+            </Layout>
           </Layout>
-        </Layout>
+        </HelmetProvider>
       );
     }
 

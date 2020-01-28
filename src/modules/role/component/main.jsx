@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import classNames from 'classnames';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
@@ -35,6 +35,8 @@ import {
 const { Header, Content, Sider } = Layout;
 const { Panel } = Collapse;
 const { Meta } = Card;
+
+const helmetContext = {};
 
 class Roles extends React.Component {
   constructor(props) {
@@ -203,146 +205,148 @@ class Roles extends React.Component {
       const isLoad = (!current);
 
       return (
-        <Layout>
-          <Sider width={300} trigger={null} collapsible collapsed={collapsed}>
-            <div className="logo">
-              USER
-            </div>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
-              <Menu.Item key="1">
-                <Link to="/">
-                  <Icon type="team" />
-                  <span>Пользователи</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="2">
-                <Link to="/role">
-                  <Icon type="cluster" />
-                  <span>Роли</span>
-                </Link>
-              </Menu.Item>
-              <Menu.ItemGroup key="roles" title="">
-                {
-                  (role)
-                    ? map(role, (item) => (
-                      <Menu.Item
-                        onClick={(ev) => this.onRoleSelect(ev, item.id)}
-                        key={`role-${item.id}`}
-                      >
-                        <Icon type="property-safety" />
-                        <span>{item.name}</span>
-                      </Menu.Item>
-                    ))
-                    : null
-                }
-              </Menu.ItemGroup>
-            </Menu>
-          </Sider>
+        <HelmetProvider context={helmetContext}>
           <Layout>
-            <Helmet title={selectRoleName} />
-            <Header>
-              <PageHeader
-                title={(
-                  <span>
-                    <Icon
-                      className="trigger"
-                      type={collapsed ? 'menu-unfold' : 'menu-fold'}
-                      onClick={this.toggle}
-                    />
-                    Управление ролями
-                  </span>
-                )}
-                subTitle={`текущая: ${selectRoleName}`}
-                extra={[
-                  <Button
-                    key="add-role"
-                    className="btn-user-add"
-                    onClick={() => this.onOpen()}
-                    type="primary"
-                    size="small"
-                  >
-                    Управление ролями
-                  </Button>,
-                  <Logout key="logout-1" />,
-                ]}
-              />
-            </Header>
-            <Content className="user-list">
-              <Spin tip="Загрузка..." size="large" spinning={isLoad}>
-                <Row>
-                  <Col span={24}>
-                    <Collapse defaultActiveKey={['1']}>
-                      {
-                        (modules)
-                          ? map(modules, (module) => (
-                            <Panel header={`${module.name}: ${module.desc}`} key={module.group}>
-                              <List
-                                grid={{
-                                  gutter: 16,
-                                  xs: 1,
-                                  sm: 1,
-                                  md: 2,
-                                  lg: 3,
-                                  xl: 4,
-                                  xxl: 4,
-                                }}
-                                dataSource={module.permissions}
-                                renderItem={(item) => (
-                                  <List.Item>
-                                    <Button
-                                      className="btn-permission"
-                                      onClick={() => {
-                                        this.permissionsSwitch(item.group, item.id, item.enabled);
-                                      }}
-                                    >
-                                      <Popover content={item.desc} title={item.name}>
-                                        <Card
-                                          className={
-                                            classNames('permissions-default', {
-                                              'permissions-enabled': item.enabled,
-                                            })
-                                          }
-                                          size="small"
-                                        >
-                                          <Meta
-                                            avatar={
-                                              (item.enabled)
-                                                ? <Icon type="check" />
-                                                : <Icon type="stop" />
+            <Sider width={300} trigger={null} collapsible collapsed={collapsed}>
+              <div className="logo">
+                USER
+              </div>
+              <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
+                <Menu.Item key="1">
+                  <Link to="/">
+                    <Icon type="team" />
+                    <span>Пользователи</span>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="2">
+                  <Link to="/role">
+                    <Icon type="cluster" />
+                    <span>Роли</span>
+                  </Link>
+                </Menu.Item>
+                <Menu.ItemGroup key="roles" title="">
+                  {
+                    (role)
+                      ? map(role, (item) => (
+                        <Menu.Item
+                          onClick={(ev) => this.onRoleSelect(ev, item.id)}
+                          key={`role-${item.id}`}
+                        >
+                          <Icon type="property-safety" />
+                          <span>{item.name}</span>
+                        </Menu.Item>
+                      ))
+                      : null
+                  }
+                </Menu.ItemGroup>
+              </Menu>
+            </Sider>
+            <Layout>
+              <Helmet title={selectRoleName} />
+              <Header>
+                <PageHeader
+                  title={(
+                    <span>
+                      <Icon
+                        className="trigger"
+                        type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                        onClick={this.toggle}
+                      />
+                      Управление ролями
+                    </span>
+                  )}
+                  subTitle={`текущая: ${selectRoleName}`}
+                  extra={[
+                    <Button
+                      key="add-role"
+                      className="btn-user-add"
+                      onClick={() => this.onOpen()}
+                      type="primary"
+                      size="small"
+                    >
+                      Управление ролями
+                    </Button>,
+                    <Logout key="logout-1" />,
+                  ]}
+                />
+              </Header>
+              <Content className="user-list">
+                <Spin tip="Загрузка..." size="large" spinning={isLoad}>
+                  <Row>
+                    <Col span={24}>
+                      <Collapse defaultActiveKey={['1']}>
+                        {
+                          (modules)
+                            ? map(modules, (module) => (
+                              <Panel header={`${module.name}: ${module.desc}`} key={module.group}>
+                                <List
+                                  grid={{
+                                    gutter: 16,
+                                    xs: 1,
+                                    sm: 1,
+                                    md: 2,
+                                    lg: 3,
+                                    xl: 4,
+                                    xxl: 4,
+                                  }}
+                                  dataSource={module.permissions}
+                                  renderItem={(item) => (
+                                    <List.Item>
+                                      <Button
+                                        className="btn-permission"
+                                        onClick={() => {
+                                          this.permissionsSwitch(item.group, item.id, item.enabled);
+                                        }}
+                                      >
+                                        <Popover content={item.desc} title={item.name}>
+                                          <Card
+                                            className={
+                                              classNames('permissions-default', {
+                                                'permissions-enabled': item.enabled,
+                                              })
                                             }
-                                            title={item.name}
-                                          />
-                                        </Card>
-                                      </Popover>
-                                    </Button>
-                                  </List.Item>
-                                )}
-                              />
-                            </Panel>
-                          ))
-                          : null
-                      }
-                    </Collapse>
-                  </Col>
-                  <UserAddForm
-                    visible={visibleSourceAddForm}
-                    visibleId={visibleId}
-                    title="Роли"
-                    roleList={role}
-                    onRoleSelect={this.onRoleSelect}
-                    actionDelete={modelRoleDelete}
-                    actionEdit={modelRoleEdit}
-                    actionAdd={modelRoleAdd}
-                    onClose={this.onClose}
-                    wrappedComponentRef={(form) => {
-                      this.form = form;
-                    }}
-                  />
-                </Row>
-              </Spin>
-            </Content>
+                                            size="small"
+                                          >
+                                            <Meta
+                                              avatar={
+                                                (item.enabled)
+                                                  ? <Icon type="check" />
+                                                  : <Icon type="stop" />
+                                              }
+                                              title={item.name}
+                                            />
+                                          </Card>
+                                        </Popover>
+                                      </Button>
+                                    </List.Item>
+                                  )}
+                                />
+                              </Panel>
+                            ))
+                            : null
+                        }
+                      </Collapse>
+                    </Col>
+                    <UserAddForm
+                      visible={visibleSourceAddForm}
+                      visibleId={visibleId}
+                      title="Роли"
+                      roleList={role}
+                      onRoleSelect={this.onRoleSelect}
+                      actionDelete={modelRoleDelete}
+                      actionEdit={modelRoleEdit}
+                      actionAdd={modelRoleAdd}
+                      onClose={this.onClose}
+                      wrappedComponentRef={(form) => {
+                        this.form = form;
+                      }}
+                    />
+                  </Row>
+                </Spin>
+              </Content>
+            </Layout>
           </Layout>
-        </Layout>
+        </HelmetProvider>
       );
     }
 

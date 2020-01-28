@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import {
   Layout,
@@ -12,6 +12,8 @@ import {
 } from 'antd';
 
 const { Content } = Layout;
+
+const helmetContext = {};
 
 class Login extends React.Component {
   constructor(props) {
@@ -82,51 +84,51 @@ class Login extends React.Component {
     };
 
     return (
-      <Layout className="auth">
-        <Helmet title="Авторизация" />
-        <Content>
-          <Row className="form-box animated fadeInDown">
-            <Col span={10} offset={7}>
-              <h1 className="logo-name">USER</h1>
-              <h3>Добро пожаловать</h3>
-            </Col>
-            <Col span={10} offset={7}>
-              <Form
-                wrapperCol={formItemLayout.wrapperCol}
-                onSubmit={this.handleSubmit}
-              >
-                <Form.Item>
-                  {getFieldDecorator('login', {
-                    rules: [{ required: true, message: 'Впишите логин', whitespace: true }],
-                  })(<Input placeholder="Логин" />)}
-                </Form.Item>
-
-                <Form.Item>
-                  {getFieldDecorator('password', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Впишите пароль',
-                      },
-                      {
-                        validator: this.validateToNextPassword,
-                      },
-                    ],
-                  })(<Input.Password placeholder="Пароль" />)}
-                </Form.Item>
-
-                <Form.Item
-                  wrapperCol={tailFormItemLayout.wrapperCol}
+      <HelmetProvider context={helmetContext}>
+        <Layout className="auth">
+          <Helmet title="Авторизация" />
+          <Content>
+            <Row className="form-box animated fadeInDown">
+              <Col span={10} offset={7}>
+                <h1 className="logo-name">USER</h1>
+                <h3>Добро пожаловать</h3>
+              </Col>
+              <Col span={10} offset={7}>
+                <Form
+                  wrapperCol={formItemLayout.wrapperCol}
+                  onSubmit={this.handleSubmit}
                 >
-                  <Button type="primary" htmlType="submit">
-                    Войти
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Col>
-          </Row>
-        </Content>
-      </Layout>
+                  <Form.Item>
+                    {getFieldDecorator('login', {
+                      rules: [{ required: true, message: 'Впишите логин', whitespace: true }],
+                    })(<Input placeholder="Логин" />)}
+                  </Form.Item>
+                  <Form.Item>
+                    {getFieldDecorator('password', {
+                      rules: [
+                        {
+                          required: true,
+                          message: 'Впишите пароль',
+                        },
+                        {
+                          validator: this.validateToNextPassword,
+                        },
+                      ],
+                    })(<Input.Password placeholder="Пароль" />)}
+                  </Form.Item>
+                  <Form.Item
+                    wrapperCol={tailFormItemLayout.wrapperCol}
+                  >
+                    <Button type="primary" htmlType="submit">
+                      Войти
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Col>
+            </Row>
+          </Content>
+        </Layout>
+      </HelmetProvider>
     );
   }
 }
