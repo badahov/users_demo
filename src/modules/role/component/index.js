@@ -17,11 +17,11 @@ export default connectAdvanced((dispatch) => {
   const modelRoleItems = () => sendTo('roleItems');
 
   const modelPermissionItem = (data) => sendTo('permissionItem', data);
-  const modelPermissionSwitch = (data) => sendTo('permissionSwitch', data);
+  const modelPermissionSwitch = (data, afterAction) => sendTo('permissionSwitch', data, afterAction);
 
   const modelRoleAdd = (data) => sendTo('roleAdd', data, (json) => json);
 
-  const modelRoleEdit = (data) => sendTo('roleEdit', data, (json) => json);
+  const modelRoleEdit = (data, afterAction) => sendTo('roleEdit', data, afterAction);
 
   const modelRoleDelete = (data) => sendTo('roleDelete', data, (json) => json);
 

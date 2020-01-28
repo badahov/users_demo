@@ -4,6 +4,8 @@ import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
+import findIndex from 'lodash/findIndex';
+import clone from 'lodash/clone';
 import { Link } from 'react-router';
 
 import {
@@ -29,6 +31,7 @@ import {
   currentTypes,
 } from '../../global/types';
 
+
 const { Header, Content, Sider } = Layout;
 const { Panel } = Collapse;
 const { Meta } = Card;
@@ -44,6 +47,8 @@ class Roles extends React.Component {
       collapsed: true,
       visibleSourceAddForm: false,
       visibleId: null,
+
+      modules: null,
     };
 
     props.modelServer();
@@ -113,22 +118,67 @@ class Roles extends React.Component {
     const {
       visibleSourceAddForm,
       collapsed,
+      modules,
     } = this.state;
 
-    return nextProps.permission !== permission
+    if (nextProps.permission !== permission) {
+      this.setState({
+        modules: nextProps.permission.modules,
+      });
+    }
+
+    return nextState.modules !== modules
       || nextState.visibleSourceAddForm !== visibleSourceAddForm
       || nextState.collapsed !== collapsed
       || nextProps.role !== role;
   };
 
+  findGroupPermission = (obj, group, permission) => {
+    let findGroupIndex = null;
+    let findPermissionIndex = null;
+
+    forEach(obj, (module, groupIndex) => {
+      if (module.group === group) {
+        findGroupIndex = groupIndex;
+
+        const permissionIndex = findIndex(module.permissions, (element) => {
+          if (element.id === permission) {
+            return true;
+          }
+
+          return false;
+        });
+
+        findPermissionIndex = permissionIndex;
+      }
+    });
+
+    return {
+      group: Number(findGroupIndex),
+      permission: Number(findPermissionIndex),
+    };
+  };
+
   permissionsSwitch = (group, permission, enabled) => {
     const { modelPermissionSwitch } = this.props;
-    const { selectRoleId } = this.state;
+    const { selectRoleId, modules } = this.state;
+
+    const newModules = clone(modules);
 
     modelPermissionSwitch({
       enabled,
       permission_id: permission,
       role_id: selectRoleId,
+    }, (data) => {
+      if (data.status === 'ok') {
+        const result = this.findGroupPermission(newModules, group, permission);
+
+        newModules[result.group].permissions[result.permission].enabled = !enabled;
+
+        this.setState({
+          modules: newModules,
+        });
+      }
     });
   };
 
@@ -136,7 +186,6 @@ class Roles extends React.Component {
     const {
       current,
       role,
-      permission,
       modelRoleDelete,
       modelRoleEdit,
       modelRoleAdd,
@@ -147,9 +196,10 @@ class Roles extends React.Component {
       selectRoleName,
       visibleSourceAddForm,
       visibleId,
+      modules,
     } = this.state;
 
-    if (current && permission) {
+    if (current && modules) {
       const isLoad = (!current);
 
       return (
@@ -223,8 +273,8 @@ class Roles extends React.Component {
                   <Col span={24}>
                     <Collapse defaultActiveKey={['1']}>
                       {
-                        (permission.modules)
-                          ? map(permission.modules, (module) => (
+                        (modules)
+                          ? map(modules, (module) => (
                             <Panel header={`${module.name}: ${module.desc}`} key={module.group}>
                               <List
                                 grid={{

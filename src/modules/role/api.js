@@ -49,7 +49,7 @@ export default function api(action, data, callback) {
         pointApi: entryPoints.user.current,
       })).result();
     case 'userEdit':
-      return (new Query({ data, pointApi: entryPoints.edit })).result();
+      return (new Query({ data, pointApi: entryPoints.edit })).result(callback);
     default:
       return null;
   }

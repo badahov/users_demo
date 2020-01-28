@@ -17,6 +17,9 @@ const ButtonGroup = Button.Group;
 
 const { Search } = Input;
 
+const displayNone = 'display: none;';
+const displayInline = 'display: inline;';
+
 class UserAddFormModel extends Component {
   constructor(props) {
     super(props);
@@ -49,14 +52,14 @@ class UserAddFormModel extends Component {
     const btnRoleDelete = parent.querySelector(`.btn-role-delete-${id}`);
     const btnRoleSave = parent.querySelector(`.btn-role-save-${id}`);
 
-    listRoleItemId.style.display = 'none';
-    inputRoleName.style.display = 'inline';
+    listRoleItemId.setAttribute('style', displayNone);
+    inputRoleName.setAttribute('style', displayInline);
 
-    btnRoleEdit.style.display = 'none';
-    btnRoleDelete.style.display = 'none';
+    btnRoleEdit.setAttribute('style', displayNone);
+    btnRoleDelete.setAttribute('style', displayNone);
 
     if (btnRoleSave) {
-      btnRoleSave.setAttribute('style', 'display: inline;');
+      btnRoleSave.setAttribute('style', displayInline);
     }
   };
 
@@ -78,24 +81,20 @@ class UserAddFormModel extends Component {
       id,
       name,
     }, (json) => {
-      if (json.status === 'ok' && json.result) {
+      if (json.status === 'ok') {
         const listRoleItemId = parent.querySelector(`.link-role-name-${id}`);
         const inputRoleName = parent.querySelector(`.input-role-name-${id}`);
         const btnRoleEdit = parent.querySelector(`.btn-role-edit-${id}`);
         const btnRoleDelete = parent.querySelector(`.btn-role-delete-${id}`);
         const btnRoleSave = parent.querySelector(`.btn-role-save-${id}`);
 
-        listRoleItemId.style.display = 'inline';
-        inputRoleName.style.display = 'none';
+        listRoleItemId.setAttribute('style', displayInline);
+        inputRoleName.setAttribute('style', displayNone);
 
-        btnRoleEdit.style.display = 'inline';
-        btnRoleDelete.style.display = 'inline';
+        btnRoleEdit.setAttribute('style', displayInline);
+        btnRoleDelete.setAttribute('style', displayInline);
 
-        if (btnRoleSave) {
-          btnRoleSave.setAttribute('style', 'display: none;');
-        }
-
-        // btnRoleSave ? btnRoleSave.style.display = 'none' : null;
+        btnRoleSave.setAttribute('style', displayNone);
       }
 
       return json;
@@ -125,8 +124,6 @@ class UserAddFormModel extends Component {
     } = this.props;
 
     const { visible } = this.state;
-
-    // console.log(this.props);
 
     return (
       <Drawer

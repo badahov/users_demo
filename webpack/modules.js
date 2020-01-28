@@ -1,5 +1,3 @@
-'use strict';
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const addHash = require('./func').addHash;
@@ -24,7 +22,7 @@ module.exports = () => {
           test: /\.(jsx|js)(\?.*$|$)/,
           exclude: [/node_modules/, /public/],
           use: {
-            loader: "babel-loader",
+            loader: 'babel-loader',
             options: {
               env: {
                 production: {
@@ -33,14 +31,14 @@ module.exports = () => {
                   ],
                 },
               },
-              presets: ["@babel/preset-env", "@babel/preset-react",
+              presets: ['@babel/preset-env', '@babel/preset-react',
                 {
                   plugins: [
-                    '@babel/plugin-proposal-class-properties'
-                  ]
+                    '@babel/plugin-proposal-class-properties',
+                  ],
                 }],
             },
-          }
+          },
         },
         {
           test: /\.(css|less)$/,
@@ -118,10 +116,3 @@ module.exports = () => {
     ],
   };
 };
-
-function wrapRegexp(regexp, label) {
-  regexp.test = function (path) {
-    return RegExp.prototype.test.call(this, path);
-  };
-  return regexp;
-}
