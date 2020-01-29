@@ -1,10 +1,10 @@
 import React from 'react';
-import UsersInbox from '../component/main';
-import noop from 'lodash/noop';
-
 import { configure } from 'enzyme';
 import renderer from 'react-test-renderer';
 import Adapter from 'enzyme-adapter-react-16';
+import noop from 'lodash/noop';
+
+import UsersInbox from '../component/main';
 
 configure({ adapter: new Adapter() });
 
@@ -45,7 +45,7 @@ describe('Users', () => {
         access={access}
         loading
         collapsedSiderMenu
-      />
+      />,
     ).toJSON();
 
     expect(tree).toMatchSnapshot();
