@@ -9,6 +9,7 @@ import Login from './modules/login';
 import Users from './modules/users';
 import Edit from './modules/edit';
 import Role from './modules/role';
+import Demo from './modules/demo';
 
 const rootRoute = {
   path: '/',
@@ -18,6 +19,7 @@ const rootRoute = {
     Login,
     Edit,
     Role,
+    Demo,
   ],
 };
 
