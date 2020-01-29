@@ -6,7 +6,9 @@
     // Включаем возможности ES6
     "es6": true,
     // Добавляем возможности ES2017
-    "es2017": true
+    "es2017": true,
+
+    "jest": true
   },
   // Наборы правил
   "extends": [
@@ -35,6 +37,14 @@
     ],
     "optimize-regex/optimize-regex": "warn",
     "sonarjs/cognitive-complexity": ["error", 20],
-    "no-param-reassign": [2, {"props": false}]
+    "no-param-reassign": [2, {"props": false}],
+    "no-console": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
+        "message": "Unexpected property on console object was called"
+      }
+    ]
   }
 }
