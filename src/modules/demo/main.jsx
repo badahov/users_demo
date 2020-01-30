@@ -21,8 +21,68 @@ const Item = (props) => {
     position: 'absolute',
   };
 
+  const getCoords = (elem) => {
+    const box = elem.getBoundingClientRect();
+    return {
+      top: box.top + window.pageYOffset,
+      left: box.left + window.pageXOffset,
+    };
+  };
+
+  const dragAndDrop = (e) => {
+    const element = e.target;
+
+    const coords = getCoords(element);
+    const shiftX = e.pageX - coords.left;
+    const shiftY = e.pageY - coords.top;
+
+    element.style.position = 'absolute';
+    document.body.appendChild(element);
+
+    element.style.zIndex = 1000;
+
+    const moveAt = (em) => {
+      element.style.left = em.pageX - shiftX + 'px';
+      element.style.top = em.pageY - shiftY + 'px';
+    };
+
+    document.onmousemove = (e) => {
+      moveAt(e);
+    };
+
+    element.onmouseup = () => {
+      document.onmousemove = null;
+      element.onmouseup = null;
+    };
+  };
+
+  // навел
+  // mouseenter
+  // mouseover
+  // mousemove
+
+  // отвел
+  // mouseout
+  // mouseleave
+
+  // клик
+  // mousedown
+  // mouseup
+  // click
+
+  // onClick onContextMenu onDoubleClick onDrag onDragEnd onDragEnter onDragExit
+  // onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave
+  // onMouseMove onMouseOut onMouseOver onMouseUp
+
   return (
-    <div style={style} id={`item-${id}`} className="item">{id} {priority}</div>
+    <div
+      style={style}
+      id={`item-${id}`}
+      className="item"
+      onMouseDown={dragAndDrop}
+    >
+      {id} {priority}
+    </div>
   );
 };
 
@@ -37,7 +97,7 @@ class Demo extends React.Component {
       block.push({
         top: 0,
         left: 0,
-        height: 150,
+        height: 100,
         width: 200,
         number: i,
         priority,
