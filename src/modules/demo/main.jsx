@@ -1,90 +1,7 @@
 import React from 'react';
+import map from 'lodash/map';
 
-const Item = (props) => {
-  const {
-    id,
-    priority,
-    color,
-    top,
-    left,
-    height,
-    width,
-  } = props;
-
-  const style = {
-    width,
-    height,
-    top,
-    left,
-    backgroundColor: color,
-    border: '1px solid black',
-    position: 'absolute',
-  };
-
-  const getCoords = (elem) => {
-    const box = elem.getBoundingClientRect();
-    return {
-      top: box.top + window.pageYOffset,
-      left: box.left + window.pageXOffset,
-    };
-  };
-
-  const dragAndDrop = (e) => {
-    const element = e.target;
-
-    const coords = getCoords(element);
-    const shiftX = e.pageX - coords.left;
-    const shiftY = e.pageY - coords.top;
-
-    element.style.position = 'absolute';
-    document.body.appendChild(element);
-
-    element.style.zIndex = 1000;
-
-    const moveAt = (em) => {
-      element.style.left = em.pageX - shiftX + 'px';
-      element.style.top = em.pageY - shiftY + 'px';
-    };
-
-    document.onmousemove = (e) => {
-      moveAt(e);
-    };
-
-    element.onmouseup = () => {
-      document.onmousemove = null;
-      element.onmouseup = null;
-    };
-  };
-
-  // навел
-  // mouseenter
-  // mouseover
-  // mousemove
-
-  // отвел
-  // mouseout
-  // mouseleave
-
-  // клик
-  // mousedown
-  // mouseup
-  // click
-
-  // onClick onContextMenu onDoubleClick onDrag onDragEnd onDragEnter onDragExit
-  // onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave
-  // onMouseMove onMouseOut onMouseOver onMouseUp
-
-  return (
-    <div
-      style={style}
-      id={`item-${id}`}
-      className="item"
-      onMouseDown={dragAndDrop}
-    >
-      {id} {priority}
-    </div>
-  );
-};
+import Item from './item';
 
 class Demo extends React.Component {
   constructor(props) {
@@ -110,24 +27,25 @@ class Demo extends React.Component {
     };
   }
 
-  generateColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  componentDidMount() {
+    const { block } = this.state;
 
-  getPriority = (block) => {
-    let priority = this.getRandomInt(25, 129);
+    const widthWindow = document.documentElement.clientWidth;
+    const heightWindow = window.innerHeight;
 
-    for (let i = 0; i < block.length; i += 1) {
-      if (priority === block[i].priority) {
-        priority = this.getPriority(block);
-        break;
-      }
-    }
+    const items = map(block, (item) => {
+      const p = this.getPos(item, block, widthWindow, heightWindow);
 
-    return priority;
-  };
+      item.top = p.y;
+      item.left = p.x;
 
-  getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+      return item;
+    });
 
-  intersects = (a, b) => (a.y < b.y1 || a.y1 > b.y || a.x1 < b.x || a.x > b.x1);
+    this.setState({
+      block: items,
+    });
+  }
 
   getPos = (item, blocks, width, height) => {
     let p = {
@@ -144,13 +62,13 @@ class Demo extends React.Component {
     let b;
 
     for (let i = 0; i < blocks.length; i += 1) {
-      let temp = blocks[i];
+      const pos = blocks[i];
 
       a = {
-        x: temp.left,
-        y: temp.top,
-        x1: temp.left + temp.width,
-        y2: temp.top + temp.height,
+        x: pos.left,
+        y: pos.top,
+        x1: pos.left + pos.width,
+        y2: pos.top + pos.height,
       };
 
       b = {
@@ -173,43 +91,44 @@ class Demo extends React.Component {
     return p;
   };
 
-  componentDidMount() {
-    const widthWindow = document.documentElement.clientWidth;
-    const heightWindow = window.innerHeight;
+  intersects = (a, b) => (a.y < b.y1 || a.y1 > b.y || a.x1 < b.x || a.x > b.x1);
 
-    const items = this.state.block.map((item) => {
-      const p = this.getPos(item, this.state.block, widthWindow, heightWindow);
+  getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-      item.top = p.y;
-      item.left = p.x;
+  getPriority = (block) => {
+    let priority = this.getRandomInt(25, 129);
 
-      return item;
-    });
+    for (let i = 0; i < block.length; i += 1) {
+      if (priority === block[i].priority) {
+        priority = this.getPriority(block);
+        break;
+      }
+    }
 
-    this.setState({
-      block: items,
-    });
-  }
+    return priority;
+  };
+
+  generateColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
   render() {
     const { block } = this.state;
 
     return (
       <>
-      {
-        block.map((item) => (
-          <Item
-            key={item.number}
-            id={item.number}
-            priority={item.priority}
-            color={item.color}
-            top={item.top}
-            left={item.left}
-            height={item.height}
-            width={item.width}
-          />
-        ))
-      }
+        {
+          (map, block, (item) => (
+            <Item
+              key={item.number}
+              id={item.number}
+              priority={item.priority}
+              color={item.color}
+              top={item.top}
+              left={item.left}
+              height={item.height}
+              width={item.width}
+            />
+          ))
+        }
       </>
     );
   }
