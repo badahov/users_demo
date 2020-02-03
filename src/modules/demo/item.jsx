@@ -37,33 +37,43 @@ const Item = (props) => {
     };
   };
 
-  const dragAndDrop = (e) => {
-    const element = e.target;
+  const dragAndDrop = (moveEm) => {
+    const moveElement = moveEm.target;
 
-    const coords = getCoords(element);
-    const shiftX = e.pageX - coords.left;
-    const shiftY = e.pageY - coords.top;
+    const coords = getCoords(moveElement);
+    const shiftX = moveEm.pageX - coords.left;
+    const shiftY = moveEm.pageY - coords.top;
 
-    element.style.position = 'absolute';
-    document.body.appendChild(element);
+    moveElement.style.position = 'absolute';
+    document.body.appendChild(moveElement);
 
-    element.style.zIndex = 1000;
+    moveElement.style.zIndex = 1000;
 
     const enterDroppable = (elem) => {
-      elem.style.background = 'rad';
+      elem.style.background = 'pink';
     };
 
     const leaveDroppable = (elem) => {
       elem.style.background = '';
     };
 
-    const moveAt = (em) => {
-      element.style.left = `${em.pageX - shiftX}px`;
-      element.style.top = `${em.pageY - shiftY}px`;
+    const decrease = (elem) => {
+      elem.style.width = `${elem.clientWidth / 2}px`;
+      elem.style.height = `${elem.clientHeight / 2}px`;
 
-      element.hidden = true;
+      moveElement.style.left = `${elem.pageX + shiftX}px`;
+      moveElement.style.top = `${elem.pageY + shiftY}px`;
+
+      console.log('elem', elem.clientWidth, elem.clientHeight);
+    };
+
+    const moveAt = (em) => {
+      moveElement.style.left = `${em.pageX - shiftX}px`;
+      moveElement.style.top = `${em.pageY - shiftY}px`;
+
+      moveElement.hidden = true;
       const elemBelow = document.elementFromPoint(em.clientX, em.clientY);
-      element.hidden = false;
+      moveElement.hidden = false;
 
       if (!elemBelow) return;
 
@@ -75,6 +85,31 @@ const Item = (props) => {
         }
         currentDroppable = droppableBelow;
         if (currentDroppable) {
+          // У элемента посылки есть тип
+          if (em.target.hasAttribute('data-type')) {
+            console.log('посылка');
+
+            // У элемента получателя есть тип
+          } else if (currentDroppable.hasAttribute('data-type')) {
+            console.log('получатель');
+
+            // Типов нет
+          } else {
+            // Приоритет посылки
+            let priority1 = em.target.getAttribute('data-priority');
+            // Приоритет получателя
+            let priority2 = currentDroppable.getAttribute('data-priority');
+
+            console.log(priority1, priority2);
+
+            decrease(em.target);
+
+            em.target.setAttribute('data-type', 'child');
+          }
+
+          // console.log('elem', em.target.id, em.target.getAttribute('data-priority'));
+          // console.log('currentDroppable', currentDroppable.id, currentDroppable.getAttribute('data-priority'));
+
           // логика обработки процесса, когда мы "влетаем" в элемент droppable
           enterDroppable(currentDroppable);
         }
@@ -85,9 +120,9 @@ const Item = (props) => {
       moveAt(me);
     };
 
-    element.onmouseup = () => {
+    moveElement.onmouseup = () => {
       document.onmousemove = null;
-      element.onmouseup = null;
+      moveElement.onmouseup = null;
     };
   };
 
@@ -99,9 +134,9 @@ const Item = (props) => {
       role="link"
       className="item"
       onMouseDown={dragAndDrop}
+      data-priority={priority}
     >
-      {id}
-      {priority}
+      {id} / {priority}
     </div>
   );
 };
