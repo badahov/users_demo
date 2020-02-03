@@ -116,7 +116,7 @@ class Demo extends React.Component {
     return (
       <>
         {
-          (map, block, (item) => (
+          map(block, (item) => (
             <Item
               key={item.number}
               id={item.number}

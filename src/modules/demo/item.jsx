@@ -27,6 +27,8 @@ const Item = (props) => {
     position: 'absolute',
   };
 
+  let currentDroppable = null;
+
   const getCoords = (elem) => {
     const box = elem.getBoundingClientRect();
     return {
@@ -47,9 +49,36 @@ const Item = (props) => {
 
     element.style.zIndex = 1000;
 
+    const enterDroppable = (elem) => {
+      elem.style.background = 'rad';
+    };
+
+    const leaveDroppable = (elem) => {
+      elem.style.background = '';
+    };
+
     const moveAt = (em) => {
       element.style.left = `${em.pageX - shiftX}px`;
       element.style.top = `${em.pageY - shiftY}px`;
+
+      element.hidden = true;
+      const elemBelow = document.elementFromPoint(em.clientX, em.clientY);
+      element.hidden = false;
+
+      if (!elemBelow) return;
+
+      const droppableBelow = elemBelow.closest('.item');
+      if (currentDroppable !== droppableBelow) {
+        if (currentDroppable) {
+          // логика обработки процесса "вылета" из droppable (удаляем подсветку)
+          leaveDroppable(currentDroppable);
+        }
+        currentDroppable = droppableBelow;
+        if (currentDroppable) {
+          // логика обработки процесса, когда мы "влетаем" в элемент droppable
+          enterDroppable(currentDroppable);
+        }
+      }
     };
 
     document.onmousemove = (me) => {
