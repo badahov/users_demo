@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import throttle from 'lodash/throttle';
 
 import {
   Form,
@@ -11,29 +12,6 @@ import {
   Drawer,
 } from 'antd';
 
-const style = {
-  position: 'absolute',
-  left: 0,
-  bottom: 0,
-  width: '100%',
-  borderTop: '1px solid #e9e9e9',
-  padding: '10px 16px',
-  background: '#fff',
-  textAlign: 'right',
-  zIndex: 2000,
-};
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 7 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 12 },
-  },
-};
-
 class UserAddFormModel extends Component {
   constructor(props) {
     super(props);
@@ -41,20 +19,25 @@ class UserAddFormModel extends Component {
     this.state = {
       DrawerWidth: 550,
       DrawerZIndex: 1050,
+      formItemLayout: {
+        labelCol: {
+          xs: { span: 24 },
+          sm: { span: 7 },
+        },
+        wrapperCol: {
+          xs: { span: 24 },
+          sm: { span: 12 },
+        },
+      },
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmitThrottled = throttle(this.handleSubmit, 1000);
   }
 
-  handleSubmit = (e) => {
-    const { form, submitForm } = this.props;
-
-    e.preventDefault();
-    form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        delete values.confirm;
-        submitForm(values);
-      }
-    });
-  };
+  componentWillUnmount() {
+    this.handleSubmitThrottled.cancel();
+  }
 
   handleConfirmBlur = (e) => {
     const { value } = e.target;
@@ -74,14 +57,27 @@ class UserAddFormModel extends Component {
     }
   };
 
-  validateToNextPassword = (rule, value, callback) => {
+  validateToNextPassword(rule, value, callback) {
     const { form } = this.props;
     const { confirmDirty } = this.state;
     if (value && confirmDirty) {
       form.validateFields(['confirm'], { force: true });
     }
     callback();
-  };
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const { form, submitForm } = this.props;
+
+    form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        delete values.confirm;
+        submitForm(values);
+      }
+    });
+  }
 
   render() {
     const {
@@ -93,7 +89,11 @@ class UserAddFormModel extends Component {
       },
     } = this.props;
 
-    const { DrawerWidth, DrawerZIndex } = this.state;
+    const {
+      DrawerWidth,
+      DrawerZIndex,
+      formItemLayout,
+    } = this.state;
 
     return (
       <Drawer
@@ -104,9 +104,10 @@ class UserAddFormModel extends Component {
         zIndex={DrawerZIndex}
       >
         <Form
+          className="users-form"
           labelCol={formItemLayout.labelCol}
           wrapperCol={formItemLayout.wrapperCol}
-          onSubmit={this.handleSubmit}
+          onSubmit={this.handleSubmitThrottled}
         >
           <Row gutter={16} style={{ marginBottom: '20px' }}>
             <Form.Item label="Код" hasFeedback>
@@ -182,7 +183,7 @@ class UserAddFormModel extends Component {
               }
             </Form.Item>
           </Row>
-          <Row style={style}>
+          <Row className="users-form-footer-button">
             <Button onClick={onClose} style={{ marginRight: 8 }}>
               Закрыить
             </Button>
@@ -204,4 +205,4 @@ UserAddFormModel.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default UserAddFormModel;
+export default React.memo(UserAddFormModel);

@@ -9,6 +9,7 @@ class Filters {
     this.page = (options.page !== undefined) ? options.page : null;
     this.callback = (options.callback !== undefined) ? options.callback : null;
     this.action = (options.action !== undefined) ? options.action : null;
+    this.model = (options.model !== undefined) ? options.model : null;
   }
 
   isUpdate() {
@@ -31,6 +32,10 @@ class Filters {
 
         if (this.action) {
           this.action();
+        }
+
+        if (this.model) {
+          this.model(this.query);
         }
 
         isUpdate = true;

@@ -90,4 +90,4 @@ UserTableItem.propTypes = {
   onDeleteUser: PropTypes.func.isRequired,
 };
 
-export default UserTableItem;
+export default React.memo(UserTableItem);

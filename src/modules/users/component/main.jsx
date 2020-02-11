@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
+import debounce from 'lodash/debounce';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Link } from 'react-router';
 
@@ -51,6 +52,8 @@ class Users extends React.Component {
       visibleUserAddForm: props.visibleUserAddForm,
     };
 
+    this.modelItemsDebounced = debounce(props.modelItems, 250);
+
     props.modelCurrentUser();
     props.modelServer();
   }
@@ -59,7 +62,6 @@ class Users extends React.Component {
     const {
       items,
       header,
-      modelItems,
       loading,
       location: {
         query,
@@ -79,9 +81,7 @@ class Users extends React.Component {
       page,
       query,
       nextHeader: nextProps.header,
-      action: () => {
-        modelItems(query);
-      },
+      model: this.modelItemsDebounced,
     })).isUpdate();
 
     return items !== nextProps.items
@@ -89,6 +89,10 @@ class Users extends React.Component {
       || loading !== nextProps.loading
       || collapsedSiderMenu !== nextState.collapsedSiderMenu
       || visibleUserAddForm !== nextState.visibleUserAddForm;
+  }
+
+  componentWillUnmount() {
+    this.modelItemsDebounced.cancel();
   }
 
   /**
