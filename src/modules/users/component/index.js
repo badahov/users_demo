@@ -1,12 +1,13 @@
 import isNull from 'lodash/isNull';
 import { shallowEqual, connectAdvanced } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import creator from '../../app/creator';
 import api from '../api';
 
 import Users from './main';
 
-export default connectAdvanced((dispatch) => {
+const UsersRedux = connectAdvanced((dispatch) => {
   const module = 'system';
   let ownProps = {};
   let result = {};
@@ -37,6 +38,8 @@ export default connectAdvanced((dispatch) => {
    * @private
    */
   const modelServer = () => {
+    console.log('ownProps', ownProps);
+
     modelHeader(ownProps.location.query);
     modelItems(ownProps.location.query);
   };
@@ -52,6 +55,9 @@ export default connectAdvanced((dispatch) => {
   };
 
   return (nextState, nextOwnProps) => {
+    console.log('nextState', nextState);
+    console.log('nextOwnProps', nextOwnProps);
+
     const loading = isNull(nextState[module].userItems);
 
     const header = isNull(nextState[module].userItems)
@@ -99,3 +105,5 @@ export default connectAdvanced((dispatch) => {
     return result;
   };
 })(Users);
+
+export default withRouter(UsersRedux);

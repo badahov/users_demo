@@ -1,4 +1,7 @@
-import { hashHistory } from 'react-router';
+import {
+  BrowserRouter as Router,
+} from 'react-router-dom';
+
 import { message, notification } from 'antd';
 
 let api = 'http://core.mes.local';
@@ -14,16 +17,16 @@ if (process.env.NODE_ENV === 'development') {
 
 export default {
   action: {},
-  history: hashHistory,
+  history: Router,
   page: {
     login: () => {
-      hashHistory.push('/login');
+      Router.push('/login');
     },
     home: () => {
-      hashHistory.push('/');
+      Router.push('/');
     },
   },
-
+  //
   message: {
     error: (msg) => {
       notification.error({

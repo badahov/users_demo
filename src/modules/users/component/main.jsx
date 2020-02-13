@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import map from 'lodash/map';
 import debounce from 'lodash/debounce';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import {
   Menu,
@@ -51,6 +51,8 @@ class Users extends React.Component {
       collapsedSiderMenu: props.collapsedSiderMenu,
       visibleUserAddForm: props.visibleUserAddForm,
     };
+
+    console.log('props', props);
 
     this.modelItemsDebounced = debounce(props.modelItems, 250);
 

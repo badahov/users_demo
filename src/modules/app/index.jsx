@@ -6,11 +6,13 @@ import 'antd/dist/antd.css';
 import './css/index.less';
 
 const App = (props) => {
-  const { children } = props;
+  const { children, options } = props;
 
   return (
     <div className="theme-user">
-      {children}
+      {React.cloneElement(children, {
+        ...props,
+      })}
     </div>
   );
 };

@@ -1,81 +1,44 @@
-import config from '../../../../config';
-
 const middleware = (store) => (next) => (action) => {
-  switch (action.type) {
-    case 'AUTH_LOGIN': {
-      const [startAction] = action.actions;
+  if (action.type === 'AUTH_LOGIN') {
+    const [startAction, authOk] = action.actions;
 
-      store.dispatch({
-        type: startAction,
-      });
+    store.dispatch({
+      type: startAction,
+    });
 
-      action.promise.onload = function onload() {
-        const result = JSON.parse(action.promise.response);
+    action.promise.onload = function onload() {
+      const result = JSON.parse(action.promise.response);
 
-        switch (action.promise.status) {
-          case 403:
-            config.message.error(config.error[action.promise.status]);
-            break;
-          case 401:
-            config.message.error(config.error[action.promise.status]);
-            break;
-          case 200:
-            if (result.status !== 'error') {
-              config.page.home();
-            }
-            break;
-          default:
-            return null;
+      if (action.promise.status === 200) {
+        if (result.status !== 'error') {
+          store.dispatch({
+            type: authOk,
+            data: action.promise.status,
+          });
+        } else {
+          store.dispatch({
+            type: authOk,
+            data: 401,
+          });
         }
+      } else {
+        store.dispatch({
+          type: authOk,
+          data: action.promise.status,
+        });
+      }
 
-        return null;
-      };
+      return null;
+    };
 
-      action.promise.onerror = function onerror() {
-        config.message.error('Error');
-      };
-      break;
-    }
-    case 'AUTH_CURRENT_USER': {
-      const {
-        actions: {
-          startCurrentUserAction,
-          successCurrentUserAction,
-        },
-      } = action;
-
+    action.promise.onerror = function onerror() {
       store.dispatch({
-        type: startCurrentUserAction,
+        type: authOk,
+        data: 500,
       });
-
-      action.promise.onload = function onload() {
-        const data = JSON.parse(action.promise.response);
-
-        switch (action.promise.status) {
-          case 403:
-            config.message.error(config.error[action.promise.status]);
-            break;
-          case 401:
-            config.message.error(config.error[action.promise.status]);
-            break;
-          case 200:
-            if (data.status !== 'error') {
-              store.dispatch({
-                type: successCurrentUserAction,
-                data: data.result,
-              });
-            }
-            break;
-          default:
-            return null;
-        }
-
-        return null;
-      };
-      break;
-    }
-    default:
-      return next(action);
+    };
+  } else {
+    return next(action);
   }
 
   return null;

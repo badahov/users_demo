@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import includes from 'lodash/includes';
 
-const actionReducers = (status) => (state = [], action) => {
+const actionReducers = (status) => (state = null, action) => {
   if (includes(status, action.type)) {
     return action.data;
   }
@@ -10,6 +10,9 @@ const actionReducers = (status) => (state = [], action) => {
 };
 
 export default combineReducers({
+  status: actionReducers([
+    'AUTH_LOGIN_LOADED',
+  ]),
   current: actionReducers([
     'AUTH_CURRENT_USER_LOADED',
   ]),

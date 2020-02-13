@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Button, Popconfirm } from 'antd';
 
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const UserTableItem = (props) => {
   const {

@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-
+import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
 import middleware from '../app/middleware';
@@ -17,12 +17,13 @@ const module = {
   ],
 };
 
-const createStoreWithMiddleware = applyMiddleware(
+const middlewareAll = [
   middleware('system'),
-  thunk,
-  // createLogger({collapsed:true}),
-)(createStore);
+  thunk, // createLogger({collapsed:true})
+];
 
-export default createStoreWithMiddleware(combineReducers({
+export default createStore(combineReducers({
   system: reducer(module),
-}));
+}), composeWithDevTools(
+  applyMiddleware(...middlewareAll),
+));

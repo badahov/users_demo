@@ -15,6 +15,8 @@ const Login = (props) => {
     authLogin,
   } = props;
 
+  console.log('props', props);
+
   return (
     <HelmetProvider context={helmetContext}>
       <Layout className="auth">

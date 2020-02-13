@@ -23,6 +23,8 @@ const middlewareAction = (store, action) => {
       });
     });
   } else {
+    console.log('middlewareAction');
+
     store.dispatch({
       type: toUpper(point),
       data: action.promise,

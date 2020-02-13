@@ -20,6 +20,8 @@ function query(pointApi, data, type = typePost) {
 }
 
 export default function api(action, data, callback) {
+  console.log('data', data);
+
   switch (action) {
     case 'userHeader':
       return {

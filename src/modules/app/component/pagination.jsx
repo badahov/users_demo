@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isArray from 'lodash/isArray';
 
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import PaginationAntd from 'antd/lib/pagination';
 
