@@ -19,12 +19,14 @@ class Filters {
       const param = this.params[i];
 
       if (this.header[param] !== this.nextHeader[param]) {
-        this.query[param] = this.nextHeader[param];
-        this.query.page = 1;
+        console.log('param', param);
 
-        delete this.query.sort;
+        // this.query[param] = this.nextHeader[param];
+        // this.query.page = 1;
 
-        appConfig.history.push({ pathname: this.page, query: this.query });
+        // delete this.query.sort;
+
+        // appConfig.history.push({ pathname: this.page, query: this.query });
 
         if (this.callback) {
           this.callback();
@@ -39,10 +41,11 @@ class Filters {
         }
 
         isUpdate = true;
-      } else if (this.query[param] === '') {
-        delete this.query[param];
-        appConfig.history.push({ pathname: this.page, query: this.query });
       }
+      // else if (this.query[param] === '') {
+      //   delete this.query[param];
+      //   appConfig.history.push({ pathname: this.page, query: this.query });
+      // }
     }
 
     return isUpdate;

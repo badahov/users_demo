@@ -5,12 +5,6 @@ import {
 
 import Main from './main';
 
-export default function BasicExample() {
-  return (
-      <Route exact path="/">
-        <Main />
-      </Route>
-  );
-}
+const MainRoute = () => (<Route exact path="/"><Main /></Route>);
 
-
+export default MainRoute;

@@ -1,6 +1,7 @@
 import isNull from 'lodash/isNull';
 import { shallowEqual, connectAdvanced } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 
 import creator from '../../app/creator';
 import api from '../api';
@@ -20,7 +21,7 @@ const UsersRedux = connectAdvanced((dispatch) => {
   const modelHeader = (data) => sendTo('userHeader', data);
 
   const modelAdd = (data) => sendTo('userAdd', data, (json) => {
-    modelItems(ownProps.location.query);
+    modelItems({});// ownProps.location.query
     return json;
   });
 
@@ -29,7 +30,7 @@ const UsersRedux = connectAdvanced((dispatch) => {
    * @param id
    */
   const modelDelete = (id) => sendTo('userDelete', { id }, (json) => {
-    modelItems(ownProps.location.query);
+    modelItems({});// ownProps.location.query
     return json;
   });
 
@@ -38,25 +39,51 @@ const UsersRedux = connectAdvanced((dispatch) => {
    * @private
    */
   const modelServer = () => {
-    console.log('ownProps', ownProps);
+    modelHeader({});// ownProps.location.query
+    modelItems({});// ownProps.location.query
+  };
 
-    modelHeader(ownProps.location.query);
-    modelItems(ownProps.location.query);
+  const addParamUrl = (name, value) => {
+    const parsed = queryString.parse(ownProps.location.search);
+
+    console.log('addParamUrl', name, value);
+
+    if (value) {
+      parsed[name] = value;
+    } else {
+      delete parsed[name];
+    }
+
+    const stringified = queryString.stringify(parsed);
+
+    console.log('parsed', parsed);
+
+    const location = {
+      pathname: '/',
+      search: stringified,
+      state: parsed,
+    };
+
+    ownProps.history.push(location);
+
+    return parsed;
   };
 
   const setHeader = (name, value) => {
-    ownProps.location.query[name] = value;
-    modelHeader(ownProps.location.query);
+    const parsed = addParamUrl(name, value);
+
+    modelHeader(parsed);
   };
 
   const sort = (setSort) => {
-    ownProps.location.query.sort = setSort;
-    modelItems(ownProps.location.query);
+    // ownProps.location.query.sort = setSort;
+    modelItems({});// ownProps.location.query
   };
 
   return (nextState, nextOwnProps) => {
-    console.log('nextState', nextState);
-    console.log('nextOwnProps', nextOwnProps);
+    const query = queryString.parse(nextOwnProps.location.search);
+
+    console.log('query', query);
 
     const loading = isNull(nextState[module].userItems);
 

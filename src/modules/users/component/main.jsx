@@ -32,7 +32,7 @@ import {
 
 import {
   accessTypes,
-  locationTypes,
+  // locationTypes,
   paginateTypes,
 } from '../../global/types';
 
@@ -52,8 +52,6 @@ class Users extends React.Component {
       visibleUserAddForm: props.visibleUserAddForm,
     };
 
-    console.log('props', props);
-
     this.modelItemsDebounced = debounce(props.modelItems, 250);
 
     props.modelCurrentUser();
@@ -61,12 +59,15 @@ class Users extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log('props', this.props.location.state);
+    console.log('nextProps', nextProps.location.state);
+
     const {
       items,
       header,
       loading,
       location: {
-        query,
+        state,
       },
     } = this.props;
     const {
@@ -81,7 +82,7 @@ class Users extends React.Component {
       params,
       header,
       page,
-      query,
+      query: {},
       nextHeader: nextProps.header,
       model: this.modelItemsDebounced,
     })).isUpdate();
@@ -145,9 +146,9 @@ class Users extends React.Component {
         name,
         login,
       },
-      location: {
-        query,
-      },
+      // location: {
+      //   query,
+      // },
     } = this.props;
 
     const {
@@ -294,7 +295,7 @@ class Users extends React.Component {
                   <UserAddForm
                     title="Добавить пользователя"
                     visible={visibleUserAddForm}
-                    urlQuery={query}
+                    urlQuery={{}/* query */}
                     submitForm={modelAdd}
                     onClose={this.onCloseUserAddForm}
                     wrappedComponentRef={(form) => {
@@ -329,7 +330,7 @@ Users.propTypes = {
   sort: PropTypes.func.isRequired,
   visibleUserAddForm: PropTypes.bool.isRequired,
   access: accessTypes.isRequired,
-  location: locationTypes.isRequired,
+  // location: locationTypes.isRequired,
   header: PropTypes.shape({
     code: PropTypes.string,
     login: PropTypes.string,
